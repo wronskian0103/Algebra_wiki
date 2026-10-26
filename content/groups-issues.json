@@ -1,0 +1,116 @@
+[
+  {
+    "section": "s02",
+    "original": "If $n=1$, $GL(n,\\Z/p\\Z)$ is equivalent to $\\Z/p\\Z$",
+    "correction": "$\\mathrm{GL}(1,\\mathbb F_p)=\\mathbb F_p^\\times$, which has $p-1$ elements.",
+    "reason": "A 1-by-1 matrix is invertible if and only if its entry is nonzero. Its order already differs from that of the additive group $\\mathbb Z/p\\mathbb Z$."
+  },
+  {
+    "section": "s02",
+    "original": "Concluding that $H$ is a subgroup from $x,y\\in H\\implies xy^{-1}\\in H$ alone",
+    "correction": "The subgroup criterion must include the condition $H\\ne\\varnothing$.",
+    "reason": "The empty set satisfies the implication vacuously, but is not a group because it contains no identity."
+  },
+  {
+    "section": "s02",
+    "original": "$\\mu_n(\\C)=\\{e^{i\\frac{2m}{n\\pi}}:m=0,1,\\dots,n-1\\}$",
+    "correction": "$\\mu_n(\\mathbb C)=\\{e^{2\\pi im/n}:m=0,1,\\ldots,n-1\\}$, with generator $e^{2\\pi i/n}$.",
+    "reason": "The arguments of the nth roots of unity are $2\\pi m/n$. The $\\pi$ in the denominator of the original expression belongs in the numerator."
+  },
+  {
+    "section": "s03",
+    "original": "Therefore $\\ker(\\alpha)=1$ (the final sentence of the proof that the kernel is a subgroup)",
+    "correction": "Therefore $\\ker(\\alpha)\\le G$.",
+    "reason": "Not every homomorphism has trivial kernel. The proof establishes closure under multiplication and inverses, together with the presence of the identity."
+  },
+  {
+    "section": "s03",
+    "original": "Taking $k$ to be an arbitrary field but writing the determinant homomorphism as $G\\to\\mathbb R^\\times$",
+    "correction": "The codomain should be $k^\\times$. Moreover, the example of nonnormality using a diagonal entry of $2$ applies as written only over fields where $2\\ne0,1$.",
+    "reason": "The determinant takes values in the original field. Over $k=\\mathbb F_2$, the displayed matrix is not invertible, and the diagonal subgroup itself is trivial."
+  },
+  {
+    "section": "s04",
+    "original": "If $xH=yH$, then $xy^{-1}\\in H$",
+    "correction": "The general criterion for $xH=yH$ is $x^{-1}y\\in H$, or equivalently $y^{-1}x\\in H$.",
+    "reason": "The inverse is on the wrong side in this criterion for left cosets. The condition $xy^{-1}\\in H$ is not valid without an additional hypothesis such as normality of $H$."
+  },
+  {
+    "section": "s05",
+    "original": "$DMD^{-1}=M$ for every diagonal matrix $D$ and every $M\\in\\mathrm{GL}(2,\\mathbb C)$",
+    "correction": "This holds for every invertible scalar matrix $D=\\lambda I$.",
+    "reason": "A general diagonal matrix does not commute with every invertible matrix. For example, $\\operatorname{diag}(2,1)$ does not commute with a nonidentity upper unitriangular matrix."
+  },
+  {
+    "section": "s06",
+    "original": "Placing the nonidentity upper and lower unitriangular matrices and $\\left(\\begin{smallmatrix}0&1\\\\1&0\\end{smallmatrix}\\right)$ in separate conjugacy orbits in $\\mathrm{GL}(2,\\mathbb F_2)$",
+    "correction": "These three matrices form a single conjugacy class, so the conjugacy class sizes are $1,3,2$.",
+    "reason": "All three are nonidentity matrices of order 2. Under $\\mathrm{GL}(2,\\mathbb F_2)\\simeq S_3$, they correspond to the conjugacy class of the three transpositions."
+  },
+  {
+    "section": "s12",
+    "original": "For $\\mathbb Z/7\\mathbb Z\\rtimes\\mathbb Z/6\\mathbb Z$, there are 24 conjugacy classes when $t=6$, 18 when $t=2,4$, and 6 when $t=3,5$",
+    "correction": "For $t=1,6,(2,4),(3,5)$, the numbers of conjugacy classes are respectively $42,15,10,7$.",
+    "reason": "If $d=\\operatorname{ord}_{\\mathbb F_7^\\times}(t)$, each of the $6/d$ layers with $t^h=1$ contributes $1+6/d$ conjugacy classes. Each of the remaining $6-6/d$ layers contributes one class. The total is therefore $6+(6/d)^2$."
+  },
+  {
+    "section": "s12",
+    "original": "In the classification of groups of order 8, the coordinate-swap action in $(\\mathbb Z/2\\mathbb Z)^2\\rtimes\\mathbb Z/2\\mathbb Z$ gives $\\mathrm{Dic}_2$",
+    "correction": "The semidirect product for the coordinate-swap action is the dihedral group of order 8. The group $\\mathrm{Dic}_2=Q_8$ is not this semidirect product. Moreover, this branch of the original argument assumes that every element has order 1 or 2, so the coordinate-swap action is excluded from that branch.",
+    "reason": "The coordinate-swap semidirect product has one element of order 1, five of order 2, and two of order 4. It is therefore dihedral and differs from $Q_8$, which has only one element of order 2. Its elements of order 4 also violate the assumption in this branch of the original argument."
+  },
+  {
+    "section": "s12",
+    "original": "In the classification of groups of order 8, ruling out both the commutative case with $b^2=a^2$ and the case $ba=a^3b$",
+    "correction": "Under the original assumptions that $a$ has order 4 and $b\\notin\\langle a\\rangle$, neither case is contradictory. The relations $b^2=a^2$, $ab=ba$ give $\\mathbb Z/4\\mathbb Z\\times\\mathbb Z/2\\mathbb Z$, while $b^2=a^2$, $ba=a^{-1}b$ give the quaternion group $Q_8$.",
+    "reason": "In the commutative case, take $b=ac$ with an independent element $c$ of order 2; the conditions are then satisfied. The second set of relations is the standard presentation of $Q_8$: $a^4=1$, $b^2=a^2$, $bab^{-1}=a^{-1}$."
+  },
+  {
+    "section": "s13",
+    "original": "Writing abelianization as $\\pi:G\\rightarrow[G,G]$",
+    "correction": "Abelianization is the natural quotient map $\\pi:G\\to G/[G,G]$.",
+    "reason": "The quotient by the commutator subgroup, rather than the commutator subgroup itself, has the universal property for homomorphisms to abelian groups."
+  },
+  {
+    "section": "s13",
+    "original": "In the subnormal series criterion for solvability, $G_{n+1}$ is normal in $G_i$",
+    "correction": "The condition should read $G_{i+1}\\trianglelefteq G_i$ for every $i$.",
+    "reason": "This condition makes each quotient of consecutive terms $G_i/G_{i+1}$ well-defined. The index $n+1$ is a typographical error."
+  },
+  {
+    "section": "s14",
+    "original": "Every subgroup of $\\mathbb Z$ can be expressed in the form $\\mathbb Z/n\\mathbb Z$",
+    "correction": "The subgroups of $\\mathbb Z$ are $n\\mathbb Z$ and must be distinguished from the quotients $\\mathbb Z/n\\mathbb Z$. For $n>0$, $\\mathbb Z/n\\mathbb Z$ is finite, and it is simple when $n$ is prime.",
+    "reason": "The original statement interchanges subgroups and quotients. The conclusion that $\\mathbb Z$ has no finite composition series is correct, but the argument must use the fact that the nontrivial subgroups reached after finitely many steps are still infinite cyclic."
+  },
+  {
+    "section": "s16",
+    "original": "For arbitrarily chosen basis vectors, $M=(v_1,v_2)(u_1,u_2)^{-1}\\in\\mathrm{SL}(2,\\mathbb F_p)$",
+    "correction": "The initial matrix $M$ generally belongs only to $\\mathrm{GL}(2,\\mathbb F_p)$. Rescale $v_1$ or $v_2$ by a suitable nonzero scalar so that the two basis matrices have the same determinant; then $M\\in\\mathrm{SL}(2,\\mathbb F_p)$.",
+    "reason": "Since $\\det M=\\det(v_1,v_2)/\\det(u_1,u_2)$, its determinant need not be 1 without this adjustment. Rescaling a basis vector does not change the corresponding projective point."
+  },
+  {
+    "section": "s16",
+    "original": "Jordan decomposition tells us that every $M\\in\\mathrm{GL}(2,\\mathbb F_p)$ is conjugate to an upper triangular matrix",
+    "correction": "Not every matrix is triangularizable over the base field $\\mathbb F_p$. The required generation statement can instead be proved using the fact that $\\mathrm{SL}_2(\\mathbb F_p)$ is generated by upper and lower elementary matrices.",
+    "reason": "Triangularizability requires the characteristic polynomial to split over the base field. For example, over $\\mathbb F_5$, the matrix $\\left(\\begin{smallmatrix}0&3\\\\1&0\\end{smallmatrix}\\right)$ has irreducible characteristic polynomial $X^2-3$ and is not triangularizable."
+  },
+  {
+    "section": "s17",
+    "original": "In the proof of the universal property of the direct product: It suffices to show that $\\phi$ is an isomorphism",
+    "correction": "It suffices to show that the map $\\phi$ obtained from the universal property of sets is a homomorphism.",
+    "reason": "A general map $Z\\to G_1\\times G_2$ need not be an isomorphism. The calculation that follows establishes precisely the homomorphism property."
+  },
+  {
+    "section": "s17",
+    "original": "In the universal property of the direct sum, taking $A_1,A_2$ to be arbitrary groups and describing $f_1,f_2$ as maps from an abelian group $Z$",
+    "correction": "The groups $A_1,A_2,Z$ should all be abelian, and the maps should have direction $f_i:A_i\\to Z$.",
+    "reason": "The direct sum here is the coproduct in the category of abelian groups. The arrows in the original diagram also point from $A_i$ to $Z$. The coproduct of general groups is the free product, treated in a later section."
+  },
+  {
+    "section": "s17",
+    "original": "In the universal property of the infinite direct sum, $\\phi=f_k\\circ i_k$",
+    "correction": "The correct identity is $f_k=\\phi\\circ i_k$.",
+    "reason": "Since $i_k:A_k\\to\\bigoplus_iA_i$, $\\phi:\\bigoplus_iA_i\\to Z$, and $f_k:A_k\\to Z$, only this composition order has compatible domains and codomains."
+  }
+]

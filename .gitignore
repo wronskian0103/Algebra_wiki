@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+_work/probe*
+
+# Portable downloads and generated QA reports stay local.
+/*.zip
+/_work/*.json
+/_work/*.png
+/_work/*.jpg
+/_work/*.jpeg
+/_work/*.webp
+
+# Keep dist/ versioned: GitHub Pages publishes these prepared files.

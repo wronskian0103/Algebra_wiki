@@ -1,0 +1,385 @@
+[
+  {
+    "id": "s18",
+    "summary": "View free abelian groups as integer lattices and classify finitely generated abelian groups using the Smith normal form of integer matrices. The rank of the free part and the invariant factors of the finite cyclic summands determine the isomorphism class.",
+    "keyPoints": [
+      "A free abelian group is an abelian group isomorphic to $\\bigoplus_{i\\in I}\\mathbb Z$ for some set $I$.",
+      "Every subgroup of $\\mathbb Z^n$ is a finitely generated free abelian group of rank at most $n$.",
+      "Every finitely generated abelian group has a unique classification of the form $\\mathbb Z^r\\oplus\\mathbb Z/d_1\\mathbb Z\\oplus\\cdots\\oplus\\mathbb Z/d_m\\mathbb Z$, where $d_i\\ge2$ and $d_i\\mid d_{i+1}$."
+    ],
+    "related": [
+      "s17",
+      "s19",
+      "s20",
+      "s30"
+    ],
+    "keywords": [
+      "free abelian group",
+      "finitely generated abelian group",
+      "Smith normal form",
+      "invariant factor",
+      "rank"
+    ],
+    "titleEn": "Free Abelian Groups and Finitely Generated Abelian Groups"
+  },
+  {
+    "id": "s19",
+    "summary": "Decompose abelian groups whose elements all have finite order into their primary components. The quotient of the rationals by the integers provides an example of a torsion group that is not finitely generated.",
+    "keyPoints": [
+      "The torsion subgroup of an abelian group $A$ is $A_{\\mathrm{tor}}=\\{a\\in A:na=0\\text{ for some integer }n>0\\}$.",
+      "Writing $A(p)=\\{a\\in A:p^ka=0\\text{ for some }k\\ge1\\}$, every torsion abelian group decomposes as $A=\\bigoplus_p A(p)$.",
+      "The group $\\mathbb Q/\\mathbb Z$ is a torsion abelian group that is not finitely generated, and $q+\\mathbb Z\\mapsto e^{2\\pi iq}$ gives an isomorphism with the torsion subgroup of the multiplicative group of complex numbers."
+    ],
+    "related": [
+      "s17",
+      "s18",
+      "s20",
+      "s21"
+    ],
+    "keywords": [
+      "torsion",
+      "p-primary subgroup",
+      "torsion abelian group",
+      "primary decomposition",
+      "Q/Z"
+    ],
+    "titleEn": "Torsion Abelian Groups"
+  },
+  {
+    "id": "s20",
+    "summary": "Define the dual group of characters and bilinear pairings. For finite abelian groups, the evaluation pairing is perfect, and nondegeneracy provides a criterion for perfectness.",
+    "keyPoints": [
+      "The dual of a torsion abelian group is $A^\\vee=\\operatorname{Hom}(A,\\mathbb Q/\\mathbb Z)$, with evaluation given by $(a,\\chi)\\mapsto\\chi(a)$.",
+      "For a finite abelian group $A$, we have $|A^\\vee|=|A|$, and the evaluation map $A\\longrightarrow(A^\\vee)^\\vee$ is an isomorphism.",
+      "For a bilinear pairing $A\\times B\\to\\mathbb Q/\\mathbb Z$ of finite abelian groups, the following are equivalent: the pairing is perfect; either induced homomorphism is an isomorphism; both induced homomorphisms are injective."
+    ],
+    "related": [
+      "s18",
+      "s19",
+      "s21"
+    ],
+    "keywords": [
+      "dual group",
+      "character",
+      "perfect pairing",
+      "nondegenerate pairing"
+    ],
+    "titleEn": "Duality for Finite Abelian Groups"
+  },
+  {
+    "id": "s21",
+    "summary": "Define inverse limits by their universal property to collect compatible information from a system of quotients. Use this construction to obtain the profinite completion, the p-adic integers, and formal power series rings.",
+    "keyPoints": [
+      "An inverse limit consists of tuples satisfying $\\phi_{ji}(a_i)=a_j$ for the transition maps $\\phi_{ji}$, and has a universal property for compatible families of maps.",
+      "The profinite completion is $\\widehat{\\mathbb Z}=\\varprojlim_n\\mathbb Z/n\\mathbb Z$, and $\\mathbb Z_p=\\varprojlim_n\\mathbb Z/p^n\\mathbb Z$ is the ring of p-adic integers.",
+      "For a finite abelian group, $A(p)\\simeq\\varprojlim_n A/p^nA$, and $\\varprojlim_n k[x]/(x^n)\\simeq k[[x]]$."
+    ],
+    "related": [
+      "s19",
+      "s20",
+      "s26",
+      "s27"
+    ],
+    "keywords": [
+      "inverse limit",
+      "completion",
+      "profinite completion",
+      "p-adic integers",
+      "formal power series"
+    ],
+    "titleEn": "Inverse Limits and Completions"
+  },
+  {
+    "id": "s22",
+    "summary": "Construct a free group by requiring every function on its generators to extend uniquely to a group homomorphism. Impose relations on reduced words to obtain group presentations and introduce the word problem.",
+    "keyPoints": [
+      "For a free group $F(X)$, every function $X\\to G$ extends uniquely to a group homomorphism $F(X)\\to G$.",
+      "Reduced words in $X$ and its formal inverses form a free group, with multiplication given by concatenation followed by cancellation.",
+      "A presentation with a set of relations $R$ is $\\langle X\\mid R\\rangle=F(X)/N(R)$, where $N(R)$ is the smallest normal subgroup containing $R$."
+    ],
+    "related": [
+      "s01",
+      "s04",
+      "s13",
+      "s23"
+    ],
+    "keywords": [
+      "free group",
+      "reduced word",
+      "group presentation",
+      "word problem",
+      "ping-pong lemma"
+    ],
+    "titleEn": "Free Groups and Group Presentations"
+  },
+  {
+    "id": "s23",
+    "summary": "Construct the coproduct of two groups as their free product, freely combining homomorphisms from the two groups. Study amalgamated free products over a common group and the Schreier formula for the rank of a finite-index subgroup of a free group.",
+    "keyPoints": [
+      "Giving a homomorphism from $G*H$ to an arbitrary group $K$ is equivalent to giving two homomorphisms $G\\to K$ and $H\\to K$.",
+      "Every element of a free product has a unique expression as a reduced word alternating between nonidentity elements of $G$ and $H$.",
+      "A subgroup of finite index $k$ in the free group $F_n$ on $n$ generators is free on $1+k(n-1)$ generators."
+    ],
+    "related": [
+      "s17",
+      "s22",
+      "s05"
+    ],
+    "keywords": [
+      "free product",
+      "coproduct",
+      "amalgamated free product",
+      "Schreier index formula"
+    ],
+    "titleEn": "Coproducts and Free Products of Groups"
+  },
+  {
+    "id": "s24",
+    "summary": "Interpret rings with componentwise operations internally using central idempotents. Relate the Chinese remainder theorem for comaximal ideals to criteria for product decompositions.",
+    "keyPoints": [
+      "A ring homomorphism preserves addition, multiplication, and the multiplicative identity; the identity of $R_1\\times R_2$ is $(1,1)$.",
+      "If $1=e_1+e_2$ is an orthogonal decomposition into central idempotents, then $R\\simeq R/Re_2\\times R/Re_1$.",
+      "If finitely many two-sided ideals $I_1,\\ldots,I_k$ satisfy $I_i+I_j=R$ for every distinct pair, then $R/\\bigcap_i I_i\\simeq\\prod_i R/I_i$. In a commutative ring, $I+J=R$ implies $I\\cap J=IJ$."
+    ],
+    "related": [
+      "s17",
+      "s25",
+      "s27",
+      "s28"
+    ],
+    "keywords": [
+      "product of rings",
+      "idempotent",
+      "central idempotent",
+      "Chinese remainder theorem",
+      "comaximal ideals"
+    ],
+    "titleEn": "Products of Rings and Idempotents"
+  },
+  {
+    "id": "s25",
+    "summary": "Define modules and free modules by replacing the scalar field of a vector space with a commutative ring. Multiplication on finite formal sums of monoid elements gives a common construction for group rings and polynomial rings.",
+    "keyPoints": [
+      "An $R$-module is an abelian group with a scalar action of $R$, and the free module on $X$ is $\\bigoplus_{x\\in X}R\\cdot x$.",
+      "For a commutative ring $R$ and a monoid $M$, the elements of $R[M]$ are finite formal sums $\\sum_m r_m m$, with multiplication determined by $(r_m m)(r_n n)=r_mr_n(mn)$.",
+      "If $M$ is a group, then $R[M]$ is a group ring, and $R[x_1,\\ldots,x_k]\\simeq R[\\mathbb Z_{\\ge0}^k]$."
+    ],
+    "related": [
+      "s01",
+      "s18",
+      "s24",
+      "s31"
+    ],
+    "keywords": [
+      "module",
+      "free module",
+      "monoid ring",
+      "group ring",
+      "polynomial ring"
+    ],
+    "titleEn": "Modules and Monoid Rings"
+  },
+  {
+    "id": "s26",
+    "summary": "Define localization as the universal construction that makes specified elements invertible. Starting with fraction fields, explain how to compare fractions correctly even in rings with zero divisors.",
+    "keyPoints": [
+      "The fraction field of an integral domain $A$ consists of fractions $a/b$, where $b\\ne0$, and $a/b=c/d\\iff ad=bc$.",
+      "The localization $A_S$ is a commutative ring with the universal property that every homomorphism $A\\to B$ sending the elements of $S$ to units factors uniquely through $A_S\\to B$.",
+      "If $S$ is multiplicatively closed, then $a/s=b/t$ precisely when $u(at-bs)=0$ for some $u\\in S$."
+    ],
+    "related": [
+      "s24",
+      "s27",
+      "s28",
+      "s32"
+    ],
+    "keywords": [
+      "localization",
+      "field of fractions",
+      "integral domain",
+      "zero divisor",
+      "multiplicatively closed set"
+    ],
+    "titleEn": "Localization of Rings"
+  },
+  {
+    "id": "s27",
+    "summary": "Define local rings as rings with a unique maximal ideal and construct them by localization at prime ideals. Compare the distinct structures arising from quotients, localizations, and completions.",
+    "keyPoints": [
+      "A local ring is a ring with a unique maximal ideal. An ideal $M$ of a commutative ring $A$ is maximal if and only if $A/M$ is a field.",
+      "For a prime ideal $P$, the ring $A_P$ is the localization at $A\\setminus P$, and its unique maximal ideal is $PA_P$.",
+      "Taking inverse images under the quotient map $A\\to A/I$ gives a bijection between the ideals of $A/I$ and the ideals of $A$ containing $I$."
+    ],
+    "related": [
+      "s21",
+      "s26",
+      "s28"
+    ],
+    "keywords": [
+      "local ring",
+      "maximal ideal",
+      "localization at a prime ideal",
+      "residue field"
+    ],
+    "titleEn": "Local Rings"
+  },
+  {
+    "id": "s28",
+    "summary": "Classify the prime ideals that remain after localization in terms of prime ideals of the original ring. Use contraction and extension to prove that exactly the prime ideals disjoint from the denominator set survive.",
+    "keyPoints": [
+      "A proper ideal $P$ of a commutative ring $A$ is prime if and only if $A/P$ is an integral domain.",
+      "The inverse image of a prime ideal under a homomorphism of commutative rings is a prime ideal.",
+      "The prime ideals of $A_S$ correspond bijectively to the prime ideals of $A$ disjoint from $S$, via contraction and extension $P\\mapsto PA_S$."
+    ],
+    "related": [
+      "s26",
+      "s27",
+      "s29"
+    ],
+    "keywords": [
+      "prime ideal",
+      "extension and contraction",
+      "localization",
+      "prime correspondence"
+    ],
+    "titleEn": "Localization and Prime Ideals"
+  },
+  {
+    "id": "s29",
+    "summary": "Relate the ascending chain condition on ideals to finite generation. Establish the existence of factorizations into irreducibles in Noetherian domains and obtain uniqueness when irreducible elements are prime.",
+    "keyPoints": [
+      "A commutative ring is Noetherian if and only if every ideal is finitely generated.",
+      "Every nonzero nonunit of a Noetherian domain is a finite product of irreducible elements.",
+      "A Noetherian domain in which every irreducible element is prime is a UFD. Uniqueness of factorization means uniqueness up to the order of the irreducible factors and multiplication by units."
+    ],
+    "related": [
+      "s30",
+      "s31",
+      "s32"
+    ],
+    "keywords": [
+      "Noetherian ring",
+      "ascending chain condition",
+      "irreducible element",
+      "prime element",
+      "unique factorization domain",
+      "UFD"
+    ],
+    "titleEn": "Factorization and the Noetherian Property"
+  },
+  {
+    "id": "s30",
+    "summary": "Study domains with unique factorization through principal ideals and division algorithms. Establish the implications from Euclidean domains to PIDs and from PIDs to UFDs.",
+    "keyPoints": [
+      "A PID is an integral domain in which every ideal is generated by one element. Every PID is Noetherian, and every irreducible element in a PID is prime.",
+      "In a Euclidean domain, division by a nonzero element $b$ gives $a=qb+r$, where $r=0$ or the Euclidean function takes a smaller value on the remainder than on $b$.",
+      "Euclidean domain $\\Rightarrow$ PID $\\Rightarrow$ UFD. Examples of Euclidean domains include $\\mathbb Z$, $k[t]$ over a field $k$, and the Gaussian integers $\\mathbb Z[i]$."
+    ],
+    "related": [
+      "s29",
+      "s31",
+      "s32",
+      "s34"
+    ],
+    "keywords": [
+      "principal ideal domain",
+      "unique factorization domain",
+      "Euclidean domain",
+      "Gaussian integers",
+      "PID",
+      "UFD"
+    ],
+    "titleEn": "PIDs, UFDs, and Euclidean Domains"
+  },
+  {
+    "id": "s31",
+    "summary": "Prove that adjoining one polynomial variable preserves the Noetherian property. Deduce that all ideals are finitely generated in polynomial rings in finitely many variables over a field and in their quotient rings.",
+    "keyPoints": [
+      "Hilbert's basis theorem: if $A$ is a commutative Noetherian ring, then $A[x]$ is Noetherian.",
+      "For a field $k$ and finite $n$, the ring $k[x_1,\\ldots,x_n]$ is Noetherian.",
+      "A quotient of a Noetherian ring is Noetherian, so $k[x_1,\\ldots,x_n]/I$ is Noetherian for every ideal $I$."
+    ],
+    "related": [
+      "s25",
+      "s29",
+      "s30",
+      "s32"
+    ],
+    "keywords": [
+      "Hilbert basis theorem",
+      "Noetherian ring",
+      "polynomial ideal",
+      "finite generation"
+    ],
+    "titleEn": "Hilbert's Basis Theorem"
+  },
+  {
+    "id": "s32",
+    "summary": "Use the content of a polynomial, the greatest common divisor of its coefficients, to compare factorization over a coefficient ring and its fraction field. This provides the basis for transferring irreducibility questions for primitive polynomials between the integers and the rationals.",
+    "keyPoints": [
+      "For a nonzero polynomial $f$ over a UFD $A$, its content $c(f)$ is the greatest common divisor of its coefficients, determined up to multiplication by a unit.",
+      "Gauss's lemma: $c(fg)$ and $c(f)c(g)$ are associates. In particular, a product of primitive polynomials is primitive.",
+      "Let $K=\\operatorname{Frac}(A)$. A primitive polynomial $f\\in A[x]$ of positive degree is irreducible in $A[x]$ if and only if it is irreducible in $K[x]$."
+    ],
+    "related": [
+      "s26",
+      "s29",
+      "s30",
+      "s33"
+    ],
+    "keywords": [
+      "Gauss lemma",
+      "content",
+      "primitive polynomial",
+      "field of fractions"
+    ],
+    "titleEn": "Gauss's Lemma"
+  },
+  {
+    "id": "s33",
+    "summary": "Use Eisenstein's criterion to find conditions that prevent a polynomial from factoring into polynomials of smaller positive degree. Study examples involving a translation of the variable and interpretations using Newton polygons.",
+    "keyPoints": [
+      "Let $p$ be a prime element of a UFD $A$. If $p\\mid a_0,\\ldots,a_{n-1}$, $p^2\\nmid a_0$, and $p\\nmid a_n$, then $f=\\sum_i a_ix^i$ is irreducible in $\\operatorname{Frac}(A)[x]$. If $f$ is primitive, it is also irreducible in $A[x]$.",
+      "For a prime $p$, Eisenstein's criterion applies to $\\Phi_p(x)=1+x+\\cdots+x^{p-1}$ after the substitution $x\\mapsto x+1$.",
+      "The Newton polygon with respect to $p$ is the convex hull of the points $(i,v_p(a_i))$ for the nonzero coefficients; its lower boundary is used in irreducibility criteria."
+    ],
+    "related": [
+      "s30",
+      "s32",
+      "s34",
+      "s38"
+    ],
+    "keywords": [
+      "irreducibility",
+      "Eisenstein criterion",
+      "cyclotomic polynomial",
+      "Newton polygon"
+    ],
+    "titleEn": "Irreducibility Criteria"
+  },
+  {
+    "id": "s34",
+    "summary": "Relate the condition that an element of a field extension is a root of a polynomial to vector space dimension. Construct simple algebraic extensions using minimal polynomials and compute extension degrees.",
+    "keyPoints": [
+      "An element $\\alpha$ is algebraic over $F$ if and only if the evaluation homomorphism $F[x]\\to E$ has nonzero kernel. The monic generator of that kernel is its minimal polynomial.",
+      "If the minimal polynomial is $m_\\alpha$, then $F(\\alpha)=F[\\alpha]\\simeq F[x]/(m_\\alpha)$ and $[F(\\alpha):F]=\\deg m_\\alpha$.",
+      "For $k\\subset F\\subset E$, the tower law gives $[E:k]=[E:F][F:k]$. Every finite extension is algebraic, but an algebraic extension need not be finite."
+    ],
+    "related": [
+      "s30",
+      "s33",
+      "s35",
+      "s38"
+    ],
+    "keywords": [
+      "field extension",
+      "algebraic element",
+      "transcendental element",
+      "minimal polynomial",
+      "extension degree",
+      "algebraic extension",
+      "tower law"
+    ],
+    "titleEn": "Finite and Algebraic Extensions"
+  }
+]

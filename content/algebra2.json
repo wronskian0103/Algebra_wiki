@@ -1,0 +1,852 @@
+[
+  {
+    "id": "a2s01",
+    "titleEn": "Categories, Morphisms, and Universal Objects",
+    "summary": "Categories isolate objects, morphisms, identities, and composition. The notes introduce size conventions, isomorphisms, and initial and terminal objects through sets and groups.",
+    "keyPoints": [
+      "A category has associative composition and an identity morphism for each object.",
+      "Universes distinguish small categories from locally small categories while allowing familiar categories of sets and groups.",
+      "Initial and terminal objects are characterized by unique outgoing and incoming morphisms, respectively, and are unique up to unique isomorphism."
+    ],
+    "keywords": [
+      "category",
+      "morphism",
+      "universe",
+      "isomorphism",
+      "initial object",
+      "terminal object"
+    ],
+    "related": [
+      "s02",
+      "s03",
+      "a2s02",
+      "a2s03"
+    ]
+  },
+  {
+    "id": "a2s02",
+    "titleEn": "Functors and Natural Transformations",
+    "summary": "Functors preserve identities and composition, while natural transformations compare functors compatibly with every morphism. Opposite categories and representable functors prepare the language of universal properties.",
+    "keyPoints": [
+      "A functor sends objects and morphisms to objects and morphisms while respecting composition and identity maps.",
+      "Naturality requires the square formed by a morphism and the two transformation components to commute.",
+      "The opposite category reverses arrows; the contravariant representable functor associated to an object $z$ is $x\\mapsto\\mathrm{Hom}(x,z)$."
+    ],
+    "keywords": [
+      "functor",
+      "natural transformation",
+      "equivalence",
+      "opposite category",
+      "representable functor"
+    ],
+    "related": [
+      "s03",
+      "a2s01",
+      "a2s04",
+      "a2s05"
+    ]
+  },
+  {
+    "id": "a2s03",
+    "titleEn": "Products, Fiber Products, and Limits",
+    "summary": "Products, fiber products, and equalizers are examples of limits. Each is defined by a universal compatible family of maps, and covariant representable functors preserve these limits.",
+    "keyPoints": [
+      "A product represents pairs of morphisms into its factors; a fiber product additionally imposes compatibility over a common target.",
+      "A limit represents cones over a diagram, including terminal objects as empty limits and equalizers as limits of parallel arrows.",
+      "For fixed $z$, the covariant functor $\\mathrm{Hom}(z,-)$ preserves existing limits."
+    ],
+    "keywords": [
+      "product",
+      "fiber product",
+      "pullback",
+      "limit",
+      "cone",
+      "equalizer",
+      "continuous functor"
+    ],
+    "related": [
+      "s17",
+      "s21",
+      "a2s02",
+      "a2s06",
+      "a2s17"
+    ]
+  },
+  {
+    "id": "a2s04",
+    "titleEn": "The Yoneda Lemma",
+    "summary": "The Yoneda lemma identifies a natural transformation from a representable functor with one element of its value at the representing object. It explains why universal constructions determine their objects up to isomorphism.",
+    "keyPoints": [
+      "For $h_z=\\mathrm{Hom}(-,z)$ and a contravariant set-valued functor $F$, evaluation at $1_z$ gives $\\mathrm{Nat}(h_z,F)\\cong F(z)$.",
+      "An element $a\\in F(z)$ determines the component $f\\mapsto F(f)(a)$ for every arrow $f:x\\to z$.",
+      "Natural transformations between representable functors correspond to morphisms between their representing objects."
+    ],
+    "keywords": [
+      "Yoneda lemma",
+      "representability",
+      "natural transformation",
+      "Yoneda embedding",
+      "universal property"
+    ],
+    "related": [
+      "s22",
+      "a2s02",
+      "a2s03",
+      "a2s05",
+      "a2s18"
+    ]
+  },
+  {
+    "id": "a2s05",
+    "titleEn": "Adjoint Functors, Units, and Counits",
+    "summary": "Adjunctions express universal constructions as natural bijections between Hom sets. Abelianization and free groups illustrate left adjoints, followed by the unit and counit of an adjunction.",
+    "keyPoints": [
+      "An adjoint pair $F\\dashv G$ gives natural bijections $\\mathrm{Hom}(F(x),y)\\cong\\mathrm{Hom}(x,G(y))$.",
+      "Abelianization is left adjoint to the inclusion of abelian groups into groups; the free-group functor is left adjoint to the underlying-set functor.",
+      "The unit $1\\to GF$ and counit $FG\\to1$ translate morphisms across the adjunction."
+    ],
+    "keywords": [
+      "adjunction",
+      "left adjoint",
+      "right adjoint",
+      "unit",
+      "counit",
+      "abelianization",
+      "free group"
+    ],
+    "related": [
+      "s13",
+      "s22",
+      "a2s04",
+      "a2s11",
+      "a2s18"
+    ]
+  },
+  {
+    "id": "a2s06",
+    "titleEn": "Coproducts and Colimits",
+    "summary": "Reversing the arrows in a product universal property leads to coproducts and the dual language of colimits. Disjoint unions of sets provide the main example.",
+    "keyPoints": [
+      "A coproduct has inclusion maps from its factors and uniquely extends every family of maps from those factors to a common target.",
+      "The identity $\\mathrm{Hom}(x\\amalg y,w)\\cong\\mathrm{Hom}(x,w)\\times\\mathrm{Hom}(y,w)$ expresses its universal property.",
+      "Covariant representable functors $\\mathrm{Hom}(z,-)$ encode maps out of a representing object."
+    ],
+    "keywords": [
+      "coproduct",
+      "colimit",
+      "disjoint union",
+      "corepresentable functor",
+      "duality"
+    ],
+    "related": [
+      "s23",
+      "a2s02",
+      "a2s03",
+      "a2s09",
+      "a2s17"
+    ]
+  },
+  {
+    "id": "a2s07",
+    "titleEn": "Modules and Module Homomorphisms",
+    "summary": "Modules extend vector spaces from fields to rings. The notes describe scalar actions through endomorphism rings, distinguish left and right modules, and identify ideals, abelian groups, and vector spaces as examples.",
+    "keyPoints": [
+      "A left $A$-module structure on an abelian group $M$ is a unital ring homomorphism $A\\to\\mathrm{End}_{\\mathbb Z}(M)$.",
+      "Submodules are additive subgroups stable under scalar multiplication, and module homomorphisms preserve addition and the scalar action.",
+      "Abelian groups are exactly $\\mathbb Z$-modules, while modules over a field are vector spaces."
+    ],
+    "keywords": [
+      "module",
+      "left module",
+      "right module",
+      "endomorphism ring",
+      "submodule",
+      "linear map"
+    ],
+    "related": [
+      "s18",
+      "s25",
+      "a2s08",
+      "a2s11"
+    ]
+  },
+  {
+    "id": "a2s08",
+    "titleEn": "Hom Modules, Quotients, and Representations",
+    "summary": "Hom sets carry additive structure and, over a commutative ring, a module structure. Kernels, quotients, and isomorphism theorems connect this structure to representations of algebras, monoids, and groups.",
+    "keyPoints": [
+      "The group $\\mathrm{Hom}_A(M,N)$ is an $A$-module when $A$ is commutative, and $\\mathrm{End}_A(M)$ is a ring under composition.",
+      "Kernels and quotient modules satisfy the familiar isomorphism theorems from group theory.",
+      "A representation of an $A$-algebra $R$ is an $A$-algebra map $R\\to\\mathrm{End}_A(M)$; monoid representations extend uniquely to monoid-ring representations.",
+      "A group representation takes values in $\\mathrm{Aut}_A(M)$ because every group element acts invertibly."
+    ],
+    "keywords": [
+      "Hom module",
+      "kernel",
+      "quotient module",
+      "isomorphism theorem",
+      "representation",
+      "monoid ring"
+    ],
+    "related": [
+      "s03",
+      "s25",
+      "a2s07",
+      "a2s09",
+      "a2s20"
+    ]
+  },
+  {
+    "id": "a2s09",
+    "titleEn": "Direct Sums, Products, and Exact Sequences",
+    "summary": "Module products and direct sums realize categorical products and coproducts. Exact sequences, the snake lemma, and splitting criteria provide tools for comparing modules and their maps.",
+    "keyPoints": [
+      "The direct sum consists of tuples with finite support, whereas the direct product allows arbitrary tuples; they agree for finite families.",
+      "A sequence is exact when the image of each map equals the kernel of the next; a split short exact sequence identifies its middle term with a direct sum.",
+      "The snake lemma links kernels and cokernels in two compatible short exact sequences through a connecting homomorphism.",
+      "A short exact sequence splits if its injection has a retraction or its surjection has a section."
+    ],
+    "keywords": [
+      "direct sum",
+      "direct product",
+      "exact sequence",
+      "snake lemma",
+      "split exact sequence",
+      "section",
+      "retraction"
+    ],
+    "related": [
+      "s17",
+      "a2s03",
+      "a2s06",
+      "a2s10",
+      "a2s12"
+    ]
+  },
+  {
+    "id": "a2s10",
+    "titleEn": "Abelian Categories",
+    "summary": "Abelian categories provide an abstract setting for kernels, cokernels, and exact sequences. Categories of modules and suitable subcategories illustrate the axioms and their limits.",
+    "keyPoints": [
+      "Hom sets have compatible abelian-group structures, and the category has finite products, coproducts, kernels, and cokernels.",
+      "Monomorphisms and epimorphisms arise as kernels and cokernels, allowing module-style exactness arguments such as the snake lemma.",
+      "Modules form an abelian category; finitely generated modules do so over a Noetherian ring, while free abelian groups do not form an abelian category."
+    ],
+    "keywords": [
+      "abelian category",
+      "additive category",
+      "zero object",
+      "kernel",
+      "cokernel",
+      "biproduct"
+    ],
+    "related": [
+      "s18",
+      "s19",
+      "s29",
+      "a2s09",
+      "a2s13"
+    ]
+  },
+  {
+    "id": "a2s11",
+    "titleEn": "Free Modules and Their Universal Property",
+    "summary": "A free module on a set is the direct sum of one copy of the ring for each generator. Its universal property makes the free-module functor left adjoint to the underlying-set functor.",
+    "keyPoints": [
+      "For a set $X$, the free module is $F(X)=\\bigoplus_{x\\in X}Ax$.",
+      "Every function from $X$ to a module $M$ extends uniquely to an $A$-linear map $F(X)\\to M$.",
+      "Finite support ensures that the extension sends a formal sum to a well-defined finite sum in $M$."
+    ],
+    "keywords": [
+      "free module",
+      "basis",
+      "generators",
+      "universal property",
+      "free-forgetful adjunction"
+    ],
+    "related": [
+      "s18",
+      "s22",
+      "a2s05",
+      "a2s07",
+      "a2s12"
+    ]
+  },
+  {
+    "id": "a2s12",
+    "titleEn": "Projective Modules",
+    "summary": "Projective modules can be recognized by lifting maps through surjections, splitting short exact sequences, or being direct summands of free modules. A final remark introduces Grothendieck-group constructions.",
+    "keyPoints": [
+      "A module $P$ is projective exactly when every map $P\\to M''$ lifts across every surjection $M\\twoheadrightarrow M''$.",
+      "Equivalent conditions are exactness of $\\mathrm{Hom}_A(P,-)$ and splitting of every short exact sequence ending in $P$.",
+      "Every free module is projective, and every projective module is a direct summand of a free module; projective modules need not be free."
+    ],
+    "keywords": [
+      "projective module",
+      "lifting property",
+      "direct summand",
+      "exact Hom functor",
+      "Grothendieck group",
+      "K-theory"
+    ],
+    "related": [
+      "s24",
+      "a2s09",
+      "a2s11",
+      "a2s13",
+      "a2s19",
+      "supp01"
+    ]
+  },
+  {
+    "id": "a2s13",
+    "titleEn": "Injective Modules and Enough Injectives",
+    "summary": "Injectivity is the extension-property counterpart of projectivity. The notes prove that divisible abelian groups are injective and construct embeddings of arbitrary modules into injective modules.",
+    "keyPoints": [
+      "A module $Q$ is injective when maps into $Q$ extend from a submodule to its ambient module; equivalently, $\\mathrm{Hom}_A(-,Q)$ is exact.",
+      "An abelian group is injective if and only if it is divisible; $\\mathbb Q$ and $\\mathbb Q/\\mathbb Z$ are basic examples.",
+      "Character groups with values in $\\mathbb Q/\\mathbb Z$ help construct injective modules containing a given module.",
+      "The category of modules has enough projectives and enough injectives."
+    ],
+    "keywords": [
+      "injective module",
+      "extension property",
+      "divisible group",
+      "character group",
+      "enough injectives",
+      "enough projectives"
+    ],
+    "related": [
+      "s20",
+      "a2s10",
+      "a2s12",
+      "a2s14",
+      "supp02"
+    ]
+  },
+  {
+    "id": "a2s14",
+    "titleEn": "Dual Modules and Finite Free Modules",
+    "summary": "Over a commutative ring, the dual module consists of linear maps to the base ring. Finite free modules admit dual bases and recover themselves through the evaluation map to their double dual.",
+    "keyPoints": [
+      "The dual is $M^\\vee=\\mathrm{Hom}_A(M,A)$, and dualization reverses the direction of module maps.",
+      "A finite basis determines a dual basis, so the dual of a finite free module is free of the same rank.",
+      "A split exact sequence of finite free modules remains exact after dualizing, with its arrows reversed."
+    ],
+    "keywords": [
+      "dual module",
+      "dual basis",
+      "double dual",
+      "evaluation map",
+      "finite free module",
+      "rank"
+    ],
+    "related": [
+      "s20",
+      "a2s08",
+      "a2s11",
+      "a2s13",
+      "a2s18"
+    ]
+  },
+  {
+    "id": "a2s15",
+    "titleEn": "Modules over Principal Ideal Domains",
+    "summary": "The classification of finitely generated abelian groups extends to finitely generated modules over a PID. Free parts, primary components, and cyclic summands describe the resulting structure.",
+    "keyPoints": [
+      "A submodule of a finite-rank free module over a PID is free, and a finitely generated torsion-free module over a PID is free.",
+      "Every finitely generated module splits as its torsion submodule plus a finite-rank free module.",
+      "A finitely generated torsion module decomposes into primary components and cyclic modules $A/(p^t)$, or into invariant factors with divisibility relations.",
+      "The uniqueness arguments use finite length and the Jordan–Hölder principle."
+    ],
+    "keywords": [
+      "principal ideal domain",
+      "structure theorem",
+      "torsion module",
+      "primary decomposition",
+      "invariant factors",
+      "elementary divisors",
+      "module length"
+    ],
+    "related": [
+      "s14",
+      "s18",
+      "s19",
+      "s30",
+      "a2s12",
+      "a2s16"
+    ]
+  },
+  {
+    "id": "a2s16",
+    "titleEn": "Euler–Poincaré Maps and Additive Invariants",
+    "summary": "Euler–Poincaré maps assign invariants to modules that are additive on short exact sequences. Dimension, length, and the multiplicative cardinality of finite modules are examples.",
+    "keyPoints": [
+      "For a short exact sequence $0\\to M'\\to M\\to M''\\to0$, an additive invariant satisfies $\\varphi(M)=\\varphi(M')+\\varphi(M'')$.",
+      "Dimension of finite-dimensional vector spaces and length of finite-length modules are additive invariants.",
+      "For finite modules, cardinality is multiplicative across a short exact sequence, giving the same principle with a multiplicatively written target group."
+    ],
+    "keywords": [
+      "Euler–Poincaré map",
+      "additive invariant",
+      "dimension",
+      "length",
+      "cardinality",
+      "Grothendieck group"
+    ],
+    "related": [
+      "s07",
+      "s14",
+      "a2s09",
+      "a2s12",
+      "a2s15",
+      "supp01"
+    ]
+  },
+  {
+    "id": "a2s17",
+    "titleEn": "Direct Limits and Inverse Limits of Modules",
+    "summary": "Directed systems produce direct limits, while compatible families produce inverse limits. Germs of functions and profinite completion illustrate the constructions and their different exactness properties.",
+    "keyPoints": [
+      "A directed set lets any two indices be compared through a common upper bound.",
+      "A module direct limit is a quotient of a direct sum by transition relations; an inverse limit is a submodule of a product cut out by compatibility equations.",
+      "Filtered direct limits of modules preserve short exact sequences, while inverse limits are left exact.",
+      "Examples include germs of continuous functions, $\\mathbb Q/\\mathbb Z$ as a union of finite subgroups, and the profinite completion of $\\mathbb Z$."
+    ],
+    "keywords": [
+      "directed set",
+      "direct limit",
+      "inverse limit",
+      "filtered colimit",
+      "germ",
+      "profinite completion",
+      "exactness"
+    ],
+    "related": [
+      "s19",
+      "s21",
+      "a2s03",
+      "a2s06",
+      "a2s09"
+    ]
+  },
+  {
+    "id": "a2s18",
+    "titleEn": "Tensor Products and the Tensor–Hom Adjunction",
+    "summary": "The tensor product represents bilinear maps. Its universal property gives symmetry, associativity, the tensor–Hom adjunction, and right exactness of tensoring.",
+    "keyPoints": [
+      "An $A$-bilinear map $M\\times N\\to Y$ factors uniquely through an $A$-linear map $M\\otimes_A N\\to Y$.",
+      "The construction imposes bilinearity relations on a free module and gives natural symmetry and associativity isomorphisms.",
+      "The natural bijection $\\mathrm{Hom}(M\\otimes N,Y)\\cong\\mathrm{Hom}(M,\\mathrm{Hom}(N,Y))$ makes tensoring a left adjoint.",
+      "Tensoring is right exact, and $(A/I)\\otimes_A M\\cong M/IM$."
+    ],
+    "keywords": [
+      "tensor product",
+      "bilinear map",
+      "universal property",
+      "tensor–Hom adjunction",
+      "right exactness"
+    ],
+    "related": [
+      "s25",
+      "a2s04",
+      "a2s05",
+      "a2s08",
+      "a2s19",
+      "a2s20"
+    ]
+  },
+  {
+    "id": "a2s19",
+    "titleEn": "Flat Modules, Localization, and Nakayama's Lemma",
+    "summary": "Flat modules preserve exactness under tensoring. The notes develop localization and ideal tests for flatness, then use Nakayama's lemma to prove that finitely presented flat modules over local rings are free.",
+    "keyPoints": [
+      "A module is flat when tensoring with it preserves short exact sequences; projective modules and ring localizations are flat.",
+      "Flatness can be checked after localization at all prime ideals and can be tested by tensoring inclusions of ideals into the ring.",
+      "Over a PID, flatness is equivalent to torsion-freeness; over a domain, every flat module is torsion-free.",
+      "Nakayama's lemma says that a finitely generated module $T$ over a local ring vanishes if $T=\\mathfrak mT$; finitely presented flat modules over local rings are free."
+    ],
+    "keywords": [
+      "flat module",
+      "localization",
+      "torsion-free",
+      "local ring",
+      "finitely presented",
+      "Nakayama lemma",
+      "local criterion"
+    ],
+    "related": [
+      "s26",
+      "s27",
+      "s28",
+      "s30",
+      "a2s12",
+      "a2s18"
+    ]
+  },
+  {
+    "id": "a2s20",
+    "titleEn": "Base Change, Algebras, and Gradings",
+    "summary": "A ring map supplies an algebra structure, and tensor products extend scalars along a base change. Examples include complexification, tensor products of algebras, total gradings, and supercommutativity.",
+    "keyPoints": [
+      "A central $R$-algebra is a ring with a specified map from $R$ into its center; the specified map is part of the structure.",
+      "A map $R\\to R'$ extends scalars by $M\\mapsto R'\\otimes_R M$, producing an $R'$-module.",
+      "Tensor products of algebras carry multiplication, and the notes compute $\\mathbb C\\otimes_{\\mathbb R}\\mathbb C\\cong\\mathbb C\\times\\mathbb C$.",
+      "Gradings decompose algebras into degree pieces; tensor products have total gradings, and graded commutativity uses signs determined by degrees."
+    ],
+    "keywords": [
+      "base change",
+      "extension of scalars",
+      "central algebra",
+      "tensor product of algebras",
+      "graded algebra",
+      "supercommutativity"
+    ],
+    "related": [
+      "s24",
+      "s25",
+      "s35",
+      "a2s08",
+      "a2s18",
+      "a2s21"
+    ]
+  },
+  {
+    "id": "a2s21",
+    "titleEn": "Tensor, Symmetric, and Exterior Algebras",
+    "summary": "Tensor powers form a graded algebra under concatenation. Symmetric and exterior algebras arise by imposing commutativity and alternating relations, with explicit bases for exterior powers of free modules.",
+    "keyPoints": [
+      "The tensor algebra is $T(M)=\\bigoplus_{s\\ge0}M^{\\otimes s}$, with multiplication given by concatenation.",
+      "For a free module, the tensor algebra behaves like polynomials in noncommuting generators, while the symmetric algebra imposes $xy=yx$.",
+      "The exterior algebra imposes $x\\wedge x=0$; if $M$ is free of rank $n$, its $k$th exterior power has rank $\\binom nk$."
+    ],
+    "keywords": [
+      "tensor algebra",
+      "symmetric algebra",
+      "exterior algebra",
+      "exterior power",
+      "concatenation",
+      "alternating relation"
+    ],
+    "related": [
+      "s01",
+      "s25",
+      "a2s11",
+      "a2s18",
+      "a2s20"
+    ]
+  },
+  {
+    "id": "a2s22",
+    "titleEn": "Integral Extensions and Integral Closure",
+    "summary": "Integral elements satisfy monic equations over a base ring. The notes relate integrality to finite modules, discuss integral closure and localization, and establish prime-ideal lifting.",
+    "keyPoints": [
+      "An element is integral over a ring when it satisfies a monic polynomial with coefficients in that ring; finitely many integral generators give a finite module extension.",
+      "Integral elements form a subring, integrality is transitive, and a UFD is integrally closed in its field of fractions.",
+      "Integrality and integral closedness behave well under localization; norm and trace of integral elements lie in the integrally closed base ring in the stated finite-extension setting.",
+      "For an integral inclusion of rings, every prime of the base has a prime above it; the source calls this prime-lifting statement going up."
+    ],
+    "keywords": [
+      "integral element",
+      "monic polynomial",
+      "integral extension",
+      "integral closure",
+      "integrally closed",
+      "lying over",
+      "going up"
+    ],
+    "related": [
+      "s26",
+      "s28",
+      "s30",
+      "s34",
+      "s46",
+      "a2s23",
+      "supp04"
+    ]
+  },
+  {
+    "id": "a2s23",
+    "titleEn": "Integral Galois Extensions and Prime Stabilizers",
+    "summary": "A finite Galois extension acts on the integral closure of an integrally closed domain. Primes above a maximal ideal form a transitive Galois set, with decomposition and inertia groups describing the stabilizer and residue action.",
+    "keyPoints": [
+      "Galois automorphisms preserve the integral closure and act transitively on primes lying above a maximal ideal of the base.",
+      "The decomposition group $D_{\\mathfrak P}$ stabilizes a prime $\\mathfrak P$, and its fixed field is the decomposition field.",
+      "The inertia group $I_{\\mathfrak P}$ is the kernel of the decomposition group's action on the residue field.",
+      "The subgroup chain $I_{\\mathfrak P}\\subseteq D_{\\mathfrak P}\\subseteq G$ factors the extension degree as $[G:D_{\\mathfrak P}][D_{\\mathfrak P}:I_{\\mathfrak P}]|I_{\\mathfrak P}|$."
+    ],
+    "keywords": [
+      "integral Galois extension",
+      "decomposition group",
+      "decomposition field",
+      "inertia group",
+      "residue field",
+      "prime splitting"
+    ],
+    "related": [
+      "s05",
+      "s06",
+      "s44",
+      "s45",
+      "a2s22",
+      "supp03",
+      "supp04"
+    ]
+  },
+  {
+    "id": "a2s24",
+    "titleEn": "Transcendence Bases and Transcendence Degree",
+    "summary": "Transcendence bases separate algebraically independent generators from the remaining algebraic extension. An exchange argument shows that all transcendence bases have the same cardinality.",
+    "keyPoints": [
+      "A transcendence basis $B$ for $K/k$ is algebraically independent over $k$ and makes $K/k(B)$ algebraic.",
+      "Any two transcendence bases have the same cardinality, defining the transcendence degree.",
+      "An algebraically independent subset of a generating set can be extended to a transcendence basis within that set."
+    ],
+    "keywords": [
+      "transcendental extension",
+      "algebraic independence",
+      "transcendence basis",
+      "transcendence degree",
+      "exchange argument"
+    ],
+    "related": [
+      "s34",
+      "s36",
+      "a2s22",
+      "a2s25"
+    ]
+  },
+  {
+    "id": "a2s25",
+    "titleEn": "Noether Normalization",
+    "summary": "A finitely generated domain over a field is integral over a polynomial subalgebra on algebraically independent elements. The proof changes generators to reduce algebraic dependence.",
+    "keyPoints": [
+      "For a finitely generated $k$-domain $A$, there are algebraically independent $y_1,\\ldots,y_r\\in A$ such that $A$ is integral over $k[y_1,\\ldots,y_r]$.",
+      "The polynomial subalgebra provides independent coordinates inside an algebra that may originally have dependent generators.",
+      "The construction uses a monic relation after a suitable change of generators and proceeds inductively."
+    ],
+    "keywords": [
+      "Noether normalization",
+      "finitely generated algebra",
+      "polynomial subalgebra",
+      "integrality",
+      "algebraic independence"
+    ],
+    "related": [
+      "s31",
+      "s34",
+      "a2s22",
+      "a2s24",
+      "a2s26"
+    ]
+  },
+  {
+    "id": "a2s26",
+    "titleEn": "Hilbert's Nullstellensatz",
+    "summary": "Polynomial systems are encoded by ideals, and their zero sets detect radical membership. The Nullstellensatz connects solutions in an algebraic closure with powers of polynomials lying in the defining ideal.",
+    "keyPoints": [
+      "The zero set of an ideal consists of the common zeros of all its polynomials in an algebraic closure of the coefficient field.",
+      "If $f$ vanishes on the zero set of an ideal $I$, then $f^N\\in I$ for some positive integer $N$.",
+      "Zero sets generally distinguish radical ideals rather than arbitrary ideals; for example, $(T)$ and $(T^N)$ have the same zeros."
+    ],
+    "keywords": [
+      "Nullstellensatz",
+      "polynomial system",
+      "zero set",
+      "radical ideal",
+      "algebraic closure",
+      "vanishing ideal"
+    ],
+    "related": [
+      "s31",
+      "s37",
+      "a2s22",
+      "a2s25",
+      "a2s27",
+      "a2s29"
+    ]
+  },
+  {
+    "id": "a2s27",
+    "titleEn": "Elimination and Functors of Points",
+    "summary": "Elimination studies conditions on polynomial coefficients for common solutions, especially nonzero solutions of homogeneous systems. The notes then encode solutions over varying algebras through representable functors and introduce affine and projective space over fields.",
+    "keyPoints": [
+      "For homogeneous linear equations, a determinant detects nonzero solutions; elimination seeks analogous coefficient conditions for higher degrees.",
+      "The functor $A\\mapsto\\mathrm{Hom}_{k\\text{-alg}}(k[X_1,\\ldots,X_n]/I,A)$ records solutions with values in every $k$-algebra.",
+      "The full solution functor retains information that a zero set over an algebraic closure can lose.",
+      "Over a field $L$, projective $n$-space consists of one-dimensional subspaces of $L^{n+1}$, so homogeneous equations define projective solution sets."
+    ],
+    "keywords": [
+      "elimination",
+      "homogeneous polynomial",
+      "resultant",
+      "functor of points",
+      "affine space",
+      "projective space"
+    ],
+    "related": [
+      "s24",
+      "s37",
+      "a2s02",
+      "a2s04",
+      "a2s20",
+      "a2s26",
+      "a2s28"
+    ]
+  },
+  {
+    "id": "a2s28",
+    "titleEn": "Resultants — Source Stub",
+    "summary": "This section is a source stub: the lecture manuscript contains only the sentence identifying the basic case as $m=2$ and $n=1$. No resultant construction, proof, or worked calculation is supplied here.",
+    "keyPoints": [
+      "The source records only the basic-case parameters $m=2$ and $n=1$.",
+      "The preceding elimination section supplies the context of coefficient conditions for common polynomial zeros.",
+      "The manuscript does not provide a determinant formula or worked resultant example in this section."
+    ],
+    "keywords": [
+      "resultant",
+      "elimination",
+      "source stub",
+      "incomplete lecture section"
+    ],
+    "related": [
+      "s33",
+      "a2s26",
+      "a2s27"
+    ]
+  },
+  {
+    "id": "a2s29",
+    "titleEn": "The Spectrum of a Ring",
+    "summary": "The prime spectrum turns prime ideals into a topological space. Radical ideals determine its closed sets, linking the Nullstellensatz to irreducibility and finite decomposition in the Noetherian setting.",
+    "keyPoints": [
+      "The radical $\\sqrt I$ is the set of elements whose positive powers lie in $I$, and equals the intersection of all prime ideals containing $I$.",
+      "The space $\\mathrm{Spec}(A)$ has prime ideals as points and closed sets $V(I)=\\{\\mathfrak p:I\\subseteq\\mathfrak p\\}$; replacing $I$ by its radical does not change $V(I)$.",
+      "Polynomial zero sets over an algebraically closed field correspond to radical ideals through vanishing ideals.",
+      "In a Noetherian spectrum, every closed set has a finite irredundant decomposition into irreducible closed subsets, unique up to order."
+    ],
+    "keywords": [
+      "spectrum",
+      "prime ideal",
+      "radical",
+      "Zariski topology",
+      "irreducible closed set",
+      "Noetherian space"
+    ],
+    "related": [
+      "s28",
+      "s29",
+      "s31",
+      "a2s22",
+      "a2s26",
+      "a2s27"
+    ]
+  },
+  {
+    "id": "supp01",
+    "titleEn": "Projective Modules, Grothendieck Groups, and Dedekind Domains",
+    "summary": "This supplementary note revisits projectivity and Grothendieck groups, then adds a substantial treatment of fractional ideals, Dedekind domains, and finitely generated projective modules over Dedekind domains.",
+    "keyPoints": [
+      "Lifting, splitting, exactness of Hom, and being a direct summand of a free module are equivalent descriptions of projectivity.",
+      "Grothendieck groups encode projective modules using direct-sum relations; the source's $K_0$ notation requires the editorial clarification supplied with this wiki.",
+      "Dedekind domains admit unique prime-ideal factorization and invertible nonzero fractional ideals.",
+      "Fractional ideals and their ideal classes organize the structure of finitely generated projective modules over a Dedekind domain."
+    ],
+    "keywords": [
+      "projective module",
+      "Grothendieck group",
+      "K0",
+      "Dedekind domain",
+      "fractional ideal",
+      "ideal class group"
+    ],
+    "related": [
+      "s29",
+      "s30",
+      "a2s12",
+      "a2s16",
+      "a2s22",
+      "supp04"
+    ]
+  },
+  {
+    "id": "supp02",
+    "titleEn": "Injective Modules and Divisible Groups — Supplement",
+    "summary": "The supplementary injective-module note develops extension and splitting criteria, divisible abelian groups, character duals, and the existence of enough injectives. It overlaps the main injective-module lecture.",
+    "keyPoints": [
+      "Injective modules are characterized by extending homomorphisms from submodules and by exactness of the contravariant Hom functor.",
+      "Divisibility characterizes injective abelian groups, with extension arguments using Zorn's lemma.",
+      "The modules $\\mathrm{Hom}_{\\mathbb Z}(A,T)$ are injective when $T$ is a divisible abelian group.",
+      "Character-group constructions embed each module into an injective module."
+    ],
+    "keywords": [
+      "injective module",
+      "divisible group",
+      "Zorn lemma",
+      "character dual",
+      "injective embedding"
+    ],
+    "related": [
+      "s20",
+      "a2s09",
+      "a2s12",
+      "a2s13"
+    ]
+  },
+  {
+    "id": "supp03",
+    "titleEn": "Integral Galois Extensions — Supplement",
+    "summary": "This supplementary section records the Galois action on integral closures and on primes above a maximal ideal. Decomposition and inertia groups connect the field extension to residue-field automorphisms.",
+    "keyPoints": [
+      "Automorphisms of a finite Galois extension preserve the integral closure of an integrally closed base domain.",
+      "Primes over a fixed maximal ideal form a transitive Galois set, and a decomposition group is the stabilizer of one prime.",
+      "The inertia group consists of elements acting trivially on the residue field, yielding the chain $I_{\\mathfrak P}\\subseteq D_{\\mathfrak P}\\subseteq G$."
+    ],
+    "keywords": [
+      "integral Galois extension",
+      "decomposition group",
+      "inertia group",
+      "residue field",
+      "Galois action"
+    ],
+    "related": [
+      "s05",
+      "s44",
+      "s45",
+      "a2s22",
+      "a2s23",
+      "supp04"
+    ]
+  },
+  {
+    "id": "supp04",
+    "titleEn": "Prime Decomposition, Ramification, and Number Fields",
+    "summary": "The supplementary prime-decomposition section develops Dedekind integral closures, ramification indices, residue degrees, and the fundamental identity. Quadratic fields and Fermat's sum-of-two-squares theorem illustrate the arithmetic applications.",
+    "keyPoints": [
+      "The integral closure of a Dedekind domain in a finite separable extension is again Dedekind; rings of integers of number fields are examples.",
+      "If $\\mathfrak pA=\\prod_i\\mathfrak P_i^{e_i}$ and $f_i=[A/\\mathfrak P_i:R/\\mathfrak p]$, then $\\sum_i e_if_i=[K:F]$.",
+      "In the Galois case the indices are equal across conjugate primes, and the identity becomes $efg=[K:F]$.",
+      "Quadratic splitting is expressed through the Legendre symbol; splitting in the Gaussian integers leads to $p=a^2+b^2$ for primes $p\\equiv1\\pmod4$."
+    ],
+    "keywords": [
+      "Dedekind domain",
+      "ring of integers",
+      "ramification index",
+      "residue degree",
+      "fundamental identity",
+      "quadratic field",
+      "sum of two squares"
+    ],
+    "related": [
+      "s30",
+      "s40",
+      "s41",
+      "s44",
+      "s46",
+      "a2s22",
+      "a2s23",
+      "supp01",
+      "supp03"
+    ]
+  }
+]

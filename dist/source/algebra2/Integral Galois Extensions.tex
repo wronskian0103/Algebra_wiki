@@ -1,0 +1,510 @@
+\documentclass[12pt]{article}
+ 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[pdfencoding=auto, psdextra]{hyperref}
+\usepackage{bookmark}
+\usepackage{enumitem}
+\usepackage{fullpage}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue,
+}
+
+\usepackage{mathtools}
+
+\usetikzlibrary{cd}
+
+% Packages for algorithm
+\usepackage{algorithm}
+\usepackage{algorithmicx, algpseudocode}
+\usepackage{float}
+
+% Definitions for algorithm
+
+\algblockdefx{MRepeat}{EndRepeat}{\textbf{repeat}}{}
+\algnotext{EndRepeat}
+
+% Packages for Korean
+\usepackage{kotex} 
+
+
+\usepackage{extpfeil}
+\newextarrow{\xbigtoto}{{20}{20}{20}{20}}
+   {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
+
+
+\graphicspath{{./images/}}
+
+\newcommand{\piecewise}[1]{
+   \foreach \f/\a/\b/\open/\closed in {#1}{%
+      \draw[domain=\a:\b, smooth, variable=\x] plot ({\x}, \f);
+      \foreach \x[evaluate={\y=\f;}] in \open{%
+         \draw[fill=white] (\x,\y) circle (.6mm);
+      }
+      \foreach \x[evaluate={\y=\f;}] in \closed{%
+         \fill (\x,\y) circle (.6mm);
+      }
+   }
+}
+
+%% Theorem, Corollary, Lemma
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+%% User-defined commands
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+%\newcommand{\DD}{\mathbb{D}}
+%\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\Expec}[2]{\underset{#2}{\mathbb{E}}\left[ #1 \right]}
+\newcommand{\ExpecTwo}[3]{\underset{#3}{\underset{#2}{\mathbb{E}}}\left[ #1 \right]}
+\newcommand{\ExpecThree}[4]{\underset{#4}{\underset{#3}{\underset{#2}{\mathbb{E}}}}\left[ #1 \right]}
+\newcommand{\Prob}[2]{\underset{#2}{\mathbb{P}}\left[ #1 \right]}
+\newcommand{\Var}[2]{\underset{#2}{\mathrm{Var}}\left[ #1 \right]}
+
+\newcommand{\diam}[1]{\mathrm{diam}\left( #1 \right)}
+\newcommand{\hcap}[1]{\mathrm{hcap}\left( #1 \right)}
+\newcommand{\Imm}[1]{\mathrm{Im}\left[ #1 \right]}
+
+\newcommand{\Caraconv}{\stackrel{\mathrm{Cara}}{\longrightarrow}}
+
+\newcommand{\RightSqP}{]}
+
+
+\newcommand{\Hom}[3]{\mathrm{Hom}_{#3}(#1,#2)}
+
+
+\begin{document}
+
+\title{Integral Galois Extensions}
+\author{Juhyeok Choi}
+\date{}
+
+\maketitle
+
+\section{Integral Galois Extension}
+
+Let $A$ be an integrally closed domain with field of fraction $K$. Let $L/K$ be a finite Galois extension and let $B$ be an integral closure of $A$ in $L$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        B\arrow[r, dash]\arrow[d, dash] & L\arrow[d, dash] \\
+        A\arrow[r, dash] & K
+    \end{tikzcd}
+\end{figure}
+
+\begin{definition}
+    We say $B/A$ is \emph{Galois with Galois group $G=\mathrm{Gal}(L/K)$}.
+\end{definition}
+
+We first observe that $G$ acts well on $B$.
+
+\begin{proposition}
+    If $\sigma\in G$, then $B=\sigma(B)$.
+\end{proposition}
+\begin{proof}
+    The elements of $B$ are integral over $A$, and hence they have irreducible polynomials in $A[x]$. Note that $\sigma$ fixes $A[x]$.
+\end{proof}
+
+\begin{proposition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$, and let $\mathfrak{P}$, $\mathfrak{Q}$ be prime ideals of $B$ lying above $\mathfrak{p}$. Then there exists $\sigma\in G$ such that $\sigma\mathfrak{P}=\mathfrak{Q}$.
+\end{proposition}
+\begin{proof}
+    Suppose $\mathfrak{Q}\neq \sigma\mathfrak{P}$ for all $\sigma\in G$. By Chinese remainder theorem, we can find $x\in B$ such that
+    \begin{align*}
+        x\equiv 0\mod \sigma\mathfrak{P},\quad x\equiv 1\mod \sigma\mathfrak{Q}
+    \end{align*}
+    for all $\sigma\in G$. Consider the norm
+    \begin{align*}
+        N_{L/K}(x) = \prod_{\sigma\in G}\sigma x.
+    \end{align*}
+    By the property of norms, $N_{L/K}(x)\in K$, and as $B$ is algebraically closed, $N_{L/K}(x)\in B$. Hence $N_{L/K}(x)\in B\cap K=A$. As $\sigma x\in \mathfrak{P}$ for all $\sigma\in G$, we have $N_{L/K}(x)\in \mathfrak{P}\cap A = \mathfrak{p}$. However, $\sigma x\not\in \mathfrak{Q}$ for all $\sigma\in G$, and this implies $N_{L/K}(x)\notin \mathfrak{Q}\cap A = \mathfrak{p}$. This is a contradiction, and therefore there exists $\sigma\in G$ such that $\sigma\mathfrak{P}=\mathfrak{Q}$. 
+\end{proof}
+\begin{remark}
+    We can view a collection of maximal ideals in $B$ lying above a maximal ideal $\mathfrak{p}$ in $A$ as a $G$-set. The proposition asserts that the group action is transitive.
+\end{remark}
+
+\begin{definition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$ and let $\mathfrak{P}$ be a maximal ideal of $B$ lying above $\mathfrak{p}$. The \emph{decomposition group} of $\mathfrak{P}$ is defined as
+    \begin{align*}
+        D_\mathfrak{P}=\{\sigma\in G:\sigma\mathfrak{P}=\mathfrak{P}\}.
+    \end{align*}
+    Let $L^\mathrm{dec}$ be the fixed field of $D_\mathfrak{P}$ and let $B^\mathrm{dec}$ be the integral closure of $A$ in $L^\mathrm{dec}$. $L^\mathrm{dec}$ is called the \emph{decomposition field of $\mathfrak{P}$}.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            B\arrow[r, dash]\arrow[d, dash] & L\arrow[d, dash] & \{1\}\arrow[d, dash] \\
+            B^\mathrm{dec}\arrow[r, dash]\arrow[d, dash] & L^\mathrm{dec}\arrow[d, dash] & D_\mathfrak{P}\arrow[d, dash]\\
+            A\arrow[r, dash] & K & G
+        \end{tikzcd}
+    \end{figure}
+\end{definition}
+\begin{remark}
+    $D_\mathfrak{P}$ is the stabilizer subgroup of $\mathfrak{P}$.
+\end{remark}
+
+\begin{proposition}
+    $A/\mathfrak{p}\simeq B^\mathrm{dec}/(\mathfrak{P}\cap B^\mathrm{dec})$.
+\end{proposition}
+\begin{proof}
+    We have an injective map
+    \begin{align*}
+        A/\mathfrak{p} \to B^\mathrm{dec}/(\mathfrak{P}\cap B^\mathrm{dec}).
+    \end{align*}
+    It suffices to show that the map is surjective. Let $x\in B^\mathrm{dec}$. Let $\mathfrak{Q}=\mathfrak{P}\cap B^\mathrm{dec}$ and $\mathfrak{Q}_\sigma=\sigma^{-1}\mathfrak{P}\cap B^\mathrm{dec}$. Then for all $\sigma\in G\setminus D_\mathfrak{P}$, we have
+    \begin{align*}
+        \sigma^{-1}\mathfrak{P}\neq \mathfrak{P} \implies \mathfrak{Q}_\sigma \neq \mathfrak{Q}.
+    \end{align*}
+    By Chinese remainder theorem, we can find $y\in B^\mathrm{dec}$ such that
+    \begin{align*}
+        y&\equiv x\mod \mathfrak{Q}, \\
+        y&\equiv 1\mod \mathfrak{Q}_{\sigma},\quad \forall \sigma\in G\setminus D_\mathfrak{P}.
+    \end{align*}
+    Here, we have
+    \begin{align*}
+        y&\equiv x\mod \mathfrak{P}, \\
+        \sigma y&\equiv 1\mod \mathfrak{P},\quad \forall \sigma\in G\setminus D_\mathfrak{P}. 
+    \end{align*}
+    Now consider the extension $L^\mathrm{dec}/K$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            L^\mathrm{dec}\arrow[d, dash] & \{1\}\arrow[d, dash] \\
+            K & G/D_\mathfrak{P}
+        \end{tikzcd}
+    \end{figure}
+    \noindent We obtain the norm
+    \begin{align*}
+        N_{L^\mathrm{dec}/K}(y) = \prod_{\overline{\sigma}\in G/D_\mathfrak{P}} \overline{\sigma}(y) \equiv x\mod \mathfrak{P}.
+    \end{align*}
+    Here, by the property of norm, $N_{L^\mathrm{dec}/K}(y)\in A$. Hence we have a surjective homomorphism
+    \begin{align*}
+        A/\mathfrak{p} &\to B^\mathrm{dec}/\mathfrak{Q}, \\
+        \overline{N_{L^\mathrm{dec}/K}(y)} &\mapsto \overline{x}.
+    \end{align*}
+\end{proof}
+
+\begin{definition}
+    For $x\in B$ we define $\overline{x}$ to be the image of $x$ under the homomorphism $B\to B/\mathfrak{P}$. We write $\overline{\sigma}$ to be the automorphism of $B/\mathfrak{P}$ such that $\overline{\sigma}(\overline{x})=\overline{\sigma(x)}$.
+\end{definition}
+
+\begin{proposition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$ and let $\mathfrak{P}$ be a maximal ideal of $B$ lying above $\mathfrak{p}$. Then the followings hold.
+    \begin{enumerate}
+        \item $B/\mathfrak{P}$ is a normal extension of $A/\mathfrak{p}$.
+        \item $\sigma\mapsto\overline{\sigma}$ induces a homomorphism of $D_\mathfrak{P}$ onto the Galois group of $B/\mathfrak{P}$ over $A/\mathfrak{p}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Let $\overline{B}=B/\mathfrak{P}$ and $\overline{A}=A/\mathfrak{p}$. Let $\overline{x}\in\overline{B}$ be an arbitrary element. Let $f(X)\in K[X]$ be the irreducible polynomial for $x$ over $K$. As $x$ is algebraic over $A$, $f(X)\in A[X]$ and all roots of $f$ are integral over $A$. As $B$ is an integral closure of $A$, $f$ splits into linear factors in $B$. Write
+    \begin{align*}
+        f(X)=\prod_{i=1}^m(X-x_i).
+    \end{align*}
+    Then
+    \begin{align*}
+        \overline{f}(X)=\sum_{i=1}^m (X-\overline{x}_i)
+    \end{align*}
+    satisfies $\overline{f}(\overline{x})=0$, and the irreducible polynomial of $\overline{x}$ divides $\overline{f}$. As $\overline{f}$ splits into linear factors in $\overline{B}$, the irreducible polynomial of $\overline{x}$ also splits into linear factors in $\overline{B}$. This implies that $\overline{B}$ is normal in $\overline{A}$. \\
+    Now we observe $\sigma\mapsto \overline{\sigma}$. First, construct a map
+    \begin{align*}
+        \Phi:D_{\mathfrak{P}} &\to \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p})) \\
+        \sigma &\mapsto \overline{\sigma}
+    \end{align*}
+    where $\overline{\sigma}(x+\mathfrak{P})=\sigma(x)+\mathfrak{P}$. Note that the map is well-defined, as if $x+\mathfrak{P}=y+\mathfrak{P}$, then $x-y\in\mathfrak{P}$ and as $\sigma\in D_\mathfrak{P}$ we have $\sigma(x)+\mathfrak{P}=\sigma(y)+\mathfrak{P}$. Also, $\overline{\sigma}$ fixes $A/\mathfrak{p}$, as for all $a+\mathfrak{p}\in A/\mathfrak{p}$ we have
+    \begin{align*}
+        \overline{\sigma}(a+\mathfrak{P})=\sigma(a)+\mathfrak{P}=a+\mathfrak{P}.
+    \end{align*}
+    It is clear that $\Phi$ is a homomorphism. It suffices to show that the map is surjective. We may assume that $K=L^\mathrm{dec}$, or otherwise let $A'=B\cap L^\mathrm{dec}$. In this setting, $G=D_\mathfrak{P}$. As $(B/\mathfrak{P})/(A/\mathfrak{p})$ is Galois, by the primitive element theorem there exists $\overline{x}$ such that $B/\mathfrak{P} = (A/\mathfrak{p})[\overline{x}]$. Let $x\in B$ be the element such that $x+\mathfrak{P}=\overline{x}$. Next, let $\overline{g}\in \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p}))$ be an arbitrary automorphism. Let $\overline{g}(\overline{x})=\overline{y}$. As $\overline{g}$ fixes $k$, $\overline{y}$ is the conjugate of $\overline{x}$. As the $G$-set action is transitive, there exists $\sigma\in G$ such that $\sigma(x)+\mathfrak{P}=\overline{y}$. Then we have
+    \begin{align*}
+        \overline{\sigma}(\overline{x}) = \sigma(x)+\mathfrak{P}=\overline{y}=\overline{g}(\overline{x}).
+    \end{align*}
+    Therefore we have the result.
+\end{proof}
+
+\begin{definition}
+    The kernel of the map
+    \begin{align*}
+        D_\mathfrak{P} \to \overline{D}_{\mathfrak{P}}
+    \end{align*}
+    is called the \emph{inertia group} of $\mathfrak{P}$, and is denoted as $I_\mathfrak{P}$.
+\end{definition}
+\begin{remark}
+    The inertia group is the set of automorphisms $\sigma$ which acts trivially on $B/\mathfrak{P}$.
+\end{remark}
+\begin{remark}
+    $D_\mathfrak{P}/I_\mathfrak{P}\simeq \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p}))$ is the dictionary used to describe prime splitting.
+\end{remark}
+
+To summarize, we have $I_\mathfrak{P}\subset D_\mathfrak{P}\subset G$.
+\begin{align*}
+    G &= \{\sigma:L\to L:\sigma(k)=k\quad\forall k\in K\} \\
+    D_\mathfrak{P} &= \{\sigma\in G: \sigma\mathfrak{P}=\mathfrak{P}\} \\
+    I_\mathfrak{P} &= \{\sigma\in D_\mathfrak{P}:\overline{\sigma}=\mathrm{id}_{B/\mathfrak{P}}\}.
+\end{align*}
+
+\begin{proposition}
+    $[L:K]=[G:D_\mathfrak{P}] \cdot [D_{\mathfrak{P}}:I_\mathfrak{P}] \cdot |I_\mathfrak{P}|$.
+\end{proposition}
+
+
+\clearpage
+\section{Prime Ideal Decomposition}
+
+\begin{theorem}\label{Theorem 1.2.6.}
+    Let $R$ be a integrally closed integral domain and $F$ be a quotient field of $R$. Let $K$ be a separable extension field of $F$ of rank $n$. Let $A$ be an integral closure of $R$ in $K$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A \arrow[r, dash] \arrow[d, dash] & K\arrow[d, dash, "n"] \\
+            R \arrow[r, dash] & F
+        \end{tikzcd}
+    \end{figure}
+    \noindent Then there exists free $R$-modules $M$, $N$ of rank $n$ such that $M\subset A\subset N$.
+\end{theorem}
+\begin{proof}
+    As $K$ is a separable extension, there exists a primitive element $s\in K$ such that $K=F(s)$. Let
+    \begin{align*}
+        f(x) = x^m + \frac{a_{n-1}}{b_{n-1}}x^{m-1} + \cdots + \frac{a_0}{b_0},\quad a_i,b_i\in R
+    \end{align*}
+    be the minimal polynomial of $s$. Let $b=b_0\cdots b_{n-1}$. Then
+    \begin{align*}
+        (bs)^n + (b_{n-1}'a_{n-1})(bs)^{n-1} + \cdots+b^{n-1}b_0'a_0 = 0,\quad b_i' = \frac{b}{b_i}\in R.
+    \end{align*}
+    Hence $t=bs$ is an algebraic integer and $t\in K$. Note that $K=F(t)$ and $\{1,t,\dots,t^{n-1}\}$ is a basis of $F$-vector space $V$. Then
+    \begin{align*}
+        M = R\oplus Rt\oplus \cdots\oplus Rt^{n-1} \subset A.
+    \end{align*}
+    Let $t_1 = t$ and $t_2,\dots,t_n$ be conjugates of $t$ over $F$. Define
+    \begin{align*}
+        d = \prod_{i<j} (t_i-t_j)^2.
+    \end{align*}
+    As $d$ is invariant to the Galois action, $d\in F$. For all $y\in A$, there exists $c_j\in F$ such that
+    \begin{align*}
+        y = \sum_{j=0}^{n-1}c_j t^j =\sum_{j=0}^{n-1} dc_j \left( \frac{t^j}{d} \right).
+    \end{align*}
+    Let $\overline{F}$ be an algebraic closure of $F$. Then $t_i$ are integral over $R$ and
+    \begin{align*}
+        y_i = \sum_{j=0}^{n-1}c_j t_i^j \in \overline{F},\quad i=1,\dots,n.
+    \end{align*}
+    is integral over $R$. Then $c_0,\dots,c_{n-1}$ is a solution of
+    \begin{align*}
+        \underbrace{\begin{pmatrix}
+            1 & t_1 & \cdots & t_1^{n-1} \\
+            1 & t_2 & \cdots & t_2^{n-1} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            1 & t_n & \cdots & t_n^{n-1} 
+        \end{pmatrix}}_{=D} \begin{pmatrix}
+            c_0 \\ c_1 \\ \vdots \\ c_{n-1}
+        \end{pmatrix} = \begin{pmatrix}
+            y_1 \\ y_2 \\ \vdots \\ y_n
+        \end{pmatrix}.
+    \end{align*}
+    Let $\delta = \det D$. Note that $d = \delta^2$. Let $d_j$ be the determinant of $D$ whose $j$-th column is replaced to $y_1,\dots,y_n$. By Cramer rule, $\delta c_j = d_j$ and $dc_j = \delta d_j$. Therefore $dc_j\in R$. We conclude with
+    \begin{align*}
+        A\subset N = R\left(\frac{1}{d}\right) \oplus R\left(\frac{t}{d}\right)\oplus \cdots\oplus R\left(\frac{t^{n-1}}{d}\right).
+    \end{align*}
+\end{proof}
+
+\begin{theorem}\label{Theorem 1.3.7.}
+    Let $R$ be an integral domain. The following conditions are equivalent.
+    \begin{enumerate}
+        \item $R$ is an integrally closed Noetherian ring and every nonzero prime ideal is a maximal ideal.
+        \item Every nonzero proper ideal can be uniquely expressed as a product of prime ideals.
+        \item The set of nonzero fractional ideal of $R$ is a multiplicative abelian group.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    An integral domain satisfying the equivalent conditions above is called a \emph{Dedekind domain}.
+\end{definition}
+
+\begin{theorem}
+    Let $R$ be a Dedekind domain, $F$ be a field of fraction of $R$, $K$ be a finite separable extension of $F$ and $A$ be an integral closure of $R$ in $K$. Then $A$ is a Dedekind domain.
+\end{theorem}
+\begin{proof}
+    By definition, $A$ is algebraically closed. Let $Q$ be a nonzero prime ideal $Q$ of $A$ and let $x\in Q$ be a nonzero element. There exists $a_i\in R$ such that
+    \begin{align*}
+        x^n+a_{n-1}x^{n-1}+\cdots + a_0 = 0.
+    \end{align*}
+    We can find such $a_i$'s minimizing $n$. Then $a_0\neq 0$ and
+    \begin{align*}
+        a_0 = -\left(x^{n-1}+a_{n-1}x^{n-2}+\cdots+a_1\right)x\in Q\cap R.
+    \end{align*}
+    Therefore $Q\cap R\neq 0$, and as $R$ is a Dedekind domain, $Q\cap R$ is a maximal ideal. Then $R/(Q\cap R)$ is a field. As $A/Q$ is integral over $R/(Q\cap R)$, $A/Q$ is also a field. Therefore $Q$ is a maximal ideal. \\
+    Now it suffices to show that $A$ is Noetherian. By Theorem \ref{Theorem 1.2.6.}, there exists a free $R$-module $M$ of finite rank such that $A\le M$. As $R$ is Noetherian, $M$ is a Noetherian $R$-module. Then $A$ is also a Noetherian $R$-module. Therefore $A$ is a Noetherian $A$-module, and is itself a Noetherian ring.
+\end{proof}
+
+\begin{corollary}
+    If $K$ is a number field, then $A_K$, the ring of algebraic integers in $K$, is a Dedekind domain.
+\end{corollary}
+\begin{proof}
+    $A_K$ is an integral closure of $\Z$ in $K$. As $\Z$ is a Dedekind domain, $A_K$ is also a Dedekind domain.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A_K \arrow[r, dash]\arrow[d, dash] & K\arrow[d, dash] \\
+            \Z \arrow[r, dash] & \Q
+        \end{tikzcd}
+    \end{figure}
+\end{proof}
+
+\begin{theorem}[Fundamental Identity]
+    Let $R$ be a Dedekind domain with field of fractions $F$. Let $K$ be a finite separable extension of $F$ with $[K:F] = n$. Let $A$ be the integral closure of $R$ in $K$. Let $\mathfrak{p}$ be a nonzero prime ideal of $R$. Then the ideal $\mathfrak{p}A$ has a unique factorization in $A$ as
+    \begin{align*}
+        \mathfrak{p}A = \mathfrak{P}_1^{e_1} \mathfrak{P}_2^{e_2} \cdots \mathfrak{P}_g^{e_g}
+    \end{align*}
+    where $\mathfrak{P}_1, \dots, \mathfrak{P}_g$ are the distinct prime ideals of $A$ lying above $\mathfrak{p}$. For each $\mathfrak{P}_i$, we define:
+    \begin{enumerate}
+        \item The \emph{ramification index} $e_i = e(\mathfrak{P}_i | \mathfrak{p})$, the exponent of $\mathfrak{P}_i$ in the factorization.
+        \item The \emph{inertial degree} $f_i = f(\mathfrak{P}_i | \mathfrak{p}) = [A/\mathfrak{P}_i : R/\mathfrak{p}]$, which is the degree of the residue field extension.
+    \end{enumerate}
+    These indices are related by the \emph{fundamental identity}:
+    \begin{align*}
+        \sum_{i=1}^g e_i f_i = n = [K:F].
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    By the previous theorem, $A$ is a Dedekind domain. Since $\mathfrak{p} \neq 0$, $\mathfrak{p}A$ is a nonzero proper ideal of $A$. Therefore, it admits a unique factorization into distinct prime ideals $\mathfrak{P}_i$ with exponents $e_i$. \\
+    Also, observe that a prime ideal $\mathfrak{P}$ of $A$ divides $\mathfrak{p}A$ if and only if it lies over $\mathfrak{p}$.
+    \begin{itemize}
+        \item[($\implies$)] If $\mathfrak{P} \mid \mathfrak{p}A$, then $\mathfrak{p}A \subseteq \mathfrak{P}$. Then $\mathfrak{p} \subseteq \mathfrak{p}A \cap R \subseteq \mathfrak{P} \cap R$. Since $\mathfrak{p}$ is a maximal ideal (as $R$ is Dedekind) and $\mathfrak{P} \cap R$ is a prime ideal (and $\mathfrak{P} \cap R \neq R$), we must have $\mathfrak{P} \cap R = \mathfrak{p}$.
+        \item[($\impliedby$)] If $\mathfrak{P} \cap R = \mathfrak{p}$, then $\mathfrak{p} \subseteq \mathfrak{P}$, so $\mathfrak{p}A \subseteq \mathfrak{P}$. In a Dedekind domain, this implies $\mathfrak{P} \mid \mathfrak{p}A$.
+    \end{itemize}
+    Now we prove the identity. Let $k = R/\mathfrak{p}$.
+    By the Chinese Remainder Theorem, since the ideals $\mathfrak{P}_i^{e_i}$ are pairwise comaximal, we have an isomorphism of $k$-algebras:
+    \begin{align*}
+        A/\mathfrak{p}A \cong \bigoplus_{i=1}^g A/\mathfrak{P}_i^{e_i}.
+    \end{align*}
+    We now find the dimension of each side as a $k$-vector space.
+    \begin{itemize}
+        \item LHS: It is a standard result that $\dim_k(A/\mathfrak{p}A) = n = [K:F]$. This is proven by localizing at $\mathfrak{p}$. $R_\mathfrak{p}$ is a PID, and its integral closure $A_\mathfrak{p}$ is a free $R_\mathfrak{p}$-module of rank $n$. Then $A/\mathfrak{p}A \cong A_\mathfrak{p} / \mathfrak{p}A_\mathfrak{p}$, which is an $n$-dimensional vector space over $k = R_\mathfrak{p} / \mathfrak{p}R_\mathfrak{p}$.
+        \item RHS: Let $k_i = A/\mathfrak{P}_i$. By definition, $f_i = [k_i : k]$. We analyze the $k$-dimension of each component $A/\mathfrak{P}_i^{e_i}$. We have $\dim_k(A/\mathfrak{P}_i^{e_i}) = \dim_{k_i}(A/\mathfrak{P}_i^{e_i}) \cdot \dim_k(k_i) = \dim_{k_i}(A/\mathfrak{P}_i^{e_i}) \cdot f_i$.
+        
+        By considering the filtration $A \supset \mathfrak{P}_i \supset \mathfrak{P}_i^2 \supset \cdots \supset \mathfrak{P}_i^{e_i}$, one can show that each quotient $\mathfrak{P}_i^j / \mathfrak{P}_i^{j+1}$ is a 1-dimensional $k_i$-vector space. Thus, $\dim_{k_i}(A/\mathfrak{P}_i^{e_i}) = e_i$.
+        
+        Therefore, $\dim_k(A/\mathfrak{P}_i^{e_i}) = e_i f_i$.
+    \end{itemize}
+    Combining these facts, we get $n = \dim_k(A/\mathfrak{p}A) = \sum_{i=1}^g \dim_k(A/\mathfrak{P}_i^{e_i}) = \sum_{i=1}^g e_i f_i$.
+\end{proof}
+
+This theorem becomes simpler in the Galois case.
+
+\begin{corollary}[The Galois Case]
+    In the setting of the previous theorem, if $K/F$ is a Galois extension with Galois group $G = \mathrm{Gal}(K/F)$, then $G$ acts transitively on the set of primes $\{\mathfrak{P}_1, \dots, \mathfrak{P}_g\}$. This implies that the ramification indices and inertial degrees are all equal:
+    \begin{align*}
+        e_1 = e_2 = \cdots = e_g =: e,\quad f_1 = f_2 = \cdots = f_g =: f
+    \end{align*}
+    The fundamental identity simplifies to:
+    \begin{align*}
+        e \cdot f \cdot g = n = [K:F]
+    \end{align*}
+    where $g$ is the number of distinct prime ideals in $A$ lying over $\mathfrak{p}$.
+\end{corollary}
+\begin{remark}
+    Note that $e=|I_\mathfrak{P}|$, $f=[D_\mathfrak{P}:I_\mathfrak{P}]$ and $g=[G:D_\mathfrak{P}]$.
+\end{remark}
+\begin{proof}
+    Let $\mathfrak{P}_i$ and $\mathfrak{P}_j$ be two such primes. By transitivity, there exists $\sigma \in G$ such that $\sigma(\mathfrak{P}_i) = \mathfrak{P}_j$. Apply this $\sigma$ to the factorization $\mathfrak{p}A = \prod_k \mathfrak{P}_k^{e_k}$. Since $\sigma$ fixes $R$ (and $A$ is the integral closure), $\sigma$ permutes $A$. As $\mathfrak{p} \subset R$, $\sigma(\mathfrak{p}) = \mathfrak{p}$, so $\sigma(\mathfrak{p}A) = \mathfrak{p}A$.
+    \begin{align*}
+        \mathfrak{p}A = \sigma(\mathfrak{p}A) = \sigma\left(\prod_k \mathfrak{P}_k^{e_k}\right) = \prod_k \sigma(\mathfrak{P}_k)^{e_k}.
+    \end{align*}
+    By the uniqueness of prime factorization, the prime $\sigma(\mathfrak{P}_i) = \mathfrak{P}_j$ must have the same exponent as $\mathfrak{P}_i$. Thus, $e_i = e_j$. Since this holds for any pair, all $e_i$ are equal to some $e$. Furthermore, $\sigma$ induces an $R/\mathfrak{p}$-isomorphism of the residue fields:
+    \begin{align*}
+        \overline{\sigma}: A/\mathfrak{P}_i \to A/\sigma(\mathfrak{P}_i) = A/\mathfrak{P}_j.
+    \end{align*}
+    This implies they have the same dimension over $R/\mathfrak{p}$, so
+    \begin{align*}
+        f_i = [A/\mathfrak{P}_i : R/\mathfrak{p}] = [A/\mathfrak{P}_j : R/\mathfrak{p}] = f_j.
+    \end{align*}
+    Thus, all $f_i$ are equal to some $f$. The fundamental identity $\sum_{i=1}^g e_i f_i = n$ becomes $\sum_{i=1}^g ef = n$, which is $efg = n$.
+\end{proof}
+
+The following are some applications of prime ideal decomposition.
+
+\begin{example}
+    Let $d$ be a square-free integer and let $L=\Q(\sqrt{d})$. Let $p$ be an odd prime. Then $(p)$ is a prime ideal in $\Z$. We observe the prime ideal decomposition of $(p)$ in $L$. Let $B$ be the integral closure of $A$ in $L$. It is a well-known fact that
+    \begin{align*}
+        B=\begin{cases}
+            \Z+\Z\sqrt{d},& d\equiv 1\mod 4,\\
+            \Z+\Z\frac{1+\sqrt{d}}{2},& d\equiv 2,3\mod 4.
+        \end{cases}
+    \end{align*}
+    Note that
+    \begin{align*}
+        \Z+\Z\sqrt{d} \ni a+(b+p)\frac{1+\sqrt{d}}{2}\equiv a+b\frac{1+\sqrt{d}}{2}\mod p
+    \end{align*}
+    if $b$ is odd. Hence
+    \begin{align*}
+        B/pB\simeq (\Z+\Z\sqrt{d})/(p).
+    \end{align*}
+    Also, as
+    \begin{align*}
+        \Z+\Z\sqrt{d}\simeq \Z[x]/(x^2-d),
+    \end{align*}
+    we have
+    \begin{align*}
+        B/pB\simeq \Z_p[x]/(x^2-d),\quad (x^2-d)\in \Z_p[x].
+    \end{align*}
+    Therefore we obtain
+    \begin{align*}
+        (p)=\begin{cases}
+            \mathfrak{P}_1\mathfrak{P}_2,& (\frac{d}{p})=1, \\
+            \mathfrak{P}^2,& (\frac{d}{p})=0, \\
+            \mathfrak{P},& (\frac{d}{p})=-1.
+        \end{cases}
+    \end{align*}
+\end{example}
+
+\begin{theorem}[Fermat]
+    Let $p$ be a prime such that $p\equiv 1\mod 4$. Then there exists $a,b\in\Z$ such that $a^2+b^2=p$.
+\end{theorem}
+\begin{proof}
+    We know that $\Q(\sqrt{-1})$ is a prime ideal domain. As $p\equiv 1\mod 4$, there exists $x\in\Z$ such that
+    \begin{align*}
+        x^2+1\equiv 0\mod p.
+    \end{align*}
+    Therefore there exists $a,b\in\Z$ such that
+    \begin{align*}
+        (p) = \mathfrak{P}_1\mathfrak{P}_2 = (a+b\sqrt{-1})(a-b\sqrt{-1}).
+    \end{align*}
+    As $p^2=|N_{\Q\sqrt{-1}/\Q}(pB)|=|N_{\Q\sqrt{-1}/\Q}(\mathfrak{P}_1)|\cdot|N_{\Q\sqrt{-1}/\Q}(\mathfrak{P}_2)|$, we conclude that $p=a^2+b^2$.
+\end{proof}
+\begin{remark}
+    Recall that
+    \begin{align*}
+        N_{\Q\sqrt{-1}/\Q}(x)=|\det(x)|=|A_{\Q\sqrt{-1}}/A_{\Q\sqrt{-1}}x|
+    \end{align*}
+    and observe that
+    \begin{align*}
+        |A_{\Q\sqrt{-1}}/\mathfrak{ap}|=|A_{\Q\sqrt{-1}}/\mathfrak{a}|\cdot|\mathfrak{a}/\mathfrak{ap}|=|A_{\Q\sqrt{-1}}/\mathfrak{a}|\cdot|A_{\Q\sqrt{-1}}/\mathfrak{p}|.
+    \end{align*}
+    when $\mathfrak{p}$ is prime.
+\end{remark}
+
+\end{document}

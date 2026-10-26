@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A unified English algebra wiki combining Algebra I and Algebra II lecture notes and supplementary topics. Search definitions, theorems, proofs, and concepts offline.">
+  <title>Algebra · A connected wiki</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231d3f36'/%3E%3Ctext x='32' y='46' text-anchor='middle' fill='white' font-size='44' font-family='serif'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try {if(localStorage.getItem('unified-algebra-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}
+    window.MathJax={loader:{load:['[tex]/physics'],paths:{mathjax:'assets/mathjax'}},tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],packages:{'[+]':['physics']},macros:{N:'\\mathbb{N}',Z:'\\mathbb{Z}',Q:'\\mathbb{Q}',R:'\\mathbb{R}',C:'\\mathbb{C}',PP:'\\mathbb{P}',Hom:['\\mathrm{Hom}_{#3}(#1,#2)',3],xbigtoto:'\\rightrightarrows',Imm:['\\mathrm{Im}\\left[#1\\right]',1],diam:['\\mathrm{diam}\\left(#1\\right)',1],RightSqP:']'},tags:'none'},svg:{fontCache:'local'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code'],enableMenu:false},startup:{typeset:false}};
+  </script>
+  <script defer src="assets/mathjax/tex-svg-full.js"></script>
+  <script defer src="data.js"></script>
+  <script defer src="diagram-layout.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="sidebar" id="sidebar" aria-label="Wiki navigation">
+    <a class="brand" href="#home"><span class="brand-symbol">A</span><span>Algebra<small>A CONNECTED WIKI</small></span></a>
+    <div class="course-label"><span class="status-dot"></span>ALGEBRA I &amp; II · SNU</div>
+    <nav class="primary-nav" aria-label="Main navigation">
+      <a href="#home" data-nav="home"><span class="nav-icon">⌂</span>Wiki home</a>
+      <a href="#contents" data-nav="contents"><span class="nav-icon">☷</span>Contents<span class="nav-count" id="section-count"></span></a>
+      <a href="#concepts" data-nav="concepts"><span class="nav-icon">◇</span>Concept index</a>
+      <a href="#theorems" data-nav="theorems"><span class="nav-icon">∴</span>Statement index</a>
+      <a href="#bookmarks" data-nav="bookmarks"><span class="nav-icon">☆</span>Bookmarks<span class="nav-count" id="bookmark-count">0</span></a>
+    </nav>
+    <div class="side-caption">THE ALGEBRA NOTEBOOK</div>
+    <nav class="chapter-nav" id="chapter-nav" aria-label="Chapters"></nav>
+    <div class="sidebar-bottom"><div class="source-badge">Original materials <strong id="source-count"></strong></div><a href="#about">Sources &amp; corrections ↗</a><div class="side-credit">Lecture · Dohyeong Kim<br>Notes · Juhyeok Choi</div></div>
+  </aside>
+  <button class="nav-overlay" id="nav-overlay" aria-label="Close navigation" hidden></button>
+  <div class="workspace">
+    <header class="topbar">
+      <button class="icon-button mobile-menu" id="mobile-menu" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="breadcrumb" id="breadcrumb">Study space <span>/</span> Wiki home</div>
+      <form class="global-search" id="search-form" role="search"><span aria-hidden="true">⌕</span><input id="global-search" type="search" aria-label="Search all content" placeholder="Search concepts, statements, notes" autocomplete="off"><kbd>/</kbd></form>
+      <button class="icon-button" id="theme-button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="page-footer"><span>Algebra I &amp; II · One wiki</span><span>A connected notebook of algebra</span><a href="#about">Sources &amp; usage ↗</a></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript><p>JavaScript is required to browse this wiki. Original LaTeX documents are available in the source folder.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,3723 @@
+\documentclass[12pt]{report}
+ 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[pdfencoding=auto, psdextra]{hyperref}
+\usepackage{bookmark}
+\usepackage{enumitem}
+\usepackage{fullpage}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue,
+}
+
+\usepackage{mathtools}
+
+\usetikzlibrary{cd}
+
+% Packages for algorithm
+\usepackage{algorithm}
+\usepackage{algorithmicx, algpseudocode}
+\usepackage{float}
+
+% Definitions for algorithm
+
+\algblockdefx{MRepeat}{EndRepeat}{\textbf{repeat}}{}
+\algnotext{EndRepeat}
+
+% Packages for Korean
+\usepackage{kotex} 
+
+
+\usepackage{extpfeil}
+\newextarrow{\xbigtoto}{{20}{20}{20}{20}}
+   {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
+
+
+\graphicspath{{./images/}}
+
+\newcommand{\piecewise}[1]{
+   \foreach \f/\a/\b/\open/\closed in {#1}{%
+      \draw[domain=\a:\b, smooth, variable=\x] plot ({\x}, \f);
+      \foreach \x[evaluate={\y=\f;}] in \open{%
+         \draw[fill=white] (\x,\y) circle (.6mm);
+      }
+      \foreach \x[evaluate={\y=\f;}] in \closed{%
+         \fill (\x,\y) circle (.6mm);
+      }
+   }
+}
+
+%% Theorem, Corollary, Lemma
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+%% User-defined commands
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+%\newcommand{\DD}{\mathbb{D}}
+%\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\Expec}[2]{\underset{#2}{\mathbb{E}}\left[ #1 \right]}
+\newcommand{\ExpecTwo}[3]{\underset{#3}{\underset{#2}{\mathbb{E}}}\left[ #1 \right]}
+\newcommand{\ExpecThree}[4]{\underset{#4}{\underset{#3}{\underset{#2}{\mathbb{E}}}}\left[ #1 \right]}
+\newcommand{\Prob}[2]{\underset{#2}{\mathbb{P}}\left[ #1 \right]}
+\newcommand{\Var}[2]{\underset{#2}{\mathrm{Var}}\left[ #1 \right]}
+
+\newcommand{\diam}[1]{\mathrm{diam}\left( #1 \right)}
+\newcommand{\hcap}[1]{\mathrm{hcap}\left( #1 \right)}
+\newcommand{\Imm}[1]{\mathrm{Im}\left[ #1 \right]}
+
+\newcommand{\Caraconv}{\stackrel{\mathrm{Cara}}{\longrightarrow}}
+
+\newcommand{\RightSqP}{]}
+
+
+\newcommand{\Hom}[3]{\mathrm{Hom}_{#3}(#1,#2)}
+
+
+
+ 
+\begin{document}
+ 
+\title{Algebra 2}
+\author{SNU Graduate course lecture notes \\ Lecture by Prof. Dohyeong Kim, Notes by Juhyeok Choi}
+\date{2025 Fall}
+
+ 
+\maketitle
+\tableofcontents
+
+\chapter{Category Theory}
+
+\section{Categories}
+\begin{definition}
+    A \emph{category} $\mathcal{C}$ consists of
+    \begin{enumerate}
+        \item a collection of objects $\mathrm{Ob}(\mathcal{C})$
+        \item for each $x,y\in \mathrm{Ob}(\mathcal{C})$ a collection $\mathrm{Hom}_\mathcal{C}(x,y)$ of morphisms
+        \item compositions $\mathrm{Hom}_\mathcal{C}(y,z)*\mathrm{Hom}_\mathcal{C}(x,y)\rightarrow \mathrm{Hom}_\mathcal{C}(x,z)$.
+    \end{enumerate}
+    subject to the conditions
+    \begin{enumerate}
+        \item the family $\mathrm{Hom}_\mathcal{C}(x,y)$ for $x,y\in \mathrm{Ob}(\mathcal{C})$ are disjoint.
+        \item for each $x\in \mathrm{Ob}(\mathcal{C})$ there exists $\mathbf{1}_x\in \mathrm{Hom}_\mathcal{C}(x,x)$ such that
+        \begin{align*}
+            \mathbf{1}_x \circ f = f,\quad g\circ \mathbf{1}_x = g
+        \end{align*}
+        for all $f,g$.
+        \item composition is associative; $(h\circ g)\circ f = h\circ (g\circ f)$ (when well-defined).
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    A category may be considered as an abstraction of compositions.
+\end{remark}
+
+\begin{example}
+   $\mathbf{Sets}$ denotes the category of all sets and all functions between them.
+\end{example}
+
+\begin{example}
+    $\mathbf{Grps}$ denotes the category of all groups and all homomorphisms between them.
+\end{example}
+
+In a naive approach, we require that $\mathrm{Ob}(\mathcal{C})$ and $\mathrm{Hom}_\mathcal{C}(x,y)$ are sets. Either we allow $\mathrm{Ob}(\mathcal{C})$ and $\mathrm{Hom}_\mathcal{C}(x,y)$ to be classes or introduce the notion of universes. The latter approach seems more standard at least in certain branches of mathematics.
+
+\begin{definition}
+    A set $U$ is called a \emph{universe} if
+    \begin{enumerate}
+        \item $x\in y\in U\implies x\in U$
+        \item $x,y\in U\implies \{x,y\}\in U$
+        \item $x\in U \implies \mathcal{P}(x)\in U$
+        \item For all $I\in U$ and for all $a:I\rightarrow U$, $\bigcup_{i\in I} a_i\in U$.
+    \end{enumerate}
+\end{definition}
+\begin{remark}[Axiom of universes]
+    For any set $A$, there exists a universe $U$ which contains $A$ as an element.
+\end{remark}
+
+From now on, we accept the axiom of universes and fix an uncountable universe $U$.
+
+\begin{definition}
+    We say a set is \emph{$U$-small} (or simply \emph{small}) if it is an element of $U$. Otherwise we say it is \emph{big}.
+\end{definition}
+
+\begin{definition}
+    A category $\mathcal{C}$ is called
+    \begin{enumerate}
+        \item \emph{small} if $\mathrm{Ob}(\mathcal{C})$ is small and $\mathrm{Hom}_\mathcal{C}(x,y)$ are small for all $x,y\in Ob(\mathcal{C})$.
+        \item \emph{locally small} if $\mathrm{Hom}_\mathcal{C}(x,y)$ are small.
+        \item \emph{large} otherwise.
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    All categories will be regarded locally small unless stated otherwise.
+\end{remark}
+
+\begin{example}
+    The collection of all small sets form a locally small category.
+\end{example}
+
+\begin{definition}
+    In a category $\mathcal{C}$, a morphism $\alpha\in\mathrm{Hom}_\mathcal{C}(x,y)$ is an \emph{isomorphism} if there exists $\beta\in\mathrm{Hom}_\mathcal{C}(y,x)$ such that
+    \begin{align*}
+        \alpha\circ \beta = \mathbf{1}_y,\quad \beta\circ\alpha = \mathbf{1}_x.
+    \end{align*}
+\end{definition}
+
+\begin{definition}
+    Let $\mathcal{C}$ be a category. An object $x$ of $\mathcal{C}$ is called \emph{initial} if for every object $y$ of $\mathcal{C}$ there exists a unique morphism from $x$ to $y$. $x$ is called \emph{final} if for every object $y$ of $\mathcal{C}$ there exists a unique morphism from $y$ to $x$.
+\end{definition}
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a category. If $x_1$, $x_2$ are two initial objects, then they are isomorphic. Moreover, the isomorphism is unique.
+\end{proposition}
+\begin{proof}
+    Let $x_1$, $x_2$ be two initial objects in $\mathcal{C}$. Then there exists a unique $\alpha\in\mathrm{Hom}_\mathcal{C}(x_1,x_2)$ and a unique $\beta\in\mathrm{Hom}_\mathcal{C}(x_2,x_1)$. Then, note that \begin{align*}
+        \alpha\circ \beta \in \mathrm{Hom}_\mathcal{C}(x_2,x_2) = \{\mathbf{1}_{x_2}\},\quad \beta\circ \alpha \in \mathrm{Hom}_\mathcal{C}(x_1,x_1) = \{\mathbf{1}_{x_1}\}.
+    \end{align*}
+    Therefore $\alpha$ is a unique isomorphism from $x_1$ to $x_2$ and $\beta$ is a unique isomorphism from $x_2$ to $x_1$. Indeed $x_1$ and $x_2$ are isomorphic.
+\end{proof}
+
+\begin{example}
+    Consider the category $\mathbf{Sets}$. $\emptyset$ is the only initial object in $\mathbf{Sets}$, and every singleton is the final object.
+\end{example}
+
+\begin{example}
+    Consider the category $\mathbf{Grps}$. A trivial group is the unique initial object and the unique final object in the category.
+\end{example}
+
+
+\section{Functors}
+\begin{definition}
+    Let $\mathcal{C},\mathcal{D}$ be categories. A \emph{functor} $F:\mathcal{C}\rightarrow\mathcal{D}$ consists of
+    \begin{enumerate}
+        \item $F:\mathrm{Ob}(\mathcal{C})\rightarrow \mathrm{Ob}(\mathcal{D})$
+        \item $F:\mathrm{Hom}_\mathcal{C}(x,y)\rightarrow \mathrm{Hom}_\mathcal{D}(F(x),F(y))$ for all $x,y\in \mathrm{Ob}(\mathcal{C})$
+    \end{enumerate}
+    satisfying
+    \begin{enumerate}
+        \item $F(\mathbf{1}_x)=\mathbf{1}_{F(x)}$ for all $x\in \mathrm{Ob}(\mathcal{C})$
+        \item $F(\phi_1\circ\phi_2) = F(\phi_1)\circ F(\phi_2)$ for all $\phi_1,\phi_2\in\mathrm{Hom}_\mathcal{C}(\cdot,\cdot)$ (where $\phi_1$ and $\phi_2$ are composable).
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    For categories $\mathcal{C}$ and $\mathcal{D}$, the collection of all functors $\mathbf{Fun}(\mathcal{C},\mathcal{D})$ form a (large) category.
+\end{remark}
+
+\begin{definition}
+    Let $F,G:\mathcal{C}\rightarrow\mathcal{D}$ be two functors. A \emph{natural transformation} $\eta:F\implies G$ consists of commutative diagrams: for all $\alpha\in\mathrm{Hom}_\mathcal{C}(x,y)$,
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        F(x) \arrow[r, "\eta_x"] \arrow[d, "F(\alpha)"'] & G(x) \arrow[d, "G(\alpha)"] \\
+        F(y) \arrow[r, "\eta_y"'] & G(y)
+    \end{tikzcd}
+    \end{figure}
+\end{definition}
+
+\begin{definition}
+    A functor $F$ is an \emph{equivalence} (\emph{natural equivalence}) if there exists a functor $G$ such that
+    \begin{align*}
+        F\circ G \iff \mathbf{1}_\mathcal{D},\quad G\circ F \iff \mathbf{1}_\mathcal{C}.
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    The category of functors $\mathbf{Fun}(\mathcal{C},\mathcal{D})$ has functors $F:\mathcal{C}\rightarrow\mathcal{D}$ as objects and natural transformations as morphisms.
+\end{example}
+
+\begin{example}
+    The category of categories $\mathbf{Cats}$ has categories as objects and functors as morphisms.
+\end{example}
+
+\begin{definition}
+    For a category $\mathcal{C}$, the \emph{opposite category} $\mathcal{C}^\mathrm{op}$ is defined as
+    \begin{align*}
+        \mathrm{Ob}(\mathcal{C}^\mathrm{op}) = \mathrm{Ob}(\mathcal{C}),\quad \mathrm{Hom}_{\mathcal{C}^\mathrm{op}}(x,y) = \mathrm{Hom}_\mathcal{C}(y,x).
+    \end{align*}
+    Let $\mathcal{C}$ be a category and $x\in Ob(\mathcal{C})$. We have a \emph{Hom functor}
+    \begin{align*}
+        h_x : \mathcal{C}^\mathrm{op} &\rightarrow \mathbf{Sets}, \\
+        y&\mapsto \mathrm{Hom}_\mathcal{C}(x,y), \\
+        y_1\stackrel{\phi}{\rightarrow} y_2 &\mapsto \mathrm{Hom}_\mathcal{C}(y_1,x)\stackrel{h_x(\phi)}{\rightarrow} \mathrm{Hom}_\mathcal{C}(y_2,x)
+    \end{align*}
+\end{definition}
+
+\begin{definition}
+    A functor $F:\mathcal{C}^\mathrm{op} \rightarrow \mathbf{Sets}$ is called \emph{representable} if there exists $z\in\mathrm{Ob}(\mathcal{C}^\mathrm{op})$ such that $F\cong h_z$.
+\end{definition}
+
+
+
+
+\section{Products and Limits}
+
+\begin{proposition}[Universal property of product]
+    If $A,B$ are two sets, then $A\times B$ satisfies the universal property
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        & A\times B \arrow[dl] \arrow[dr] & \\
+        A & & B \\
+        & Y \arrow[ul, "\alpha"] \arrow[ur, "\beta"'] \arrow[uu, dashed, "\exists!\ell"] &
+    \end{tikzcd}
+    \end{figure}
+    \noindent We reformulate this in terms of functors
+    \begin{align*}
+        \eta:\mathrm{Hom}_\mathbf{Sets}(Y,A\times B)\rightarrow \mathrm{Hom}_\mathbf{Sets}(Y,A)\times \mathrm{Hom}_\mathbf{Sets}(Y,B)
+    \end{align*}
+    such that $\eta(f) = (\pi_A\circ f,\pi_B\circ f)$. Note that the universal property holds if and only if $\eta$ is a bijection.
+\end{proposition}
+
+\begin{definition}
+    Let $\mathcal{C}$ be a (locally small) category and $x,y\in Ob(\mathcal{C})$. We say $z$ is a \emph{product of $x$ and $y$} if it is given with $\pi_x:z\rightarrow x$, $\pi_y:z\rightarrow y$ such that
+    \begin{align*}
+        \eta_w : \mathrm{Hom}_\mathcal{C}(w,z) &\rightarrow\mathrm{Hom}_\mathcal{C}(w,x)\times\mathrm{Hom}_\mathcal{C}(w,y) \\
+        f &\mapsto (\pi_x \circ f, \pi_y \circ f) 
+    \end{align*}
+    is a bijection for all $w\in Ob(\mathcal{C})$. $\eta_w$ is in fact an isomorphism between two functors
+    \begin{align*}
+        h_z:\mathcal{C}^\mathrm{op} &\rightarrow \mathbf{Sets} \\
+        w &\mapsto \Hom{w}{z}{\mathcal{C}}
+    \end{align*}
+    and
+    \begin{align*}
+        h_x\times h_y : \mathcal{C}^\mathrm{op} &\rightarrow \mathbf{Sets} \\
+        w &\mapsto \Hom{w}{x}{\mathcal{C}} \times \Hom{w}{y}{\mathcal{C}}.
+    \end{align*}
+    In other words, the existence of product $z=x\times y$ is equivalent to the existence of an isomorphism $h_x\times h_y \cong h_z$.
+\end{definition}
+
+\begin{definition}
+    Let objects $x,y,b$ and morphisms $\phi_x:x\rightarrow b,\phi_y:y\rightarrow b$ be given. If the universal property described by the diagram
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        w \arrow[dr, dashed, "\psi" description] \arrow[drr, "p_x"] \arrow[ddr, "p_y"'] & & \\
+        & z \arrow[r, "\pi_x"] \arrow[d, "\pi_y"'] & x \arrow[d, "\phi_x"] \\
+        & y \arrow[r, "\phi_y"'] & b
+    \end{tikzcd}
+    \end{figure}
+    \noindent holds for $z$; if for all $p_x:w\to x$, $p_y:w\to y$ satisfying $\phi_x \circ p_x = \phi_y\circ p_y=\phi_b$ there exists a unique $\psi$ such that $\pi_x\circ \psi = p_x$ and $\pi_y\circ \psi = p_y$, we say $z=x\times_b y$ is a \emph{fibre product}. Consider the following functor
+    \begin{align*}
+        h_x \times_{h_b} h_y : \mathcal{C}^\mathrm{op} &\rightarrow \mathbf{Sets} \\
+        w &\mapsto \{ (p_x,p_y) : p_x\in \Hom{w}{x}{\mathcal{C}},p_y\in\Hom{w}{y}{\mathcal{C}},\phi_x\circ p_x = \phi_y\circ p_y \}.
+    \end{align*}
+    The existence of the fibre product $z=x\times_b y$ is equivalent to the existence of an isomorphism $h_x\times_{h_b} h_y \cong h_z$.
+\end{definition}
+
+\begin{definition}
+    More generally, one can consider the \emph{limit} over general diagrams. Let $\mathcal{I}$ be a small category and $D:\mathcal{I}\rightarrow\mathcal{C}$ be a functor. Then
+    \begin{align*}
+        \lim_{\mathcal{I}}D = z
+    \end{align*}
+    means the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & w \arrow[d, dashed, "\psi" description] \arrow[ddl, "p_i"'] \arrow[ddr, "p_j"] & \\
+            & z \arrow[dl, "\pi_i"] \arrow[dr, "\pi_j"'] & \\
+            D(i) \arrow[rr, "D(t_{ij})"'] & & D(j)
+        \end{tikzcd}
+    \end{figure}
+    \noindent is commutative, commutative for compositions of morphisms in $D(\mathcal{I})$, and satisfies the universal property for all morphisms $t_{ij}:i\rightarrow j$ in $\mathcal{I}$. The existence of $\lim_\mathcal{I}D$ is by definition equivalent to the existence of $z\in\mathrm{Ob(\mathcal{C})}$, $z\stackrel{\pi_i}{\rightarrow} d_i$ for $i\in\mathrm{Ob}(\mathcal{I})$, and $D(t_{ij})\circ \pi_i = \pi_j$ for $t_{ij}\in\Hom{i}{j}{\mathcal{I}}$ such that
+    \begin{align*}
+        h_z \cong \mathrm{Cone}(D) := \{ \mathcal{C}^\mathrm{op}\rightarrow \mathbf{Sets}, w\mapsto \{\Hom{w}{D(i)}{\mathcal{C}} \}_{i\in\mathcal{I}} \}.
+    \end{align*}
+\end{definition}
+\begin{remark}
+    $\lim_\mathcal{I}(D)$ makes sense when $\mathcal{I}$ is empty. If $\lim_\emptyset(D)$ exists, then it is the terminal object in $\mathcal{C}$.
+\end{remark}
+
+\begin{example}
+    Consider the category $\mathcal{I}$:
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        1 \arrow[r, shift left=0.7ex]
+          \arrow[r, shift right=0.7ex]
+          \arrow[loop above]
+        & 2 \arrow[loop above]
+    \end{tikzcd}
+    \end{figure}  
+    \noindent $\lim_\mathcal{I}D = z$ means
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        & y \arrow[d, dashed, "\alpha" description] \arrow[ddl, "\phi_1"'] \arrow[ddr, "\phi_2"] & \\
+        & z \arrow[dl, "\pi_1"] \arrow[dr, "\pi_2"'] & \\
+        d_1 \arrow[rr, shift left=0.7ex, "p"] \arrow[rr, shift right=0.7ex, "q"'] & & d_2
+    \end{tikzcd}
+    \end{figure}
+    \noindent there are two morphisms $\pi_i:z\rightarrow d_i$ such that $p\pi_1 = \pi_2$, $q\pi_1=\pi_2$ and that satisfies the universal property for all $y$ and $\phi_i:y\rightarrow d_i$, $p\phi_1=\phi_2$, $q\phi_1=\phi_2$ and $\exists! \alpha:y\rightarrow z$ with $\phi_i=\pi_i\alpha$. Here, $z$ is called the \emph{equalizer} of $p$ and $q$.
+\end{example}
+
+\begin{definition}
+    A functor is called \emph{continuous} if it preserves limits.
+\end{definition}
+
+\begin{proposition}
+    Let $\mathcal{C}$ be a category. Consider a small category $\mathcal{I}$ and a functor $D : \mathcal{I}\rightarrow\mathcal{C}$. Suppose that $\lim_\mathcal{I} D$ exists. Then for any representable functor $F:\mathcal{C}\rightarrow\mathbf{Sets}$ the limit $\lim_\mathcal{I} F\circ D$ exists; $F$ is continuous.
+\end{proposition}
+\begin{proof}
+    As $F$ is representable, there exists $z\in \mathcal{C}$ such that $F\cong h_z$, where
+    \begin{align*}
+        h_z : \mathcal{C} &\rightarrow \mathbf{Sets} \\
+        x &\mapsto \mathrm{Hom}_\mathcal{C}(x,z), \\
+        (\phi:x_1\rightarrow x_2) &\mapsto (h_z(\phi):\mathrm{Hom}_\mathcal{C}(x_1,z)\rightarrow \mathrm{Hom}_\mathcal{C}(x_2,z)).
+    \end{align*}
+    Consider the commutative diagram below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & w \arrow[d, dashed] \arrow[ddl] \arrow[ddr] \arrow[rrr] & & & F(w) \arrow[d, dashed] \arrow[ddl] \arrow[ddr] &\\
+            & \lim_{\mathcal{I}}D \arrow[dl] \arrow[dr] \arrow[rrr] & & & F(\lim_\mathcal{I}D) \arrow[dl] \arrow[dr] &\\
+            D(i) \arrow[rr] & & D(j) & F(D(i)) \arrow[rr] & & F(D(j))
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $F\cong h_z$, sending the left diagram to the right preserves the universal properties of limits. We conclude that
+    \begin{align*}
+        \lim_{\mathcal{I}}(F\circ D) = F\left(\lim_\mathcal{I} D\right).
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    Every Hom functor is continuous.
+\end{corollary}
+
+
+\section{Yoneda Lemma}
+
+\begin{definition}
+    $\mathrm{Nat}(F_1,F_2)$ denotes the set of all natural transformations from $F_1$ to $F_2$.
+\end{definition}
+
+If there is an isomorphism $F\cong h_z$, then for all $x\in\mathrm{Ob}(\mathcal{C}^\mathrm{op})$ there exists a bijection
+\begin{align*}
+    F(x) \stackrel{\sim}{\longleftarrow} \Hom{x}{z}{\mathcal{C}}
+\end{align*}
+such that
+\begin{figure}[H]
+\centering
+\begin{tikzcd}
+    F(x) \arrow[d, "F(\alpha)"'] & \Hom{x}{z}{\mathcal{C}} \arrow[l, "\sim"'] \arrow[d, "h_z(\alpha)"] \\
+    F(y) & \Hom{y}{z}{\mathcal{C}} \arrow[l, "\sim"]
+\end{tikzcd}
+\end{figure}
+If $z=x$,
+\begin{align*}
+    \Hom{z}{z}{\mathcal{C}} &\stackrel{\eta_z}{\rightarrow} F(z)  \\
+    \mathbf{1}_z &\mapsto \Phi(z, \eta_z).
+\end{align*}
+That is, we have a set function $\mathrm{Nat}(h_z,F)\rightarrow F(z)$. The Yoneda lemma, stated below, asserts that this map is a bijection.
+
+\begin{theorem}[Yoneda lemma]
+    For a given $F:\mathcal{C}^\mathrm{op}\rightarrow\mathbf{Sets}$ and a given $z\in\mathrm{Ob}(\mathcal{C}^\mathrm{op})$, the map $\mathrm{Nat}(h_z,F)\rightarrow F(z)$ is a bijection (between possibly large sets). (That is, $\mathrm{Nat}(h_z,F)\cong F(z)$.)
+\end{theorem}
+\begin{proof}
+    Let $\eta$ be a natural transformation.Consider the following commutative diagram.
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        F(x) & & & \Hom{x}{z}{\mathcal{C}} \arrow[lll, "\eta_x"'] \\
+        & F(\theta)(\alpha) = \eta_x(\theta) & \theta\arrow[l, mapsto] &\\
+        & \alpha \arrow[u, mapsto] & \mathbf{1}_z \arrow[u, mapsto] \arrow[l, mapsto] &\\
+        F(z) \arrow[uuu, "F(\theta)"] & & & \Hom{z}{z}{\mathcal{C}} \arrow[lll, "\eta_z"] \arrow[uuu, "\Hom{\theta}{z}{\mathcal{C}}"']
+    \end{tikzcd}
+    \end{figure}
+    \noindent The natural transformation $\eta$ is completely determined by $\eta_z(\mathbf{1}_z)=\alpha$ as for each $\theta:z\rightarrow x$ we have
+    \begin{align*}
+        \eta_x(\alpha) = F(\theta)(\alpha).
+    \end{align*}
+    Conversely, every element $\alpha\in F(z)$ defines a natural transformation in this way.
+\end{proof}
+
+\begin{corollary}
+    If $\mathrm{Nat}(h_{z_1},h_{z_2}) = h_{z_2}(z_1) = \Hom{z_1}{z_2}{\mathcal{C}}$, then $h_{z_1}\simeq h_{z_2}$ in $\mathbf{Fun}(\mathcal{C}^\mathrm{op},\mathbf{Sets})$ if and only if $z_1\simeq z_2$ in $\mathcal{C}$.
+\end{corollary}
+\begin{remark}
+    This situation is often referred to as: $\lim_{\mathcal{I}}=z$ is well-defined up to unique isomorphism.
+\end{remark}
+
+
+\section{Adjoint functors}
+
+Recall that if $G$ is a group, then we have the associated abelian group $G^\mathrm{ab}:=G/[G,G]$. Then, $G\rightarrow G^\mathrm{ab}$ satisfies
+\begin{figure}[H]
+\centering
+\begin{tikzcd}
+    G \arrow[rr] \arrow[dr] & & G^\mathrm{ab} \arrow[dl, dashed]  \\
+    & A &
+\end{tikzcd}
+\end{figure}
+\noindent for all abelian group $A$. Now, consider the category of groups $\mathbf{Grps}$ and the category of abelian groups $\mathbf{Ab}$. Then there exists a functor
+\begin{align*}
+    F:\mathbf{Grps} &\rightarrow \mathbf{Ab} \\
+    G &\mapsto G^\mathrm{ab}
+\end{align*}
+which maps $\theta:G_1\rightarrow G_2$ to $\phi_\theta:G_1^\mathrm{ab}\rightarrow G_2^\mathrm{ab}$. We also consider the functor $U:\mathbf{Ab}\rightarrow \mathbf{Grps}$, where $U:A\mapsto A$ forgets the property that the multiplication in $A$ is commutative. ($U$ is often called the \emph{forgetful functor}.) Now, the universal property for abelianization amounts to the bijection
+\begin{align*}
+    \Hom{\underbrace{F(G)}_{=G^\mathrm{ab}}}{A}{\mathbf{Ab}} \simeq \Hom{G}{U(A)}{\mathbf{Grps}}.
+\end{align*}
+We say $F$ is the \emph{left adjoint} of $U$ and $U$ is the \emph{right adjoint} of $F$. \\
+
+Now we check that we can derive the functor $U$ from $F$. Let $F$ be given. Fix $G$ and consider $A$ as a variable. Then
+\begin{align*}
+    \Hom{F(G)}{A}{\mathbf{Ab}} \simeq \Hom{G}{U(A)}{\mathbf{Grps}} = h_{U(A)}(G),
+\end{align*}
+and by Yoneda Lemma, $U(A)$ exists up to unique isomorphism if it exists.
+
+\begin{definition}
+    Let $\mathcal{C}$, $\mathcal{D}$ be two categories. A pair of functors $F:\mathcal{C}\rightarrow\mathcal{D}$, $G:\mathcal{D}\rightarrow\mathcal{C}$ is called an \emph{adjoint pair} if for all $x\in\mathrm{Ob}(\mathcal{C})$ and $y\in\mathrm{Ob}(\mathcal{D})$ we have a natural bijection
+    \begin{align*}
+        \Hom{F(x)}{y}{\mathcal{D}} \simeq \Hom{x}{G(y)}{\mathcal{C}}.
+    \end{align*}
+    Here, the term natural means the diagram
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        \Hom{F(x)}{y}{\mathcal{D}} \arrow[r, dash] & \Hom{x}{G(y)}{\mathcal{C}} \\
+        \Hom{F(x')}{y'}{\mathcal{D}} \arrow[r,dash] \arrow[u] & \Hom{x'}{G(y')}{\mathcal{C}} \arrow[u]
+    \end{tikzcd}
+    \end{figure}
+    \noindent commute for all $y'\rightarrow y$ and $x'\rightarrow x$.
+\end{definition}
+
+\begin{example}
+    Consider the functor
+    \begin{align*}
+        U:\mathbf{Grps} &\rightarrow \mathbf{Sets} \\
+        G &\mapsto U(G) := \text{the underlying set of }G.
+    \end{align*}
+    We find the left adjoint $F$ of $U$ satisfying
+    \begin{align*}
+        \Hom{F(X)}{G}{\mathbf{Grps}} \simeq \Hom{X}{U(A)}{\mathbf{Sets}}.
+    \end{align*}
+    Consider the diagram
+    \begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        X \arrow[rr] \arrow[dr] & & F(X) \arrow[dl, dashed, "\exists!"]  \\
+        & G &
+    \end{tikzcd}
+    \end{figure}
+    \noindent The free group $F(X)$ equipped with $X\rightarrow U(F(X))$ provides the left adjoint of $U$.
+\end{example}
+
+\begin{theorem}
+    Let $\mathcal{C}$, $\mathcal{D}$ be categories and let $F:\mathcal{C}\rightarrow\mathcal{D}$ and $G:\mathcal{D}\rightarrow\mathcal{C}$ be an adjoint pair. Let
+    \begin{align*}
+        \varphi=\varphi_{x,y}:\Hom{F(x)}{y}{\mathcal{D}}\rightarrow \Hom{x}{G(y)}{\mathcal{C}}
+    \end{align*}
+    be a bijection.
+    \begin{enumerate}
+        \item There exists a natural transformation $\eta:\mathbf{1}_\mathcal{C}\rightarrow G\circ F$ such that for each object $x$ the arrow $\eta_x$ is universal to $G$ from $x$, while the right adjunct of each $f:F(x)\rightarrow y$ is
+        \begin{align*}
+            \varphi(f) = Gf\circ \eta_x:x\rightarrow G(y).
+        \end{align*}
+        \item There exists a natural transformation $\epsilon:F\circ G\rightarrow \mathbf{1}_\mathcal{D}$ such that each arrow $\epsilon_y$ is universal to $y$ from $F$, while each $g:x\rightarrow G(y)$ has left adjunct
+        \begin{align*}
+            \varphi^{-1}(g)=\epsilon_y\circ Fg : Fx\rightarrow y.
+        \end{align*}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    As $F$ and $G$ are adjoint, there exists a natural bijection
+\begin{align*}
+    \Hom{F(x)}{F(x)}{\mathcal{D}} \simeq \Hom{x}{G(F(x))}{\mathcal{C}}
+\end{align*}
+and one can find a homomorphism $\eta_x:x\rightarrow G(F(x))$ corresponding to $F(x)\rightarrow F(x)$. By Yoneda Lemma, $x\mapsto \eta_x$ is a natural transformation $\mathbf{1}_\mathcal{C}\rightarrow G\circ F$. Conversely, one can find a natural transformation $F\circ G\rightarrow \mathbf{1}_\mathcal{D}$, $(\epsilon_y:F(G(y))\rightarrow y)\mapsto y$.
+\end{proof}
+\begin{remark}
+    $\eta$ is often called the \emph{unit} and $\epsilon$ is often called the \emph{counit} of the adjunction.
+\end{remark}
+
+
+\section{Coproducts and Colimits}
+
+Consider a category with two objects and having only identities as morphisms. If $X_1$, $X_2$ are sets, the disjoint union satisfies the universal property:
+\begin{figure}[H]
+\centering
+\begin{tikzcd}
+    X_1 \arrow[dr] \arrow[ddr] & & X_2 \arrow[dl] \arrow[ddl] \\
+    & X_1 \sqcup X_2 \arrow[d, dashed] & \\
+    & Y &
+\end{tikzcd}
+\end{figure}
+\noindent for all $Y$ with $f_i:X_i\rightarrow Y$ there is a unique $X_1\sqcup X_2$ with
+\begin{align*}
+    \Hom{X_1}{Y}{\mathbf{Sets}} \times \Hom{X_2}{Y}{\mathbf{Sets}} \simeq \Hom{X_1\sqcup X_2}{Y}{\mathbf{Sets}}.
+\end{align*}
+That is,
+\begin{align*}
+    \mathbf{Sets}&\rightarrow \mathbf{Sets} \\
+    Y &\mapsto \Hom{X_1}{Y}{\mathbf{Sets}} \times \Hom{X_2}{Y}{\mathbf{Sets}}
+\end{align*}
+is isomorphic to
+\begin{align*}
+    \mathbf{Sets} &\rightarrow \mathbf{Sets} \\
+    Y &\mapsto \Hom{X_1\sqcup X_2}{Y}{\mathbf{Sets}}.
+\end{align*}
+More generally,
+\begin{align*}
+    h_z^\mathrm{op}:\mathcal{C} &\rightarrow\mathbf{Sets} \\
+    x &\mapsto \Hom{z}{x}{\mathcal{C}}
+\end{align*}
+is a \emph{(co)representable} functor.
+
+\begin{definition}
+    A functor $F:\mathcal{C} \rightarrow \mathbf{Sets}$ is called \emph{representable} if there exists $z\in\mathrm{Ob}(\mathcal{C})$ such that $F\cong h_z^\mathrm{op}$.
+\end{definition}
+
+\begin{definition}
+    Let $\mathcal{C}$ be a (locally small) category and $x,y\in Ob(\mathcal{C})$. We say $z$ is a \emph{coproduct of $x$ and $y$} if it is given with $i_x:x\rightarrow z$, $i_y:y\rightarrow z$ such that
+    \begin{align*}
+        \eta_w : \mathrm{Hom}_\mathcal{C}(z,w) &\rightarrow\mathrm{Hom}_\mathcal{C}(x,w)\times\mathrm{Hom}_\mathcal{C}(y,w) \\
+        f &\mapsto (f\circ i_x, f\circ i_y) 
+    \end{align*}
+    is a bijection for all $w\in Ob(\mathcal{C})$. $\eta_w$ is in fact an isomorphism between two functors
+    \begin{align*}
+        h_z^\mathrm{op}:\mathcal{C} &\rightarrow \mathbf{Sets} \\
+        w &\mapsto \Hom{z}{w}{\mathcal{C}}
+    \end{align*}
+    and
+    \begin{align*}
+        h_x^\mathrm{op}\times h_y^\mathrm{op} : \mathcal{C} &\rightarrow \mathbf{Sets} \\
+        w &\mapsto \Hom{x}{w}{\mathcal{C}} \times \Hom{y}{w}{\mathcal{C}}.
+    \end{align*}
+    In other words, the existence of coproduct $z=x\sqcup y$ is equivalent to the existence of an isomorphism $h_x^\mathrm{op}\times h_y^\mathrm{op} \cong h_z^\mathrm{op}$.
+\end{definition}
+
+
+%\section{Comma categories}
+
+
+
+
+\chapter{Modules}
+
+\section{Review of modules}
+
+We consider every ring to be a ring with unity, unless specified.
+
+\begin{definition}
+    $\mathrm{End}_\Z(M)$ is a collection of homomorphisms from $M$ to itself:
+    \begin{align*}
+        \mathrm{End}_\Z(M) := \{\varphi:M\rightarrow M : \varphi\text{ homomorphism between abelian groups}\}.
+    \end{align*}
+    $\mathrm{End}_\Z(M)$ with operations
+    \begin{align*}
+        (\varphi_1 + \varphi_2)(m) = \varphi_1(m) + \varphi_2(m),\quad \varphi_1\cdot\varphi_2 = \varphi_1\circ \varphi_2
+    \end{align*}
+    is a ring.
+\end{definition}
+
+\begin{example}
+    If $M=\Z^n$, $\mathrm{End}_\Z(\Z^n)$ is the ring of all $n\times n$ matrices with integer entries.
+\end{example}
+
+\begin{definition}
+    An abelian group $M$ equipped with a homomorphism
+    \begin{align*}
+        h:A \rightarrow \mathrm{End}_\Z(M)
+    \end{align*}
+    from a ring $A$ is called a \emph{(left) $A$-module}. If $M$ is an $A$-module, we get a map
+    \begin{align*}
+        A\times M &\rightarrow M \\
+        (a,m) &\mapsto a\cdot m := h(a)(m).
+    \end{align*}
+\end{definition}
+\begin{remark}
+    Our convention for the functions prefer left function.
+\end{remark}
+
+\begin{proposition}
+    Let an abelian group $M$ be an $A$-module for a ring $A$. Then the followings hold for $m,m_1,m_2\in M$ and $a,a_1,a_2\in A$.
+    \begin{enumerate}
+        \item $1\cdot m = m$.
+        \item $0\cdot m = 0$.
+        \item $a(m_1+m_2) = am_1 + am_2$.
+        \item $(a_1+a_2)m=a_1m+a_2m$
+        \item $(a_1a_2)m=a_1(a_2m)$.
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    We may alternatively define a right $A$-module as an abelian group $M$ and a map $M\times A\rightarrow M$ satisfying the similar conditions.
+\end{remark}
+
+\begin{example}
+    Let $A$ be a commutative ring. If $M$ is a left $A$-module, define
+    \begin{align*}
+        M\times A &\rightarrow M \\
+        (m,a) &\mapsto am.
+    \end{align*}
+    Then note that $(a_1a_2)m = (a_2a_1)m$. In fact, this gives a right $A$-module structure for $M$. Hence in the case the base ring is commutative, the notion of left modules and right modules are equivalent.
+\end{example}
+
+\begin{example}
+    Let $A$ be a ring. If $I\in A$ is a left ideal, then $I$ is a left $A$-module. Consider the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A\times A \arrow[r] & A \\
+            A\times I \arrow[u, hook] \arrow[r, dashed] & I \arrow[u, hook]
+        \end{tikzcd}
+    \end{figure}
+    \noindent Similarly, a right ideal $J\subset A$ is a right $A$-module.
+\end{example}
+
+\begin{definition}
+    $N\subset M$ is called a {(left) submodule} if
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A\times M \arrow[r] & M \\
+            A\times N \arrow[u, hook] \arrow[r, dashed] & N \arrow[u, hook]
+        \end{tikzcd}
+    \end{figure}
+\end{definition}
+\begin{remark}
+    If we view a ring $A$ as an $A$-module, then a subset $I\subset A$ is a submodule precisely when it is an ideal.
+\end{remark}
+
+\begin{example}
+    Every abelian group is a $\Z$-module in a unique way. There exists at most one way of choosing $\Z\times M\rightarrow M$:
+    \begin{align*}
+        (k\cdot m) \mapsto \begin{cases}
+            0, & k = 0, \\
+            \underbrace{m+\cdots+m}_k, & k>0, \\
+            -(\underbrace{m+\cdots+m}_{-k}), & k<0.
+        \end{cases}
+    \end{align*}
+    In fact, this gives $M$ a structure of a $\Z$-module.
+\end{example}
+
+\begin{definition}
+    Let $M_1$, $M_2$ be $A$-modules. The map $f:M_1\rightarrow M_2$ is called an \emph{$A$-module homomorphism} if for all $a\in A$ and $m,m_1,m_2\in M$,
+    \begin{enumerate}
+        \item $f(m_1+m_2) = f(m_1) + f(m_2)$,
+        \item $f(am)=a(f(m))$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    $\Z$-module homomorphisms are the homomorphisms between abelian groups.
+\end{example}
+
+\begin{example}
+    If $k$ is a field, then a $k$-module is a vector space over $k$. $k$-module homomorphisms are the linear transformations.
+\end{example}
+
+
+\section{Group of homomorphisms}
+\begin{definition}
+    Suppose $A$ is a domain (ring with no zero divisors). An element $m\in M$ is a \emph{torsion} if there exists $a\in A\setminus\{0\}$ such that $am=0$.
+\end{definition}
+
+\begin{definition}
+    A module $M$ is called \emph{torsion} if its elements are all torsions.
+\end{definition}
+
+\begin{definition}
+    Suppose that $N\subset M$ is a submodule. Then the \emph{quotient} $M/N$ is an $A$-module with $a\overline{m} = \overline{am}$.
+\end{definition}
+
+\begin{example}
+    Let $\mathrm{Hom}_A(M_1,M_2)$ be the set of $A$-module homomorphisms. Then it is an abelian group with respect to
+    \begin{align*}
+        (\varphi_1+\varphi_2)(m) = \varphi_1(m)+\varphi_2(m).
+    \end{align*}
+    If $M_1=M_2=M$, we write $\mathrm{End}_A(M):=\mathrm{Hom}_A(M,M)$. In this case, $\mathrm{End}_A(M)$ becomes a ring (where multiplication is given by composition). If $A$ is commutative, $\mathrm{Hom}_A(M_1,M_2)$ is an $A$-module where
+    \begin{align*}
+        (a\varphi)m = a(\varphi(m)).
+    \end{align*}
+    Note that the commutative condition is necessary; consider
+    \begin{align*}
+        ab(\varphi(m)) = (a\varphi)(bm) = b((a\varphi)m) = ba\varphi(m).
+    \end{align*}
+    More generally, $\mathrm{Hom}_A(M_1,M_2)$ is a module over the center $Z(A)$.
+\end{example}
+
+\begin{definition}
+    If $f:M_1\rightarrow M_2$ is an $A$-module homomorphism, then define
+    \begin{align*}
+        \ker (f) := \{m\in M_1 : f(m)=0\}.
+    \end{align*}
+\end{definition}
+\begin{remark}
+    $\ker(f)$ is a submodule of $M_1$.
+\end{remark}
+
+\begin{definition}
+    Let $N,N'\subset M$ be submodules. Then define
+    \begin{align*}
+        N+N' := \{an+a'n'\in M:a,a'\in A,n\in N,n'\in N'\}.
+    \end{align*}
+\end{definition}
+\begin{remark}
+    In fact, $N+N' = \{n+n':n\in N,n'\in N'\}$.
+\end{remark}
+
+\begin{theorem}[Isomorphism theorems]
+    Let $M_1,M_2$ be $A$-module for a ring $A$.
+    \begin{enumerate}
+        \item If $f:M_1\rightarrow M_2$ is a surjective $A$-homomorphism, then $M_1/\ker(f) \stackrel{\sim}{\rightarrow} M_2$.
+        \item Let $N,N'\subset M$ be submodules. Then
+        \begin{align*}
+            N/(N\cap N') \simeq (N+N')/N'
+        \end{align*}
+        where the map is induced by $N\rightarrow N+N'$.
+        \item Let $M''\subset M'\subset M$ be a chain of submodules. Then
+        \begin{align*}
+            (M/M'') / (M'/M'') \simeq M/M'.
+        \end{align*}
+    \end{enumerate}
+\end{theorem}
+
+\begin{proposition}
+    Let $M_1,M_2$ be $A$-modules. Suppose that $f:M_1\rightarrow M_2$ is injective. Then
+    \begin{align*}
+        0 \rightarrow M_1 \xbigtoto[f]{0} M_2
+    \end{align*}
+    is an equalizer. If $F$ is any continuous functor,
+    \begin{align*}
+        F(0) \rightarrow F(M_1) \xbigtoto[F(f)]{F(0)} F(M_2)
+    \end{align*}
+    is an equalizer.
+\end{proposition}
+
+\begin{corollary}
+    Let $M_1,M_2$ be $A$-modules. Suppose that $f:M_1\rightarrow M_2$ is injective. Then
+    \begin{align*}
+        0\to \Hom{-}{M_1}{A}\xbigtoto[f_*]{0} \Hom{-}{M_2}{A}
+    \end{align*}
+    is an equalizer.
+\end{corollary}
+\begin{proof}
+    Hom functors are continuous.
+\end{proof}
+
+\begin{definition}
+    Let $A$ be a (commutative) ring and let $M$ be an $A$-module. $\mathrm{End}_A(M)$ is the ring of $A$-homomorphisms $M\rightarrow M$. If $A$ is commutative, $\Hom{M_1}{M_2}{A}$ is an $A$-module.
+\end{definition}
+
+\begin{definition}
+    Let $A$ be a commutative ring. The \emph{category of $A$-algebras} consists of
+    \begin{enumerate}
+        \item objects: ring homomorphisms
+        \begin{align*}
+            A\xrightarrow[]{i}R,
+        \end{align*}
+        \item morphisms: ring homomorphisms $\phi:R_1\rightarrow R_2$
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                & R_1 \arrow[dd, "\phi"] \\
+                A\arrow[ur, "i_1"]\arrow[dr, "i_2"'] & \\
+                & R_2
+            \end{tikzcd}
+        \end{figure}
+        \noindent such that $\phi\circ i_1=i_2$.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    $\mathrm{End}_A(M)$ is an $A$-algebra.
+\end{example}
+
+\begin{example}
+    Every ring is a $\Z$-algebra and the category is the same as the category of rings.
+\end{example}
+
+\begin{definition}
+    Let $R$ be an $A$-algebra and $M$ be an $A$-module. A \emph{representation of $R$ on $M$} is an $A$-algebra homomorphism
+    \begin{align*}
+        \rho:R\rightarrow \mathrm{End}_A(M).
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    Take $A=\C$. Let $T:\C^n\rightarrow \C^n$ be a linear transformation. Consider
+    \begin{alignat*}{2}
+        \C[x] &\xrightarrow[]{\rho_T} &&\mathrm{End}_\C(\C^n)=M_n(\C) \\
+        x &\mapsto &&T.
+    \end{alignat*}
+    Then $\rho_T$ is a representation of $\C[x]$ on $\C^n$.
+\end{example}
+
+\begin{definition}
+    Let $S$ be a monoid. Regard $\mathrm{End}_A(M)$ as a multiplicative monoid. A \emph{representation of $S$ on $M$} is a monoid homomorphism $\rho_S:S\rightarrow\mathrm{End}_A(M)$.
+\end{definition}
+
+\begin{proposition}
+    If $\rho_S:S\rightarrow\mathrm{End}_A(M)$ is a monoid homomorphism, then there is a unique $A$-algebra representation
+    \begin{align*}
+        \rho:A[S]\rightarrow \mathrm{End}_A(M)
+    \end{align*}
+    such that $\rho(t)=\rho_S(t)$ for all $t\in S$.
+\end{proposition}
+\begin{proof}
+    Recall the universal property of monoid rings
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A[S]\arrow[rr, dashed, "\exists!\phi"] && R \\
+            & S\arrow[ul, "i"]\arrow[ur, "f"'] &
+        \end{tikzcd}
+    \end{figure}
+    \noindent i.e. for all $A$-algebra $R$ and for all monoid map $S\xrightarrow[]{f}R$ there exists a unique $A$-algebra homomorphism 
+    \begin{align*}
+        \phi:A[S] &\rightarrow R \\
+        \sum a_i s &\mapsto \sum \overline{a}_i f(s)
+    \end{align*}
+    such that $f=\phi\circ i$.
+\end{proof}
+
+\begin{definition}
+
+    If $S=G$ is a group, then a monoid homomorphism $G\rightarrow\mathrm{End}_A(M)$ factors through the group of automorphisms $\mathrm{Aut}_A(M)$ of $M$. So we simply say a \emph{representation of $G$} is a homomorphism $G\rightarrow\mathrm{Aut}_A(M)$.
+\end{definition}
+
+\begin{example}
+    Let $A=\C$, $M=\C^n$ and let $S=G$ be a group. A representation of $G$ on $\C^n$ is $\rho_G:G\rightarrow\mathrm{GL}_n(\C)$.
+\end{example}
+
+
+
+\section{Direct sums and products of modules}
+\begin{definition}
+    Let $\mathcal{I}$ be a discrete category on $X$. (That is, $X=\mathrm{Ob}(\mathcal{I})$, $\mathrm{Mor}(\mathcal{I})=\{\mathrm{id}_x:x\in X\}$.) Let $(M_i)_{i\in I}$ be a family of (disjoint) $A$-modules parametrized by a set $\mathcal{I}$. The \emph{direct product of $(M_i)_{i\in I}$} is $\prod_{i\in I} M_i$ equipped with pointwise addition and scalar product. That is,
+    \begin{align*}
+        (m_i)_{i\in\mathcal{I}} + (m_i')_{i\in\mathcal{I}} &= (m_i+m_i')_{i\in\mathcal{I}} ,\\
+        a\cdot (m_i)_{i\in\mathcal{I}} &= (am_i)_{i\in \mathcal{I}}.
+    \end{align*}
+    The \emph{direct sum of $(M_i)_{i\in\mathcal{I}}$} is
+    \begin{align*}
+        \bigoplus_{i\in I} M_i := \left\{(m_i)_{i\in\mathcal{I}}\in \prod_{i\in I}M_i : m_i=0\text{ for all but finitely many }i\in\mathcal{I}\right\}.
+    \end{align*}
+\end{definition}
+
+\begin{proposition}
+    $\prod_{i\in\mathcal{I}}M_i = \lim_{\mathcal{I}}D$ where
+    \begin{align*}
+        D:\mathcal{I} &\rightarrow \mathrm{Mod}_A \\
+        i &\mapsto M_i.
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Consider the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & N \arrow[d, dashed, "\psi" description] \arrow[dl, "p_i"'] \arrow[dr, "p_j"] & \\
+            M_i & \prod_{i\in I}M_i \arrow[l, "\pi_i"] \arrow[r, "\pi_j"'] & M_j
+        \end{tikzcd}
+    \end{figure}
+    \noindent One can find a unique homomorphism $\psi:N\to \prod_{i\in I}M_i$ satisfying the diagram above;
+    \begin{align*}
+        \psi(n) = \sum_{i\in I} p_i(n).
+    \end{align*}
+\end{proof}
+
+\begin{proposition}
+    $\bigoplus_{i\in\mathcal{I}}M_i = \mathrm{colim}_{\mathcal{I}}D$ where
+    \begin{align*}
+        D:\mathcal{I} &\rightarrow \mathrm{Mod}_A \\
+        i &\mapsto M_i.
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Consider the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & N & \\
+            M_i \arrow[r, "i_i"'] \arrow[ur, "p_i"] & \bigoplus_{i\in I}M_i \arrow[u, dashed, "\psi" description] & M_j \arrow[l, "i_j"] \arrow[ul, "p_j"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent One can find a unique homomorphism $\psi:\bigoplus_{i\in I}M_i\to n$ satisfying the diagram above; for $\sum_{i=1}^k m_i\in\bigoplus_{i\in I} M_i$ where $m_i\in M_i$,
+    \begin{align*}
+        \psi\left(\sum_{i=1}^k m_i\right) = \sum_{i=1}^k p_i(m_i).
+    \end{align*}
+\end{proof}
+
+\begin{example}
+    If $\mathcal{I}$ is finite, then
+    \begin{align*}
+        \bigoplus_{i\in\mathcal{I}}M_i\rightarrow \prod_{i\in \mathcal{I}} M_i
+    \end{align*}
+    is an isomorphism.
+\end{example}
+
+\begin{definition}
+    A sequence of homomorphisms
+    \begin{align*}
+        M_1\xrightarrow{f}M_2\xrightarrow{g}M_3
+    \end{align*}
+    is called \emph{exact at $M_2$} if $\mathrm{Im}(f) = \ker(g)$. A \emph{short exact sequence} is a sequence
+    \begin{align*}
+        0\rightarrow M_1 \rightarrow M_2\rightarrow M_3 \rightarrow 0
+    \end{align*}
+    exact at $M_1$, $M_2$, $M_3$.
+\end{definition}
+
+\begin{definition}
+    A functor from $A$-module to $\Z$-module is called \emph{left exact} if it preserves kernels. More generally, one can define left exact functors from a category of $A$-modules to a category of $B$-modules.
+\end{definition}
+
+\begin{example}
+    $\Hom{N}{\_}{A}$ is left exact.
+\end{example}
+
+\begin{example}
+    Continuous functors with $\mathbf{Ab}$ as its target is left exact.
+\end{example}
+
+\begin{example}
+    For any modules $M'$ and $M''$,
+    \begin{align*}
+        0\rightarrow M' \rightarrow M'\oplus M''\simeq M'\times M'' \rightarrow M''\rightarrow 0
+    \end{align*}
+    is a short exact sequence.
+\end{example}
+
+\begin{definition}
+    The short exact sequence
+    \begin{align*}
+        0\rightarrow M' \rightarrow M\rightarrow M''\rightarrow 0
+    \end{align*}
+    \emph{splits} if
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0 \arrow[r] & M'\arrow[r, "f"] \arrow[d, dash, "\mathrm{id}_{M'}"'] & M\arrow[r, "g"]\arrow[d, "\theta"] & M''\arrow[r]\arrow[d, dash, "\mathrm{id}_{M''}"] & 0 \\
+            0 \arrow[r] & M'\arrow[r, "i"'] & M'\oplus M''\arrow[r, "\phi"'] & M''\arrow[r] & 0 .
+        \end{tikzcd}
+    \end{figure}
+    \noindent That is, there is an isomorphism $\theta:M'\oplus M''$ such that
+    \begin{align*}
+        \theta\circ f = i\circ \mathrm{id}_{M'},\quad \mathrm{id}_{M''}\circ g = \pi\circ \theta.
+    \end{align*}
+\end{definition}
+
+\begin{lemma}[Snake Lemma]
+    Suppose we have
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0 \arrow[r] & M'\arrow[r, "f"] \arrow[d,  "d'"'] & M\arrow[r, "g"]\arrow[d, "d"'] & M''\arrow[r]\arrow[d, "d''"'] & 0 \\
+            0 \arrow[r] & N'\arrow[r, "j"'] & N\arrow[r, "\phi"'] & N''\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent where each row is an exact sequence of $A$-modules, each vertical arrow is an $A$-homomorphism and the two squares commute. Then we have a (long) exact sequence
+    \begin{align*}
+        0\rightarrow \ker d'\rightarrow \ker d\rightarrow \ker d''\rightarrow\mathrm{coker}d'\rightarrow \mathrm{coker}d\rightarrow \mathrm{coker}d''\rightarrow 0.
+    \end{align*}
+\end{lemma}
+\begin{proof}
+    First, consider a diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \ker d_1 \arrow[r] \arrow[d] & \ker d_2 \arrow[d] \\
+            M_1 \arrow[r, "f"] \arrow[d, "d_1"'] & M_2 \arrow[d, "d_2"] \\
+            N_1 \arrow[r, "g"']\arrow[d] & N_2 \arrow[d] \\
+            \mathrm{coker} d_1 \arrow[r] & \mathrm{coker} d_2.
+        \end{tikzcd}
+    \end{figure}
+    \noindent The map $\ker d_1\rightarrow \ker d_2$ can be induced from $f$; if $m_1\in \ker d_1$, then $f(m_1)\in \ker d_2$ as
+    \begin{align*}
+        d_2(f(m_1)) = (d_2\circ f)(m_1) = (g\circ d_1)(m_1) = g(d_1(m_1))=g(0)=0.
+    \end{align*}
+    The map $\mathrm{coker}d_1\rightarrow \mathrm{coker}d_2$ can be defined as $n\mapsto \overline{g(\tilde{n})}$, where $\tilde{n}\in N$ is a representative of $n$. The map is well-defined, as $\tilde{n}$ and $\tilde{n}'$ are two representations of $n$, then $\tilde{n}' = \tilde{n}+d_1(m_1)$ for some $m_1\in M_1$ and
+    \begin{align*}
+        g(\tilde{n}') = g(\tilde{n}+d_1(m_1)) = g(\tilde{n})+g(d_1(m_1)) = g(\tilde{n})+d_2(f(m_1)),
+    \end{align*}
+    which implies $\overline{g(\tilde{n})}=\overline{g(\tilde{n}')}$. \\
+    Now we have a diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0 \arrow[r] & \ker d' \arrow[r]\arrow[d] & \ker d \arrow[r]\arrow[d] & \ker d''\arrow[d] & \\
+            0 \arrow[r] & M'\arrow[r, "f"] \arrow[d,  "d'"'] & M\arrow[r, "g"]\arrow[d, "d"'] & M''\arrow[r]\arrow[d, "d''"'] & 0 \\
+            0 \arrow[r] & N'\arrow[r, "j"']\arrow[d] & N\arrow[r, "\phi"']\arrow[d] & N''\arrow[r]\arrow[d] & 0 \\
+            & \mathrm{coker}d' \arrow[r] & \mathrm{coker}d \arrow[r] & \mathrm{coker} d''\arrow[r] & 0 
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $0\to M'\to M\to M''$ and $N'\to N\to N''\to 0$ are exact, we know that the upper and lower sequences are also exact. \\
+    Now we construct a homomorphism $\delta:\ker d''\rightarrow \mathrm{coker}d'$. Let $m''\in \ker d''$. As $g$ is surjective, there exists $m\in M$ such that $g(m)=m''$. Note that $0=d''(m'')=d''(g(m)) = \phi(d(m))$. As $g(m)\in \ker \phi = \mathrm{Im}j$, there exists $n'\in N'$ such that $j(n')=d(m)$. Define $\delta(m'')=\overline{n'}$. We check that $\delta$ is well-defined. First, if $\overline{n_1'}=\overline{n_2'}\in \mathrm{coker}d'$ for $n_1',n_2'\in N'$, then there exists $m'\in M'$ such that $d'(m')=n_1'-n_2'$. If $j(n_1') =d(m_1)$ and $j(n_2')=d(m_2)$ for $m_1,m_2\in M$, then $d(f(m'))=d(m_1)-d(m_2)$.
+
+    We have constructed a sequence of $A$-homomorphisms
+    \begin{align*}
+        0\rightarrow \ker d'\rightarrow \ker d\rightarrow \ker d''\xrightarrow[]{\delta} \mathrm{coker} d'\rightarrow \mathrm{coker}d \rightarrow \mathrm{coker} d''\rightarrow 0.
+    \end{align*}
+    It remains to show this is exact. To prove the exactness, one should show $\ker \psi = \mathrm{Im}\phi$ for adjacent maps $\phi$ and $\psi$.
+\end{proof}
+\begin{remark}
+    In the complete diagram of snake lemma, the vertical lines also form exact sequences.
+\end{remark}
+
+\begin{proposition}
+    Consider a short exact sequence
+    \begin{align*}
+        0\rightarrow M'\xrightarrow[f]{}M\xrightarrow[g]{}M''\rightarrow 0.
+    \end{align*}
+    The following statements are equivalent.
+    \begin{enumerate}
+        \item The sequence splits.
+        \item $f$ admits a section $\sigma$, i.e. there exists $\sigma:M\rightarrow M'$ such that $\sigma\circ f = \mathrm{id}_{M'}$.
+        \item $g$ admits a section.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    ($1\implies 2,3$) Clear. \\
+    ($2\implies 1$) We show that $M=M'\times M''$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0 \arrow[r] & M'\arrow[r, "f"] \arrow[d, dash, "\mathrm{id}_{M'}"'] & M\arrow[r, "g"]\arrow[d, "\theta"] & M''\arrow[r]\arrow[d, dash, "\mathrm{id}_{M''}"] & 0 \\
+            0 \arrow[r] & M'\arrow[r, "i"'] & M'\times M''\arrow[r, "\phi"'] & M''\arrow[r] & 0 
+        \end{tikzcd}
+    \end{figure}
+    \noindent Define $\theta(m) = (\sigma(m),g(m))$. It remains to show that $\theta$ is an isomorphism. Using snake lemma, we observe that
+    \begin{align*}
+        0\rightarrow 0\rightarrow \ker\theta \rightarrow 0\rightarrow 0\rightarrow \mathrm{coker}\theta \rightarrow 0\rightarrow 0
+    \end{align*}
+    is an exact sequence. Therefore $\ker \theta = \mathrm{coker}\theta = 0$ and $\theta$ is an isomorphism. \\
+    ($3\implies 1$) Similar as above.
+\end{proof}
+
+
+\clearpage
+\section{Abelian categories}
+
+\begin{definition}
+    A category $\mathcal{C}$ is called \emph{additive} if $\Hom{a}{b}{\mathcal{C}}$ is an abelian group and
+    \begin{align*}
+        \Hom{a}{b}{\mathcal{C}}\times \Hom{b}{c}{\mathcal{C}} &\rightarrow \Hom{a}{c}{\mathcal{C}} \\
+        (f,g) &\mapsto g\circ f
+    \end{align*}
+    is bi-additive (Ab1). An additive category $\mathcal{C}$ is called \emph{abelian} if
+    \begin{enumerate}
+        \item $\mathcal{C}$ has all finite products and coproducts (Ab2),
+        \item It has all $\ker$ and $\mathrm{coker}$ (Ab3),
+        \item If $\ker f=0$, then $f=\ker (\mathrm{coker}f)$. If $\mathrm{coker f=0}$, then $f=\mathrm{coker}(\ker f)$. (Ab4)
+    \end{enumerate}
+\end{definition}
+\begin{remark}
+    The notation $\ker f=0\implies f=\ker (\mathrm{coker}f)$ may seem ambiguous, as we are viewing objects as morphisms. 
+\end{remark}
+\begin{remark}
+    Snake lemma holds in an abelian category.
+\end{remark}
+\begin{remark}
+    If $\mathcal{C}$ is an abelian category, then the underlying category $\mathcal{C}$ has a unique additive structure that is abelian.
+\end{remark}
+
+\begin{proposition}
+    The Ab2 condition implies that there exists a unique zero object $0$.
+\end{proposition}
+\begin{proof}
+    (Consider the initial and final objects)
+\end{proof}
+
+\begin{example}
+    Let $A$ be a ring. The category of all $A$-modules $\mathbf{Mod}_A$ is an abelian category.
+\end{example}
+
+\begin{proposition}
+    Let $A$ be a Noetherian category. Then the category of all finitely generated $A$-modules form an abelian category.
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
+
+\begin{example}
+    If $A=k$ is a field, then the category of all finite dimensional $k$-vector spaces form an abelian category.
+\end{example}
+
+\begin{example}
+    The category of free abelian groups is not an abelian category; the cokernel of the map
+    \begin{align*}
+        \Z &\rightarrow \Z \rightarrow \Z/2\Z \\
+        n &\mapsto 2n
+    \end{align*}
+    is not free.
+\end{example}
+
+\begin{example}
+    The category of torsion abelian groups form an abelian category.
+\end{example}
+
+
+
+
+
+\clearpage
+\section{Free modules}
+\begin{definition}
+    Consider the adjoint between a category of $A$-modules and $\mathbf{Sets}$
+    \begin{align*}
+        \Hom{F(X)}{M}{A}\simeq \Hom{X}{U(M)}{\mathbf{Sets}}.
+    \end{align*}
+    We call $F(X)$ a \emph{free module}.
+\end{definition}
+
+\begin{proposition}
+    $F(X)=\bigoplus_{x\in X} Ax$.
+\end{proposition}
+\begin{proof}
+    The map
+    \begin{align*}
+        \sum_{x\in X}a_x x\mapsto \sum_{x\in X} a_x f(x)
+    \end{align*}
+    is well-defined.
+\end{proof}
+
+
+
+
+\section{Projective modules}
+\begin{theorem}\label{Theorem 2.6.1.}
+    For a module $P$ over $A$, the followings are equivalent.
+    \begin{enumerate}
+        \item For all $\pi$, there exists $\tilde{\pi}$ such that $q\circ \tilde{\pi} = \pi$.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                & P \arrow[dl, dashed, "\tilde{\pi}"'] \arrow[d, "\pi"] \\
+                M \arrow[r, "q"'] & M' \arrow[r] & 0
+            \end{tikzcd}
+        \end{figure}
+        \item If $0\rightarrow M'\rightarrow M\rightarrow P\rightarrow 0$ is exact, then it splits.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                0\arrow[r] & M'\arrow[r] & M\arrow[r] & P\arrow[r]\arrow[l, dashed, bend right = 20] & 0
+            \end{tikzcd}
+        \end{figure}
+        \item There exists an $A$-module $M$ such that $P\oplus M$ is free.
+        \item $M\mapsto \Hom{P}{M}{A}$ is exact; if $0\rightarrow M'\rightarrow M\rightarrow M''\rightarrow 0$ is exact, so is
+        \begin{align*}
+            0\rightarrow \Hom{P}{M'}{A}\rightarrow \Hom{P}{M}{A}\rightarrow \Hom{P}{M''}{A}\rightarrow 0.
+        \end{align*}
+    \end{enumerate}
+\end{theorem}
+\begin{remark}
+    For any $N$,
+    \begin{align*}
+        0\rightarrow \Hom{N}{M'}{A}\rightarrow \Hom{N}{M'}{A}\rightarrow \Hom{N}{M''}{A}
+    \end{align*}
+    is exact.
+\end{remark}
+\begin{proof}
+    ($1\implies 2$) Recall that the above sequence splits if $M\rightarrow P$ splits(admits a section); there is $\sigma:P\rightarrow M$ such that $q\circ \sigma=\mathbf{1}_{P}$. Letting $M'=P$ and $\pi=\mathbf{1}_P$ we get $\sigma=\tilde{\pi}$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & & & P \arrow[dl, dashed, "\sigma"'] \arrow[d, "\mathbf{1}_P"] \\
+            0\arrow[r] & M'\arrow[r] & M \arrow[r, "q"'] & P \arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent ($2\implies 3$) Observe that there exists a free $A$-module $F$ and a surjective $A$-homomorphism $F\xrightarrow[]{q}P$. (Let $|P|$ be the underlying set of $P$. Free module on $|P|$, say $F_{P}$, admits a map $F_{|P|}\rightarrow P$, which is surjective.) Let $M=\ker(q)$. Then
+    \begin{align*}
+        0\rightarrow M\rightarrow F\rightarrow P\rightarrow 0
+    \end{align*}
+    is exact. By assumption,
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M\arrow[r]\arrow[d, dash, double] & F\arrow[r]\arrow[d] & P\arrow[r]\arrow[d, dash, double] & 0 \\
+            0\arrow[r] & M\arrow[r] & M\oplus P\arrow[r] & P\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent Therefore $F\simeq M\oplus P$. \\
+    ($3\implies 4$) It suffices to show that if
+    \begin{align*}
+        M\xrightarrow[]{q}M''\rightarrow 0
+    \end{align*}
+    is exact, then
+    \begin{align*}
+        \Hom{P}{M}{A}\xrightarrow[]{q_*}\Hom{P}{M''}{A}\rightarrow 0
+    \end{align*}
+    is exact. First, assume $P$ is free and let
+    \begin{align*}
+        P\simeq \bigoplus_{i\in I} A\cdot e_i.
+    \end{align*}
+    For all $A$-module $N$, we have
+    \begin{align*}
+        \Hom{P}{N}{A}\simeq \Hom{I}{N}{\mathbf{Sets}}.
+    \end{align*}
+    It suffices to show that $\Hom{P}{M}{A}\xrightarrow[]{q_*} \Hom{P}{M''}{A}$ is surjective. Note that $\Hom{I}{M}{\mathbf{Sets}}\xrightarrow[]{\tilde{q_*}} \Hom{I}{M''}{\mathbf{Sets}}$ is surjective as $q$ is surjective as set functions. Therefore $\mathrm{coker}(q_*)=0$. If $P$ is not free, observe the bijection
+    \begin{align*}
+        \Hom{M_1\oplus M_2}{N}{A}\simeq \Hom{M_1}{N}{A}\times \Hom{M_2}{N}{A}.
+    \end{align*}
+    Let $M_P$ be an $A$-module such that $P\oplus M_P$ is free. Take $M_1=P$, $M_2=M_P$ and $P\oplus M_P\simeq \bigoplus_{i\in I} A\cdot e_i$. Then
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \Hom{P\oplus M_P}{M}{A} \arrow[r, "q_*"] \arrow[d, dash, double] & \Hom{P\oplus M_P}{M''}{A} \arrow[r]\arrow[d, dash, double] & 0 \\
+            \Hom{P}{M}{A} \times \Hom{M_P}{M}{A} \arrow[r, "\alpha\times\beta"'] & \Hom{P}{M''}{A}\times \Hom{M_P}{M''}{A} & \\
+            (u,v) \arrow[r, mapsto] & (q\circ u,q\circ v) &
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $\alpha\times\beta$ is surjective, $\alpha$ and $\beta$ are surjective. The surjectivity of $\alpha$ shows that $M\mapsto \Hom{P}{M}{A}$ is exact. \\
+    ($4\implies 1$) Let $q:M\rightarrow M''$ be surjective and let $\pi:P\rightarrow M''$ be a homomorphism. Then
+    \begin{align*}
+        0\rightarrow \ker q\rightarrow M\xrightarrow[]{q} M''\rightarrow 0
+    \end{align*}
+    is exact, and by assumption
+    \begin{align*}
+        0\rightarrow \Hom{P}{\ker q}{A}\rightarrow \Hom{P}{M}{A}\xrightarrow[]{q_*} \Hom{P}{M''}{A}\rightarrow 0
+    \end{align*}
+    is also exact. For $\pi\in\Hom{P}{M''}{A}$, take $\tilde{\pi}$ to be a preimage of $\pi$ along $p_*$. Then $q\circ \tilde{\pi} = q_*(\tilde{\pi})=\pi$.
+\end{proof}
+
+\begin{definition}
+    A module $P$ is called \emph{projective} if $P$ satisfies the conditions of the theorem above.
+\end{definition}
+
+\begin{corollary}
+    A free module is projective.
+\end{corollary}
+\begin{proof}
+    Note that $F\oplus 0$ is free.
+\end{proof}
+\begin{remark}
+    The converse does not hold; there are projective modules that are not free. For example, if $A_1$ and $A_2$ are rings, then $A_1\oplus A_2\simeq A_1\times A_2$ is also a ring. Then the ideals $A_1\times\{0\}$, $\{0\}\times A_2$ of $A_1\times A_2$ satisfy
+    \begin{align*}
+        (A_1\times\{0\})\oplus (\{0\}\times A_2) \simeq A_1\times A_2.
+    \end{align*}
+    $A_1\times A_2$ is free, but $A_1\times \{0\}$ and $\{0\}\times A_2$ are not free.
+\end{remark}
+
+\begin{remark}
+    Finitely generated projective modules over a ring $A$ with short exact sequences form a \emph{Grothendieck group} $K(A)$. It is an additive group generated by finitely generated projective modules and the relations are given by
+    \begin{align*}
+        P=P'\oplus P''\iff 0\rightarrow P'\rightarrow P\rightarrow P'' \rightarrow 0 \iff [P]=[P']+[P''].
+    \end{align*}
+    Let $X$ be a set of all finitely generated projective modules and let $R$ be a set of short exact sequences. Then we have an exact sequence
+    \begin{alignat*}{2}
+        0\rightarrow F_R &\rightarrow F_X&& \rightarrow K_0(A)\rightarrow 0. 
+    \end{alignat*}
+    Such an exact sequence is a standard algebraic way of defining a group from generators and relations. The group $K(A)$ can be understood as a group generated by $X$ with relations $R$, or a quotient group $F_X/\mathrm{Im}(F_R)$. \\
+    We define $K_0(A)$ as $K(A)/\sim$ with the equivalence equation
+    \begin{align*}
+        P\sim P' \iff \exists \text{free }F,F'\text{ s.t. }P\oplus F\simeq P'\oplus F'.
+    \end{align*}
+\end{remark}
+
+
+
+
+
+\section{Injective modules}
+% See Lang Chaper 20
+
+\begin{theorem}
+    For a module $Q$ over $A$, the followings are equivalent.
+    \begin{enumerate}
+        \item For all $\pi$, there exists $\tilde{\pi}$ such that $q\circ \tilde{\pi} = \pi$.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                0\arrow[r] & M'\arrow[r, "q"]\arrow[d, "\pi"'] & M\arrow[dl, dashed, "\tilde{\pi}"] \\
+                & Q &
+            \end{tikzcd}
+        \end{figure}
+        \item If $0\rightarrow I\rightarrow M\rightarrow M''\rightarrow 0$ is exact, then it splits.
+        \item $M\mapsto \Hom{M}{Q}{A}$ is exact.
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{definition}
+    A module $Q$ is called \emph{injective} if $Q$ satisfies the conditions of the theorem above.
+\end{definition}
+\begin{remark}
+    The injective module is the dual of the projective module.
+\end{remark}
+
+\begin{definition}
+    Let $M$ be an abelian group. $M$ is \emph{divisible} if
+    \begin{align*}
+        M &\rightarrow M \\
+        m &\mapsto km
+    \end{align*}
+    is surjective for all $k=1,2,\dots$.
+\end{definition}
+
+\begin{example}
+    $\Q$ and $\Q/\Z$ are divisible. Any finite abelian group is not divisible. $\Z$ is not divisible.
+\end{example}
+
+\begin{proposition}
+    An abelian group is injective if and only if it is divisible.
+\end{proposition}
+\begin{proof}
+    We verify the first condition. Let $Q$ be a divisible abelian group. We identify $M'=i(M)$ and regard $M'\subset M$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M'\arrow[r, "i"]\arrow[d] & M\arrow[dl, dashed] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Let $x\in M\setminus M'$. Consider $N=\langle M',x\rangle$. There are two cases. \\
+    If $kx\notin M'$ for all $k=1,2,\dots$, then $M'\cap \langle x\rangle = 0$. Hence $N=M\oplus \langle x\rangle \simeq M\oplus \Z$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M'\arrow[r, "i"]\arrow[d, "f"'] & N=M'\oplus \Z\arrow[dl, dashed, "\tilde{f}"] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Define $\tilde{f}(n)=f(m')$ where $n=m'+kx$. \\
+    If $kx\in M'$ for some $k\ge 1$, then $kN\subset  M'$. Let $f(kx)=y\in Q$. By divisibility, there exists $\tilde{y}$ such that $k\tilde{y}=y$. Define $\tilde{f}$ so that $\tilde{f}(x)=\tilde{y}$. To verify this, write
+    \begin{align*}
+        N=M'\cup (M'+x)\cup \cdots \cup (M'+(k-1)x).
+    \end{align*}
+    $\tilde{f}$ maps $m'+\ell x$ to $f(m')+\ell\tilde{y}$.\\
+    To extend $f:M'\rightarrow Q$ to $M$ we apply Zorn's Lemma. Consider the set of pairs $(N,f_N)$ where $N\subset M$ and $f_N:N\rightarrow Q$. Define a partial order: $(N_1,f_{N_1})\le (N_2,f_{N_2})$ if $N_1\subset N_2$ and $f_{N_1}(x)=f_{N_2}(x)$ for all $x\in N_1$. We claim that every chain is bounded. For a chain
+    \begin{align*}
+        (N_1,f_{N_1})\le (N_2,f_{N_2})\le \cdots,
+    \end{align*}
+    define $N=\bigcup_{i=1}^\infty N_i\subset M$ and $f_N(x)=f_{N_k}(x)$ where $x\in N_k$. By Zorn's lemma, there exists a maximal element $(M_0,f_{M_0})$. Next we claim that $M_0=M$. If $M_0\subsetneq M$, then choose $x\in M\setminus M_0$. Then $f_{M_0}$ extends to $\langle M_0,x\rangle$, which leads to a contradiction.\\
+    Conversely, consider an injective abelian group $Q$. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & \Z\arrow[r]\arrow[d] & \Q\arrow[dl, dashed] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent For $x\in Q$, define $f:\Z\rightarrow Q$ by $f(1)=x$. Obtain extension $\tilde{f}:\Q\rightarrow Q$. Then $\tilde{f}(\frac{1}{k})\in Q$ satisfies $k\cdot \tilde{f}(\frac{1}{k})=x$.
+\end{proof}
+\begin{remark}
+    If $x\in Q$ has order $r$, we may use
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & \left(\frac{1}{r}\Z\right)/\Z\arrow[r]\arrow[d] & \left(\frac{1}{kr}\Z\right)\Z\arrow[dl, dashed] & \subset \Q/\Z \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+\end{remark}
+
+\begin{proposition}
+    Let $T$ be a divisible abelian group. Consider $\Hom{A}{T}{\Z}$ as an (left) $A$-module.
+    \begin{align*}
+        (a\cdot f)(b) = f(b\cdot a).
+    \end{align*}
+    Then $\Hom{X}{\Hom{A}{T}{\Z}}{A}\simeq \Hom{X}{T}{\Z}$ for any $A$-module $X$.
+\end{proposition}
+\begin{proof}
+    We have an isomorphism
+    \begin{align*}
+        \Psi &\mapsto \left(f:x\mapsto \Psi(x)(1) \right)
+    \end{align*}
+    with an inverse
+    \begin{align*}
+        f \mapsto \left( \Psi: x\mapsto (a\mapsto f(ax))\right).
+    \end{align*}
+\end{proof}
+\begin{remark}
+    These isomorphisms are natural.
+\end{remark}
+
+\begin{proposition}
+    Suppose that $T$ is a divisible abelian group. Then $\Hom{A}{T}{\Z}$ is injective in the category of $A$-modules.
+\end{proposition}
+\begin{proof}
+    It suffices to check that
+    \begin{align*}
+        X\mapsto \Hom{X}{\Hom{A}{T}{\Z}}{A}
+    \end{align*}
+    is exact. Recall that $X\mapsto \Hom{X}{N}{A}$ is left-exact for all $N$, and it remains to show that if $X\rightarrow Y\rightarrow 0$ then
+    \begin{align*}
+        \Hom{Y}{\Hom{A}{T}{\Z}}{A}\rightarrow \Hom{X}{\Hom{A}{T}{\Z}}{A} \rightarrow 0.
+    \end{align*}
+    By our proposition above, it suffices to check
+    \begin{align*}
+        \Hom{Y}{T}{\Z}\rightarrow \Hom{X}{T}{\Z}\rightarrow 0.
+    \end{align*}
+    As $T$ is a divisible abelian group, it is injective. Hence the sequence is exact.
+\end{proof}
+
+\begin{theorem}\label{Theorem 2.7.8.}
+    Let $M$ be an $A$-module. There is an injective $A$-module $I_M$ and an injective $A$-module homomorphism $M\hookrightarrow I_M$. In other words, every module is a submodule of an injective module.
+\end{theorem}
+
+\begin{definition}
+    For an abelian group $M$,
+    \begin{align*}
+        M^\wedge := \Hom{M}{\Q/\Z}{\Z}.
+    \end{align*}
+    $M^\wedge$ is often called a \emph{Pontryagin dual of $M$}.
+\end{definition}
+
+\begin{lemma}
+    $M\rightarrow M^{\wedge}$ is injective.
+\end{lemma}
+\begin{proof}
+    It suffices to show that if $m\in M\setminus\{0\}$, there is $\alpha_m\in M^\wedge$ such that $\alpha_m(m)\neq 0$. Take $m\in M\setminus\{0\}$ and consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \Q/\Z & \\
+            0\arrow[r] & \langle m\rangle \arrow[u, "f"] \arrow[r] & M \arrow[ul, dashed, "\tilde{f}"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent where
+    \begin{align*}
+        f:\langle m\rangle &\rightarrow \Q/\Z 
+    \end{align*}
+    is a homomorphism such that $f(m)\neq 0$. As $\Q/\Z$ is divisible, it is injective as a $\Z$-module. Hence we can find such $\tilde{f}$. Note that $\tilde{f}\in M^\wedge$ is our desiring element.
+\end{proof}
+
+Now we prove our theorem.
+
+\begin{proof}[Proof of Theorem \ref{Theorem 2.7.8.}]
+    Consider a surjective $A$-module homomorphism $F\twoheadrightarrow M^\wedge$, where $F$ is a free $A$-module. Then $M^{\wedge\wedge}\rightarrow F^\wedge$ is an injective $A$-module homomorphism. $F^\wedge$ is injective, as $F\simeq \bigoplus_{i\in I} A$ for some $I$ and $A^\wedge=\Hom{A}{\Q/\Z}{}$ is injective. Now we have
+    \begin{align*}
+        M\hookrightarrow M^\wedge \hookrightarrow M^{\wedge\wedge} \hookrightarrow F^\wedge,
+    \end{align*}
+    and we obtain an injective $A$-module homomorphism $M\hookrightarrow I_M=F^\wedge$.
+\end{proof}
+
+\begin{definition}
+    An abelian category $\mathcal{A}$ has \emph{enough projectives} if any object $M$ admits an epimorphism
+    \begin{align*}
+        P_M\rightarrow M\rightarrow 0
+    \end{align*}
+    where $P_M$ is projective. We say $\mathcal{A}$ has \emph{enough injectives} if any object $M$ admits a monomorphism
+    \begin{align*}
+        0\rightarrow M\rightarrow I_M
+    \end{align*}
+    where $I_M$ is injective.
+\end{definition}
+
+\begin{proposition}
+    $\mathbf{Mod}_A$ has enough projectives and injectives.
+\end{proposition}
+
+
+\section{Dual modules}
+Here we assume that $A$ is commutative. Suppose $M$ is an $A$-module and put
+\begin{align*}
+    M^\vee := \Hom{M}{A}{A}.
+\end{align*}
+Note that $\Hom{M}{A}{A}$ is an $A$-module with respect to
+\begin{align*}
+    (af)(m)=f(am),\quad f\in \Hom{M}{A}{A},a\in A.
+\end{align*}
+
+\begin{example}
+    Let $A=k$ be a field. Then $M^\vee$ is the same as the dual vector space in linear algebra.
+\end{example}
+
+\begin{proposition}
+    If $E$ is a free $A$-module of finite rank, then
+    \begin{align*}
+        E&\rightarrow E^{\vee\vee} \\
+        m&\mapsto (\phi\mapsto \phi(m))
+    \end{align*}
+    is an isomorphism of $A$-modules.
+\end{proposition}
+\begin{proof}
+    Let $E$ be of rank $r$ and fix a basis for $E$;
+    \begin{align*}
+        X=\{e_1,\dots,e_r\}\subset E,\quad E\simeq \bigoplus_{i=1}^r Ae_i.
+    \end{align*}
+    We first claim that $E^\vee$ is free of rank $r$. Let
+    \begin{align*}
+        e_i^\vee : E&\rightarrow A \\
+        \sum_{j=1}^r a_je_j &\mapsto a_i.
+    \end{align*}
+    It is clear that $e_i^\vee$ is a homomorphism. It suffices to show that
+    \begin{align*}
+        E^\vee\simeq \bigoplus_{i=1}^r Ae_i^\vee.
+    \end{align*}
+    First, if $\phi\in E^\vee$, then $\phi=\sum_{i=1}^r \phi(e_i)e_i^\vee$. So
+    \begin{align*}
+        E^\vee=\langle e_1^\vee,\dots,e_r^\vee\rangle
+    \end{align*}
+    If $\phi\in Ae_i^\vee$, then $\phi(e_j)\neq 0$ for all $j\neq i$. If $\phi\in \langle e_1^\vee,\dots,e_{i-1}^\vee,e_{i+1}^\vee,\dots,e_r^\vee\rangle$, then $\phi(e_i)=0$. Hence
+    \begin{align*}
+        Ae_i^\vee \cap \langle e_1^\vee,\dots,e_{i-1}^\vee,e_{i+1}^\vee,\dots,e_r^\vee\rangle = 0.
+    \end{align*}
+    Now we prove that $Ae_i^\vee\simeq A$ for each $i$, or that
+    \begin{align*}
+        A&\rightarrow Ae_i^\vee \\
+        a&\mapsto ae_i^\vee
+    \end{align*}
+    is an isomorphism. The surjectivity is clear, and the injectivity comes from
+    \begin{align*}
+        ae_i^\vee =0 &\implies (ae_i^\vee)(m)=0\quad \forall m\in E \\
+        &\implies (a(e_i^\vee))(e_i) = a=0.
+    \end{align*}
+    Now we know that $E^\vee$ is free of rank $r$, and that $E^{\vee\vee}$ is also free of rank $r$. Finally, note that
+    \begin{align*}
+        e_i^{\vee\vee}\left( \sum_{j=1}^r a_j e_j^\vee \right) = a_i = \left( \sum_{j=1}^r a_j e_j^\vee \right)(e_i).
+    \end{align*}
+    Therefore the given mapping is an isomorphism.
+\end{proof}
+
+\begin{remark}
+    If $A$ is a ring, there is a two-sided maximal ideal. If $
+    M\subset A$ is maximal, then $A/M$ is a field. If $J\subset A$ is a two-sided ideal, then $M/JM$ is a $A/J$-module. From these facts, we get
+    \begin{align*}
+        E\simeq \bigoplus Ae_i \implies E/ME\simeq \bigoplus (A/M)\overline{e}_i.
+    \end{align*}
+    As the rank of a vector field is well-defined. we obtain that the rank of a free module is well-defined.
+\end{remark}
+
+\begin{theorem}
+    If $U,V,W$ are finite free modules and
+    \begin{align*}
+        0\to U\to V\to W\to 0
+    \end{align*}
+    is exact, then
+    \begin{align*}
+        0\to U^\vee \to V^\vee \to W^\vee \to 0
+    \end{align*}
+    is also exact.
+\end{theorem}
+\begin{proof}
+    Note that every free module is projective.
+\end{proof}
+
+
+\clearpage
+\section{Modules over principal rings}
+\begin{definition}
+    A commutative domain $A$ is called a \emph{principal ring} (or a \emph{principal ideal domain}, or simply a \emph{PID}) if every ideal of $A$ is of the term $aA$ for some $a\in A$.
+\end{definition}
+
+\begin{example}
+    $\Z$ is a PID. For a field $k$, $k[t]$ is a PID. $\Z[t]$ and $k[t_1,t_2]$ are not PIDs.
+\end{example}
+
+In this section, our goal is to study the properties about finitely generated abelian groups ($\Z$-modules) and extend to finitely generated modules over principal rings.
+
+\begin{theorem}
+    Let $F$ be a free module of finite rank over $A$. Then every submodule of $F$ is free.
+\end{theorem}
+\begin{proof}
+    Let $F=\bigoplus_{i=1}^r Ax_i$ and let $M\subset F$ be a submodule. Consider
+    \begin{align*}
+        M_k = M\cap \langle x_1,\dots,x_k\rangle.
+    \end{align*}
+    We claim that $M_k$ is free over $A$. First, $M_1=M\cap Ax_1\subset Ax_1\simeq A$. Hence $M\cap Ax_1$ is isomorphic to a submodule of $A$, or an ideal $cA$ of $A$. If $c=0$, then $M_1=0$ is free of rank $0$. If $c\neq 0$, since $A$ is a commutative domain, $cA$ is isomorphic to $A$ and is a free $A$-module. \\
+    Now suppose $M_r$ is free. Consider
+    \begin{align*}
+        0\to M_r \to M_{r+1} \to M_{r+1}/M_r \to 0.
+    \end{align*}
+    If $M_{r+1}/M_r$ is free, then it is projective and the exact sequence splits. Hence $M_{r+1}\simeq M_r\oplus (M_{r+1}/M_r)$ and $M_{r+1}$ is also free. Now we prove that $M_{r+1}/M_r$ is free. We have a map
+    \begin{align*}
+        M_{r+1}/M_r\rightarrow A
+    \end{align*}
+    given by the projection onto the ($r+1$)-th coordinate.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            M_{r+1} \arrow[r, hook] \arrow[dr, "q_{r+1}"'] & F \arrow[d, "\pi_{r+1}"] \\
+            & A
+        \end{tikzcd}
+    \end{figure}
+    \noindent Since $q_{r+1}(M_r)=0$, $q_{r+1}$ induces a map
+    \begin{align*}
+        f_{r+1}:M_{r+1}/M_r\to A.
+    \end{align*}
+    If $f_{r+1}(\overline{m})=0$ for $\overline{m}\in M_{r+1}/M_r$, then we may write
+    \begin{align*}
+        m=\sum_{i=1}^{r+1}a_ix_i,\quad a_{r+1}=0.
+    \end{align*}
+    This implies $m\in M_r$ and $\overline{m}=0$. Hence $f_{r+1}$ is injective. Since $f_{r+1}$ is injective,
+    \begin{align*}
+        M_{r+1}/M_r \xrightarrow[]{\sim} \mathrm{Im}(f_{r+1})\subset A.
+    \end{align*}
+    As $A$ is a principal ideal domain, $\mathrm{Im}(f_{r+1})$ is isomorphic to $0$ or $A$, which implies that $M_{r+1}/M_r$ is free.
+\end{proof}
+
+\begin{corollary}
+    Suppose that $E'\subset E$ is a submodule of a finitely generated $A$-module $E$. Then $E'$ is finitely generated.
+\end{corollary}
+\begin{proof}
+    Since $E$ is finitely generated, there is a surjective homomorphism $F\to E$ for some free $A$-module of finite rank. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            F'\arrow[r, "\pi"]\arrow[d] & E'\arrow[d, hook] \\
+            F\arrow[r, "\pi"'] & E
+        \end{tikzcd}
+    \end{figure}
+    \noindent $F'=\pi^{-1}(E')\subset F$ is free of finite rank by our theorem, and $E'$ is finitely generated.
+\end{proof}
+
+\begin{definition}
+    Let $M$ be an $A$-module. An element $m\in M$ is \emph{torsion} if $am=0$ for some $a\neq 0$.
+\end{definition}
+
+\begin{proposition}
+    $M_\mathrm{tor} :=\{m\in M:m\text{~torsion}\}\subset M$ is a submodule.
+\end{proposition}
+\begin{proof}
+    If $a_1m_1=a_2m_2=0$ with $a_1,a_2\neq 0$, then $(a_1a_2)(m_1+m_2)=0$ with $a_1a_2\neq 0$. If $am=0$, then for any $b\in A$ we have $a(bm)=0$. Therefore the set of torsions form a submodule of $M$.
+\end{proof}
+
+\begin{definition}
+    An $A$-module $M$ is called \emph{torsion} if $M=M_\mathrm{tor}$.
+\end{definition}
+
+\begin{proposition}
+    A finitely generated torsion free module over a PID is free.
+\end{proposition}
+\begin{proof}
+    Let $M$ be a finitely generated torsion free module over a PID and let $x_1,\dots,x_n$ be generators. Take a maximal linearly independent subset
+    \begin{align*}
+        \{y_1,\dots,y_r\}\subset \{x_1,\dots,x_n\}
+    \end{align*}
+    so that $\sum_i a_iy_i=0$ implies $a_i=0$ for all $i$. That is, $\langle y_1,\dots,y_r\rangle\subset M$ is free of rank $r$. Write
+    \begin{align*}
+        \{x_1,\dots,x_n\} = \{y_1,\dots,y_r\}\sqcup \{z_1,\dots,z_{n-r}\}.
+    \end{align*}
+    For $i\in \{1,\dots,n-r\}$, $\{y_1,\dots,y_r,z_i\}$ is linearly dependent over $A$ and
+    \begin{align*}
+        \sum_{j=1}^r a_jy_j + b_iz_i = 0.
+    \end{align*}
+    with not all of $a_j$'s and $b_i$ are zero. Here we know that $b_i\neq 0$. That is, for each $z_i$, there exists $b_i\in A\setminus\{0\}$ such that
+    \begin{align*}
+        b_iz_i\in\langle y_1,\dots,y_r\rangle = F.
+    \end{align*}
+    Consider $b=b_1\cdots b_{n-r}$. Then $bz_i\in F$ for all $i$ and we obtain
+    \begin{align*}
+        bM\subset F\subset M.
+    \end{align*}
+    Since $M$ is torsion-free, $M\to bM$ is an isomorphism. Therefore $bM\simeq F\simeq M$ is free.
+\end{proof}
+
+\begin{theorem}[Structure theorem for finitely generated modules over a PID]
+    Let $E$ be a finitely generated $A$-module. Then $E/E_\mathrm{tor}$ is free. In particular, $E\simeq E_\mathrm{tor}\oplus F$ where $F$ is free of finite rank.
+\end{theorem}
+\begin{proof}
+    First, we observe that $E/E_\mathrm{tor}$ is torsion-free. If $\overline{m}\in E/E_\mathrm{tor}$ is torsion, then $am\in E_\mathrm{tor}$ and $a'(am)=0$, which implies $m\in E_\mathrm{tor}$. Also, as $E$ is finitely generated, we know that $E/E_\mathrm{tor}$ is also finitely generated. By our proposition above, $E/E_\mathrm{tor}$ is free.
+\end{proof}
+
+Now, we observe $E_\mathrm{tor}$.
+
+\begin{definition}
+    We fix a set
+    \begin{align*}
+        \mathcal{P} := \{p:p\text{ irreducible in }A\}
+    \end{align*}
+    or representatives for
+    \begin{align*}
+        \{p:p\text{ irreducible in }A\}/(p_1\sim p_2 \iff p_1=up_2\text{ for some }u\in A^*).
+    \end{align*}
+    For a torsion $A$-module $E$, we say $m\in E$ is \emph{$p$-primary} when $p^rm=0$ for some $r\ge0$.
+\end{definition}
+
+\begin{proposition}
+    $E(p):=\{m\in E:m\text{ }p\mathrm{-primary}\}$ is a submodule of $E$.
+\end{proposition}
+\begin{proof}
+    If $p^{r_1}m_1=0$ and $p^{r_2}m_2=0$, then $p^{r_1+r_2}(m_1+m_2)=0$. If $p^r m=0$, for all $b\in A$ we have $p^r(bm)=0$.
+\end{proof}
+
+\begin{theorem}
+    Suppose $E$ is a finitely generated torsion module. Then
+    \begin{align*}
+        E = \bigoplus_{p\in \mathcal{P}}E(p).
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    First we observe that $E(p)=0$ for all but finitely many $p$'s. Let $E=\langle x_1,\dots,x_n\rangle$. Then there exists $a_i\neq 0$ such that $a_ix_i=0$. Let $a=a_1\cdots a_n$. If $(p,a)=1$, then
+    \begin{align*}
+        E&\to E \\
+        m&\mapsto pm
+    \end{align*}
+    is an isomorphism. Hence $E(p)=0$. That is, $E(p)\neq 0$ only if $p|a$. As $A$ is a PID, it is a UFD and there exists only finitely many $p\in \mathcal{P}$ dividing $a$. \\
+    Let $p_1,\dots,p_k$ be the irreducible elements in $\mathcal{P}$ such that $E(p_i)\neq 0$. Consider an exact sequence
+    \begin{align*}
+        0\to E(p_i) \to E\to E/E(p_i)\to 0.
+    \end{align*}
+    For $q\in \mathcal{P}$,
+    \begin{align*}
+        (E/E(p_i))(q) = \begin{cases}
+            E(q), & q\in \{p_1,\dots,p_k\}, \\
+            0, & \text{otherwise.}
+        \end{cases}
+    \end{align*}
+    We claim that $E(p_i)\hookrightarrow E$ has a section $E\to E(p_i)$. Choose $r_i\ge 0$ such that $p_i^{r_i}E(p_i)=0$. Take $b=p_2^{r_2}\cdots p_k^{r_k}$. We can find $u,v\in A$ such that
+    \begin{align*}
+        up_1^{r_1}+vb = 1.
+    \end{align*}
+    Let
+    \begin{align*}
+        f:E&\to E \\
+        m&\mapsto (vb)m.
+    \end{align*}
+    As $p_1^{r_1}bm = 0$, $p_1^{r_1}(vbm)$... Hence $\mathrm{Im}(f)= E(p_1)$. Also, if $p_1^{r_1}m=0$, $f(m)=m$ and
+    \begin{align*}
+        (vb)(m)=(1-up_1^{r_1})m=m.
+    \end{align*}
+    Hence $f:E\to E(p_1)$ is an inverse of an inclusion map $E(p_1)\to E$. This implies that the exact sequence above splits. Hence $E=E(p_1)\oplus E/E(p_1)$, and inductively we obtain the result.
+\end{proof}
+
+\begin{corollary}
+    Suppose $E$ is a finitely generated torsion module. Then
+    \begin{align*}
+        E = \bigoplus_{i=1}^kE(p_i).
+    \end{align*}
+    for some $p_1,\dots,p_k\in \mathcal{P}$.
+\end{corollary}
+
+\begin{definition}
+    For $x\in E=E(p)$, the \emph{exponent} of $x$ is the minimal $r$ such that $p^r x = 0$.
+\end{definition}
+
+\begin{example}
+    If $E=A/p^k$, the exponent of $x\in E\setminus pE$ is $k$ and the exponent of $x\in pE\setminus p^2E$ is $k-1$.
+\end{example}
+
+\begin{theorem}
+    Let $E=E(p)$ be a finitely generated $p$-primary $A$-module. Then
+    \begin{align*}
+        E\simeq \bigoplus_{i=1}^k A/p^{t_i}
+    \end{align*}
+    for a unique sequence $t_1\le \cdots\le t_k$.
+\end{theorem}
+\begin{proof}
+    As $E$ is finitely generated, we can find $x_0\in E$ such that the exponent of $x_0$ is maximal. Then we have an exact sequence
+    \begin{align*}
+        0\to \langle x_0\rangle \to E\to E/\langle x_0\rangle \to 0.
+    \end{align*}
+    We claim that the sequence splits. Let $r$ be an exponent of $x_0$ and let $A_r=A/p^r$. Then the sequence above is a short exact sequence of $A_r$-modules. Also note that $\langle x_0\rangle \simeq A_r$; construct
+    \begin{align*}
+        f:A_r &\to \langle x_0 \rangle \\
+        1&\mapsto x_0.
+    \end{align*}
+    Then $\ker f = 0$. Now we show that $\langle x_0\rangle\simeq A_r$ is injective as $A_r$-module; it suffices to test the injectivity on ideals.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \langle x_0\rangle \\
+            0\arrow[r] & I\arrow[r]\arrow[u] & A_r \arrow[ul, dashed]
+        \end{tikzcd}
+    \end{figure}
+    \noindent The ideals of $A_r$ are $(0),(p^{r-1}),\dots,(p),(1)$. Consider the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \langle x_0\rangle \simeq A_r\\
+            0\arrow[r] & (p^{r-j})\arrow[r]\arrow[u, "\varphi"] & A_r \arrow[ul, dashed]
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $\varphi(p^{r-j})=p^{r-j}b$ for some $b$, we can find a unique $\psi:A_r\rightarrow A_r$ which maps $1$ to $b$. \\
+    Now we use induction. Let $E$ be a finitely generated torsion $A$-module. There exists a sequence
+    \begin{align*}
+        0\subset E_1\subset\cdots\subset E_n=E
+    \end{align*}
+    such that $E_{i+1}/E_i$ is simple(there are no submodules other than $0$ and itself) for all $i$. Define $\mathrm{length}(E)$ to be the length of the sequence above. By Jordan-H\"older theorem, the length is well-defined. We proceed by induction on $\mathrm{length}(E)$; the short exact sequence
+    \begin{align*}
+        0\to E'\to E\to E'' \to 0
+    \end{align*}
+    implies $\mathrm{length}(E)=\mathrm{length}(E')+\mathrm{length}(E'')$. Doing the induction with respect to the length, we obtain the result.
+\end{proof}
+
+\begin{theorem}[The case of general finitely generated torsion $A$-modules]
+    Let $E$ be a finitely generated $A$-module. Then
+    \begin{align*}
+        E \simeq \bigoplus_{i=1}^k A/q_i
+    \end{align*}
+    for some $q_1|q_2|\cdots|q_k$. Moreover, such $q_i$'s are uniquely determined by $E$.
+\end{theorem}
+\begin{remark}
+    This is a generalization of the fundamental theorem of finitely generated abelian groups.
+\end{remark}
+
+
+\section{Euler-Poincare maps}
+
+\begin{definition}
+    Let $V$ be an abelian group and $A$ be a ring. Consider
+    \begin{align*}
+        \varphi:\{\text{isomorphism classes of certain $A$-nodules}\}\to V.
+    \end{align*}
+    If
+    \begin{align*}
+        0\to M'\to M\to M''\to 0 \implies \varphi(M)=\varphi(M')+\varphi(M''),
+    \end{align*}
+    then we say $\varphi$ is an \emph{Euler-Poincare map}.
+\end{definition}
+
+\begin{example}
+    Let $M$ be a finite $A$-module (finite as sets). Then $\varphi(M)=\# M$ with $V=(\Q^\times,\times)$ is an Euler-Poincare map.
+\end{example}
+
+\begin{example}
+    Let $M$ be a finite dimensional vector space over a field $k$. Then $\varphi(M)=\mathrm{dim}_k M$ with $V=(\Z,+)$ is an Euler-Poincare map.
+\end{example}
+
+\begin{example}
+    Let $M$ be a module of finite length. Then $\varphi(M)=\mathrm{length}(M)$ is an Euler-Poincare map.
+\end{example}
+
+
+\clearpage
+\section{Direct limits and inverse limits}
+
+\begin{definition}
+    A \emph{direct system of indices} (also known as a \emph{directed set}) is a poset(partially ordered set) $(I,\le)$ such that for every $i,j\in I$ there exists $k\in I$ such that $i\le k$ and $j\le k$.
+\end{definition}
+
+\begin{example}
+    $(\Z,\le)$ is a direct system of indices. Generally, every totally ordered set is a direct system of indices.
+\end{example}
+
+\begin{example}
+    Let $X$ be a topological space and $x\in X$ a fixed point. Let $I$ be a collection of neighborhoods of $x$ and define $U\le V$ if and only if $V\subset U$. Then if $U,V\in I$, then $U\cap V\in I$. Therefore $(I,\le)$ is a directed system of indices.
+\end{example}
+
+\begin{example}
+    Let $M$ be a module (over $A$). Let
+    \begin{align*}
+        I=\{N\subset M:N\text{ finitely generated submodule}\},\quad N_1\le N_2\iff N_1\subset N_2.
+    \end{align*}
+    Then $(I,\le)$ is a directed system of indices; note that $N_1+N_2\in I$.
+\end{example}
+
+\begin{definition}
+    Let $I$ be a directed system of indices. A \emph{direct limit} is a colimit over $I$. An \emph{inverse limit} is a limit over $I$.
+\end{definition}
+
+\begin{example}
+    Let $X$ be a topological space and let $x_0\in X$. Let
+    \begin{align*}
+        I=\{U:U\subset X\text{ open}, x_0\in U\},\quad U\le V\iff U\supset V.
+    \end{align*}
+    Let
+    \begin{align*}
+        \mathcal{O}_X(U)=\{f:U\to\R:f\text{ continuous}\}.
+    \end{align*}
+    The $U\le V$ implies a mapping
+    \begin{align*}
+        \mathcal{O}_X(U) &\to\mathcal{O}_X(V) \\
+        f &\mapsto f|_V.
+    \end{align*}
+    Then we obtain a direct limit as below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \varinjlim_{I}\mathcal{O}_X=\mathrm{colim}_I \mathcal{O}_X & \\
+            \mathcal{O}_X(U) \arrow[ur]\arrow[rr] & & \mathcal{O}_X(V) \arrow[ul]
+        \end{tikzcd}
+    \end{figure}
+    \noindent Such a direct limit is called a \emph{germ of functions}.
+\end{example}
+
+\begin{example}
+    Let $D:n\mapsto \Z/n\Z$ and let
+    \begin{align*}
+        I=\{n\Z:n\in\N\},\quad n_1\Z\le n_2\Z \iff n_1|n_2\iff n_1\Z\supset n_2\Z.
+    \end{align*}
+    We have a limit satisfying the diagram below for all $n_1|n_2$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \varprojlim_{I}D=\lim_I D \arrow[dl]\arrow[dr] & \\
+            \Z/n_1 & & \Z/n_2 \arrow[ll]
+        \end{tikzcd}
+    \end{figure}
+    \noindent Such an inverse limit is called a \emph{profinite completion of $\Z$} and is denoted by $\hat{\Z}$. I
+\end{example}
+
+\begin{theorem}
+    In the category of all modules over $A$, direct and inverse limit exists.
+\end{theorem}
+\begin{remark}
+    It is a special case of ``products and equalizers implies limits".
+\end{remark}
+\begin{proof}
+    We first prove for the case of direct limits. Let $I\xrightarrow{D}\mathcal{C}$ be a diagram, where $I$ is a directed set and $\mathcal{C}$ is a category of all $A$-modules. Consider
+    \begin{align*}
+        \bigoplus_{i\in I} D(i).
+    \end{align*}
+    If $D(i)\xrightarrow[]{\varphi^i_j}D(j)$, then
+    \begin{align*}
+        x_i-\varphi^i_j(x_i)\in \bigoplus_{i\in I} D(i)
+    \end{align*}
+    for $x_i\in D(i)$. Consider
+    \begin{align*}
+        N=\langle x_i-\varphi^i_j(x_i):i,j\in I,x_i\in D(i)\rangle.
+    \end{align*}
+    We claim that
+    \begin{align*}
+        \bigoplus_{i\in I} D(i)/N=\varinjlim_I D.
+    \end{align*}
+    Consider the diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & M & \\
+            & \bigoplus_{i\in I} D(i)/N \arrow[u, dashed] & \\
+            D(i) \arrow[rr, "\varphi^i_j"']\arrow[ur]\arrow[uur, "f_i"] & & D(j) \arrow[ul]\arrow[uul, "f_j"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent Let $f:\bigoplus_{i\in I} D(i)\to M$. Note that $f_i=f_j\circ\varphi^i_j$ implies $f(x_i-\varphi^i_j(x_i))=0$. As $N\subset \ker f$, we have a map $g:\bigoplus_{i\in I}D(i)/N\to M$. \\
+    For inverse limits, let
+    \begin{align*}
+        L=\left\{(x_i)_{i\in I}\in\prod_i D(i):\varphi^i_j(x_i)=x_j\text{ for all }\varphi^i_j\right\}.
+    \end{align*}
+    We claim that $L=\varprojlim_I D$. Let $f:M\to \prod_i D(i)$. It suffices to show that $\mathrm{Im}(f)\subset L$.
+\end{proof}
+
+\begin{example}
+    The direct limit of the finite subgroups of $\Q/\Z$ is
+    \begin{align*}
+        \varinjlim(\text{finite subgroups of }\Q/\Z)=\Q/\Z.
+    \end{align*}
+    Direct limit does not exist in the category of all finite abelian groups.
+\end{example}
+
+\begin{proposition}
+    Let $M',M,M'':I\to\mathcal{C}$ be three directed system of modules. If
+    \begin{align*}
+        0\to M_i'\to M_i\to M_i''\to 0,
+    \end{align*}
+    then
+    \begin{enumerate}
+        \item $0\leftarrow \varprojlim M_i' \leftarrow \varprojlim M_i \leftarrow \varprojlim M_i''$,
+        \item $0\to \varinjlim M_i' \to \varinjlim M_i \to \varinjlim M_i'' \to 0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item It suffices to show that $\varprojlim$ preserves kernels. In fact, all limits preserve kernels.
+    \end{enumerate}
+\end{proof}
+
+
+
+
+
+%\clearpage
+%\section{Vector spaces}
+
+
+
+
+
+\chapter{Tensor Product}
+
+\section{Tensor product and basic properties}
+\begin{definition}
+    Let $A$ be a commutative ring and let $M,N$ be $A$-modules. For an $A$-module $Y$, a map $M\times N\xrightarrow[]{\phi}Y$ is called \emph{$A$-bilinear} if
+    \begin{enumerate}
+        \item for all $m\in M$, $n\mapsto \phi(m,n)$ is $A$-linear ($A$-homomorphism),
+        \item for all $n\in N$, $m\mapsto \phi(m,n)$ is $A$-linear.
+    \end{enumerate}
+    We form a functor
+    \begin{align*}
+        \mathbf{Mod}_A &\to \mathbf{Sets} \\
+        Y &\mapsto B(M,N)(Y)=\{M\times N\xrightarrow[]{\phi}Y:\phi\text{ bilinear}\} \\
+        (Y\to Y') &\mapsto (B(M,N)(Y)\to B(M,N)(Y')).
+    \end{align*}
+\end{definition}
+
+\begin{definition}
+    $M\otimes_A N$ is an $A$-module which represents $B(M,N)$. That is,
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            B(M,N)(Y) \arrow[r, "\sim"]\arrow[d] & \Hom{M\otimes_A N}{Y}{A} \arrow[d] \\
+            B(M,N)(Y') \arrow[r, "\sim"'] & \Hom{M\otimes_A N}{Y'}{A}
+        \end{tikzcd}
+    \end{figure}
+    \noindent for all $Y\to Y'$ in $\mathbf{Mod}_A$. In other words, for every bilinear $\phi:M\times N\to Y$ there exists a unique $f:M\otimes_A N\to Y$ such that $f\circ b=\phi$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & M\otimes_A N \arrow[dd, dashed, "\exists!f"] \\
+            M\times N \arrow[ur, "b"] \arrow[dr, "\phi"'] & \\
+            & Y
+        \end{tikzcd}
+    \end{figure}
+\end{definition}
+
+\begin{proposition}
+    $B(M,N)$ is representable.
+\end{proposition}
+\begin{proof}
+    We will construct $M\otimes_A N$ in terms of generators and relations;
+    \begin{align*}
+        R\to F\to M\otimes_A N\to 0
+    \end{align*}
+    where $F$ is a free $A$-module on $X$ and $R$ is another free $A$-module on $I$ which represents relations. We take $X=\{m\otimes n:m\in M,n\in N\}$ and 
+    \begin{align*}
+        I= &\{a(m\otimes n)-(am)\otimes n:a\in A,m\in M,n\in N\} \\
+        &\cup\{a(m\otimes n)-m\otimes (an):a\in A,m\in M,n\in N\} \\
+        &\cup \{(m_1+m_2)\otimes n-m_1\otimes n-m_2\otimes n:m_1,m_2\in M,n\in N\} \\
+        &\cup \{m\otimes (n_1+n_2)-m\otimes n_1-m\otimes n_2:m\in M,n_1,n_2\in N\}.
+    \end{align*}
+    Define $M\otimes_A N=\mathrm{coker}(R\to F)$. To show the existence of $b:M\times N\to M\otimes_A N$, define $b(m,n)=\overline{m\otimes n}$. We need to show that $b$ is bilinear. Indeed,
+    \begin{align*}
+        b(am,n)=\overline{(am)\otimes n}=a\overline{m\otimes n}=ab(m,n), \\
+        b(m,an)=\overline{m\otimes (an)}=a\overline{m\otimes n}=ab(m,n).
+    \end{align*}
+    To show the universal property of $b$, consider the diagram below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & M\otimes_A N \arrow[dd, dashed, "f"] & \overline{m\otimes n} \arrow[dd, mapsto] \\
+            M\times N \arrow[ur, "b"] \arrow[dr, "\phi"'] & & \\
+            & Y & \phi(m,n)
+        \end{tikzcd}
+    \end{figure}
+    \noindent If $f$ exists, it must be the unique homomorphism such that $f(\overline{m\otimes n})=\phi(m,n)$. It remains to check that $f$ is well-defined. It comes from the definition of $I$ and the bi-linearity of $\phi$.
+\end{proof}
+\begin{remark}
+    Consider the diagram below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            R\arrow[r, "j"] \arrow[dr, "0"'] & F\arrow[r, "\pi"]\arrow[d, "\tilde{f}"] & M\otimes_A N\arrow[dl, dashed]\arrow[r] & 0 \\
+            & Y & &
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $M\otimes_A N=\mathrm{coker}j$, $\tilde{f}$ factors through $M\otimes_A N$ if and only if $\tilde{f}\circ j = 0$. Indeed, for any $r\in I$, $\tilde{f}\circ j(r)=0$. For example,
+    \begin{align*}
+        \tilde{f}\circ j(a(m\otimes n)-(am)\otimes n) = \tilde{f}(a(m\otimes n)-(am\otimes n)) = a\phi(m,n)-\phi(am,n)=0.
+    \end{align*}
+\end{remark}
+
+\begin{definition}
+    If $M_1,M_2,\dots,M_k$ are $A$-modules, then consider
+    \begin{align*}
+        \mathbf{Mod}_A &\to \mathbf{Sets} \\
+        Y &\mapsto \{M_1\times\cdots\times M_k\to Y:k\text{-multi-linear maps}\}.
+    \end{align*}
+    $M_1\otimes_A M_2\otimes_A\cdots \otimes_A M_k$ is defined as the object which represents this.
+\end{definition}
+    
+\begin{proposition}
+    For all $M,N\in\mathbf{Mod}_A$, there is a natural isomorphism
+    \begin{align*}
+        M\otimes_A N\simeq N\otimes_A M.
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    By Yoneda lemma, it suffices to show
+    \begin{align*}
+        \Hom{M\otimes_A N}{N\otimes_A M}{A} = \Hom{B(M,N)}{B(N,M)}{\mathbf{Fun}}.
+    \end{align*}
+    Note that $B(M,N)(Y)\simeq B(N,M)(Y)$ as $M\times N\simeq N\times M$.
+\end{proof}
+
+\begin{proposition}
+    For $M_1,M_2,M_3\in\mathbf{Mod}_A$, there is a natural isomorphism
+    \begin{align*}
+        (M_1\otimes_A M_2)\otimes_A M_3\xrightarrow[]{\sim} M_1\otimes_A (M_2\otimes_A M_3).
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    We compare the functors to $Y\mapsto \Hom{M_1\otimes_A M_2\otimes_A M_3}{Y}{A}$. Given $\phi:M_1\times M_2\times M_3\to M_1\otimes_A M_2\otimes_A M_3$, we have a diagram below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            M_1\otimes_A M_2\otimes_A M_3 \arrow[r] & Y \\
+            M_1\times M_2\times M_3 \arrow[u,"\phi"]\arrow[ur]\arrow[r] & (M_1\otimes_A M_2)\times M_3 \arrow[u, dashed, "g"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent There is a unique $g$ because for each $m_3\in M_3$, $(m_1,m_2)\mapsto\phi(m_1,m_2,m_3)$ is bilinear. By the bilinearity of $g$, we obtain $(M_1\otimes_A M_2)\otimes_A M_3\to Y$ as below.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            Y & (M_1\otimes_A M_2)\otimes_A M_3 \arrow[l, dashed] \\
+            (M_1\otimes_A M_2)\times M_3 \arrow[u]\arrow[ur] &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Also consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            M_1\otimes_A M_2\otimes_A M_3 \arrow[r] & Y \\
+            M_1\times M_2\times M_3 \arrow[u,"\phi"]\arrow[ur]\arrow[r] & M_1\times(M_2\otimes_A M_3) \arrow[u, dashed, "h"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent There is a unique $h$ because for each $m_1\in M_1$, $(m_2,m_3)\mapsto \phi(m_1,m_2,m_3)$ is bilinear. By the bilinearity of $h$, we obtain $M_1\otimes_A(M_2\otimes_A M_3)\to Y$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            Y & M_1\otimes_A (M_2\otimes_A M_3) \arrow[l, dashed] \\
+            M_1\times (M_2\otimes_A M_3) \arrow[u]\arrow[ur] &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Therefore we obtain
+    \begin{align*}
+        (M_1\otimes_A M_2)\otimes_A M_3\simeq M_1\otimes_A M_2\otimes_A M_3\simeq  M_1\otimes_A (M_2\otimes_A M_3).
+    \end{align*}
+\end{proof}
+
+\begin{theorem}[Tensor product as an adjunction]
+    There is a natural isomorphism
+    \begin{align*}
+        \Hom{M_1\otimes_A M_2}{M_3}{A}\xrightarrow[]{\sim} \Hom{M_1}{\Hom{M_2}{M_3}{A}}{A}.
+    \end{align*}
+\end{theorem}
+\begin{remark}
+    If $M_2$ is fixed, this can be seen as an adjunction $\mathbf{Mod}_A\to \mathbf{Mod}_A$ between $M_1\mapsto M_1\otimes_A M_2$ and $M_3\mapsto \Hom{M_2}{M_3}{A}$.
+\end{remark}
+\begin{proof}
+    Consider
+    \begin{align*}
+        \Hom{M_1\otimes_A M_2}{M_3}{A} = B(M_1,M_2)(M_3) &\to \Hom{M_1}{\Hom{M_2}{M_3}{A}}{A} \\
+        \phi &\mapsto (\theta:m_1\mapsto (m_2\mapsto \phi(m_1,m_2))).
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    If $0\to M'\to M\to M''\to 0$, then $M'\otimes N\to M\otimes N\to M''\otimes N\to 0$ for all $N$.
+\end{corollary}
+\begin{proof}
+    Let $I\subset A$ be an ideal. Then $0\to I\to A\to A/I\to 0$. We have
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & I\otimes M\arrow[r]\arrow[d, "\sim"] & A\otimes M\arrow[r]\arrow[d, "\sim"] & A/I\otimes M\arrow[r]\arrow[d] & 0 \\
+            0\arrow[r] & IM\arrow[r] & M\arrow[r] & M/IM\arrow[r] & 0.
+        \end{tikzcd}
+    \end{figure}
+    \noindent By snake lemma, we have $(A/I)\otimes M\simeq M/IM$.
+\end{proof}
+\begin{remark}
+    This provides a reinterpretation of
+    \begin{align*}
+        M\mapsto M/IM \implies M\mapsto (A/I)\otimes M.
+    \end{align*}
+    More generally, if $A\to A'$, we have $M\mapsto A'\otimes_A M$.
+\end{remark}
+
+
+\section{Flat modules}
+\begin{proposition}\label{prop:def_flat_modules}
+    Let $F$ be an $R$-module. The followings are equivalent.
+    \begin{enumerate}[label=F\arabic*.]
+        \item If $E'\xrightarrow[]{\alpha} E\xrightarrow[]{\beta} E''$, then $F\otimes_R E' \to F\otimes_R E \to F\otimes_R E''$.
+        \item If $0\to E'\xrightarrow[]{\alpha} E\xrightarrow[]{\beta} E''$, then $0\to F\otimes_R E' \to F\otimes_R E \to F\otimes_R E''$.
+        \item If $0\to E'\xrightarrow[]{\alpha} E\xrightarrow[]{\beta} E''\to 0$, then $0\to F\otimes_R E' \to F\otimes_R E \to F\otimes_R E''\to 0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    (F1$\implies$F2) Suppose $0\to E'\to E\to E''$. Then by assumption we have
+    \begin{align*}
+        0\to F\otimes_R E'\to F\otimes_R E,\quad F\otimes_R E'\to F\otimes_R E\to F\otimes_R E''.
+    \end{align*}
+    Combining these we obtain the result.\\
+    (F2$\implies$F3) Suppose $0\to E'\xrightarrow[]{\alpha} E\to E''\to 0$. By assumption we have
+    \begin{align*}
+        0\to F\otimes_R E' \to F\otimes_R E \to F\otimes_R E''.
+    \end{align*}
+    Also, consider $0\to \mathrm{coker}\alpha\to E''\to 0$. Then we have
+    \begin{align*}
+        0\to F\otimes_R \mathrm{coker}\alpha \to F\otimes E''\to 0.
+    \end{align*}
+    As the tensor product preserves cokernels, we have $F\otimes_R \mathrm{coker}\alpha=\mathrm{coker}(F\otimes_R E'\to F\otimes_R E)$. Now we obtain the result.\\
+    (F3$\implies$F2) Suppose $0\to E'\xrightarrow[]{\alpha}E\xrightarrow[]{\beta}E''$. First consider $0\to E'\xrightarrow[]{\alpha}E\to\mathrm{coker}\alpha\to 0$. Then we have
+    \begin{align*}
+        0\to F\otimes_R E'\to F\otimes_R E\to F\otimes_R \mathrm{coker}\alpha\to 0.
+    \end{align*}
+    Note that $F\otimes_R\mathrm{coker}\alpha=\mathrm{coker}(F\otimes_R E'\xrightarrow[]{\alpha_F}F\otimes_R E)$. Also, consider
+    \begin{align*}
+        0\to \mathrm{coker}\alpha\xrightarrow[]{\gamma} E''\to \mathrm{coker}\gamma\to 0.
+    \end{align*}
+    Then we have the result.\\
+    (F2$\implies$F1) Observe that
+    \begin{align*}
+        (\mathrm{F2}) \iff (M\mapsto F\otimes_R M\text{ preserves kernels}).
+    \end{align*}
+    Suppose $E'\xrightarrow[]{\alpha}E\xrightarrow[]{\beta}E''$. Then we have
+    \begin{align*}
+        E'\xtwoheadrightarrow[]{\theta} \ker\beta\to E\xrightarrow[]{\beta}E'' \to 0.
+    \end{align*}
+    By observation we have
+    \begin{align*}
+        0\to F\otimes_R \ker\beta\to F\otimes_R E\to F\otimes_R E''.
+    \end{align*}
+    It suffices to find a surjection $F\otimes_R E'\to F\otimes_R \ker\beta$. Since $(M\mapsto F\otimes_R M)$ preserves cokernels, it preserves surjective maps and $E'\twoheadrightarrow\ker\beta$ induces $F\otimes_R E'\twoheadrightarrow F\otimes_R \ker\beta$.
+\end{proof}
+
+\begin{definition}
+    If $F$ is an $R$-module satisfying the conditions in Proposition \ref{prop:def_flat_modules}, then it is a \emph{flat $R$-module}.
+\end{definition}
+
+\begin{example}
+    $R$ is flat as an $R$-module. In fact, 
+    \begin{align*}
+        R\otimes_R M&\simeq M \\
+        r\otimes_r m&\mapsto rm.
+    \end{align*}
+    To prove, it suffices to show that all bilinear maps $R\times M\xrightarrow[]{b}Y$ is of the form $b(r,m)=r\phi(m)$ for an $R$-homomorphism $\phi:M\to Y$. Indeed, one can take $\phi(m)=b(1,m)$. Given $\phi$, $b(r,m)=r\phi(m)$ is bilinear. Thus $b\leftrightarrow \phi$ is a bijection.
+\end{example}
+
+\begin{example}
+    Let $S\subset R$ be a multiplicatively closed subset and let $R\xrightarrow[]{j}R_S$ be a localization. Then localization preserve kernels; that is, for every $\beta:E\to E''$, $(\ker \beta)_S=\ker (\beta_S)$ where $\beta_S:E_S\to E_S''$. Also, $M_S\simeq R_S\otimes_R M$. Therefore $R_S$ is a flat $R$-module.
+\end{example}
+
+\begin{example}
+    Every projective modules are flat.
+\end{example}
+
+\begin{example}
+    Let $R$ be a principal ring. Then $M$ is flat if and only if it is torsion free. (This will be proven later.)
+\end{example}
+
+\begin{example}
+    Let $R$ be a domain. If $M$ has torsion, then it is not flat. Suppose $m\in M$, $a\in R$ $am=0$ and $a,m\neq 0$. Consider
+    \begin{align*}
+        0\to\langle a\rangle \xrightarrow[]{\alpha} R\to R/\langle a\rangle\to 0.
+    \end{align*}
+    As $R$ is a domain, $\langle a\rangle \simeq R$ as $R$-module. Now consider
+    \begin{align*}
+        M\otimes_R\langle a\rangle \xrightarrow[]{\alpha_M}M\otimes_R R\to M\otimes_R R/\langle a\rangle.
+    \end{align*}
+    It suffices to show that $\alpha_M$ is not injective. Consider a commutative graph
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            M\otimes_R \langle a\rangle \arrow[r, "\alpha_M"] \arrow[d, "\sim"'] & M\otimes_R R\arrow[d, "\sim"] \\
+            M\arrow[r, "\alpha_M'"'] & M \\
+            m\arrow[r, mapsto] & am
+        \end{tikzcd}
+    \end{figure}
+    \noindent Note that $m\in \ker\alpha_M'$ and this implies $\ker \alpha_M\neq 0$.
+\end{example}
+
+\begin{example}
+    Let $K/\Q$ be a finite extension. Suppose $\alpha$ has a minimal polynomial in $\Z[x]$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            K=\Q(\alpha) \arrow[dd, dash] & \\
+            & \Z[\alpha]=R \arrow[dd, dash] \\
+            \Q\arrow[dr, dash] & \\
+            & \Z
+        \end{tikzcd}
+    \end{figure}
+    \noindent Assume there is $\beta\in K\setminus R$ such that the minimal polynomial of $\beta$ over $\Q$ is in $\Z[x]$. Then $R\subsetneq R[\beta]$. Here, $R[\beta]$ is not flat. Such examples are easy to find: consider $K=\Q(\sqrt{-1})=\Q(2\cdot\sqrt{-1})$ and $\Z[2\cdot\sqrt{-1}]\subsetneq\Z[\sqrt{-1}]$. Non-flatness of $R'$ is detected by localizing at $\mathfrak{p}\subset R$.
+\end{example}
+
+\begin{example}
+    Let $k$ be a field. Then $R=k[x_1,\dots,x_n]$ for $n\ge 2$ is not flat.
+\end{example}
+
+\begin{proposition}
+    $M$ is flat if and only if $M_\mathfrak{p}$ is a flat $R_\mathfrak{p}$-module for all prime ideals $\mathfrak{p}\subset R$.
+\end{proposition}
+\begin{proof}
+    ($\implies$) By adjunction. \\
+    ($\impliedby$) Suppose $M$ is not flat. Then there exists $0\to E'\xrightarrow[]{\alpha}E\to E''\to 0$ with $M\otimes_R E'\xrightarrow[]{\alpha_M}M\otimes_R E$ not injective. As $\ker\alpha_M\neq 0$, $(\ker\alpha_M)_\mathfrak{p}\neq 0$ for some maximal ideal $\mathfrak{p}\subset R$.
+\end{proof}
+
+\begin{lemma}
+    Suppose
+    \begin{align*}
+        0\to N\to M\to F\to 0
+    \end{align*}
+    is exact and $F$ is flat. Then
+    \begin{align*}
+        0\to E\otimes N\to E\otimes M\to E\otimes F\to 0
+    \end{align*}
+    for every $R$-module $E$.
+\end{lemma}
+\begin{proof}
+    Choose $0\to R\to P\to E\to 0$ where $P$ is flat. Take
+    \begin{align*}
+        \begin{pmatrix}
+            0 \\ \downarrow \\ R \\ \downarrow \\ P \\ \downarrow \\ E \\ \downarrow \\ 0
+        \end{pmatrix} \otimes \begin{pmatrix}
+            0\to N\to M\to F\to 0
+        \end{pmatrix}.
+    \end{align*}
+    Then
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & & & 0\arrow[d] & \\
+            & R\otimes N\arrow[r]\arrow[d] & R\otimes M\arrow[r]\arrow[d] & R\otimes F\arrow[r]\arrow[d] & 0 \\
+            0\arrow[r] & P\otimes N\arrow[r]\arrow[d] & P\otimes M\arrow[r]\arrow[d] & P\otimes F\arrow[r]\arrow[d] & 0 \\
+            & E\otimes N\arrow[r]\arrow[d] & E\otimes M\arrow[r]\arrow[d] & E\otimes F\arrow[r]\arrow[d] & 0 \\
+            & 0 & 0 & 0 &
+        \end{tikzcd}
+    \end{figure}
+    \noindent By Snake lemma, $0\to E\otimes N\to E\otimes M$ is exact, and $E\otimes N\to E\otimes M$ is injective.
+\end{proof}
+
+\begin{proposition}
+    \begin{enumerate}
+        \item Let $0\to F'\to F\to F''\to 0$ be an exact sequence and assume $F''$ is flat. Then $F'$ is flat if and only if $F$ is flat.
+        \item Let $0\to F^0\to F^1\to\cdots\to F^n\to 0$ be a long exact sequence of $R$-modules. If $F^i$ is flat for $i=1,2,\dots,n$, then $F^0$ is flat.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $E'\xrightarrow[]{\alpha}E$ be an injective map between $R$-modules. It suffices to show that $\alpha_{F'}:E'\otimes F'\to E\otimes F'$ is injective if and only if $\alpha_F:E'\otimes F\to E\otimes F$ is injective. Consider
+        \begin{align*}
+            \begin{pmatrix}
+                0 \\ \downarrow \\ E' \\ \downarrow \\ E
+            \end{pmatrix}\otimes \begin{pmatrix}
+                0\to F'\to F\to F''\to 0
+            \end{pmatrix}.
+        \end{align*}
+        Then
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                & & & 0\arrow[d] & \\
+                0\arrow[r] & E'\otimes F' \arrow[r]\arrow[d, "\alpha_{F'}"] & E'\otimes F\arrow[r]\arrow[d, "\alpha_F"] & E'\otimes F''\arrow[r]\arrow[d] & 0 \\
+                0\arrow[r] & E\otimes F'\arrow[r] & E\otimes F\arrow[r] & E\otimes F''\arrow[r] & 0
+            \end{tikzcd}
+        \end{figure}
+        \noindent By Snake lemma, $0\to \ker\alpha_{F'}\to \ker\alpha_F\to 0$ is exact. Therefore $\ker\alpha_{F'}\simeq \ker\alpha_F$, and we get the result.
+        \item We have shown the assertion for $n=1,2$. We do the induction on $n$. Let $n\ge 3$. 
+        %TOADD
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    We say $M$ is \emph{$E$-flat} if
+    \begin{align*}
+        M\otimes(0\to E'\to E\to E''\to 0)
+    \end{align*}
+    is exact for every $E'\hookrightarrow E$.
+\end{definition}
+\begin{remark}
+    If a module is $R$-flat, it is flat.
+\end{remark}
+
+\begin{lemma}
+    If $E=\bigoplus_{i\in I} E_i$ and $M$ is $E_i$-flat for all $i$, then $M$ is $E$-flat.
+\end{lemma}
+\begin{proof}
+    First, note that
+    \begin{align*}
+        \bigoplus_{i\in I} E_i = \varinjlim_{J\subset I\text{ finite}} \left(\bigoplus_{j\in J}E_j\right).
+    \end{align*}
+    If $I$ is finite, it reduces to the case $|I|=2$. Let $E=E_1\oplus E_2$ and take $N\subset E_1\oplus E_2$. Let $N_1=N\cap E_1$ and let $N_2$ be the image of $N$ under the projection on $E_2$. Then we have
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & 0\arrow[d] & 0\arrow[d] & 0\arrow[d] & \\
+            0\arrow[r] & N_1 \arrow[r]\arrow[d] & N\arrow[r]\arrow[d, "\beta"] & N_2\arrow[r]\arrow[d] & 0 \\
+            0\arrow[r] & E_1\arrow[r] & E_1\oplus E_2\arrow[r] & E_2\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent and as $M$ is $E_1$-flat and $E_2$-flat, we have
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & 0\arrow[d] & & 0\arrow[d] & \\
+            & N_1\otimes M\arrow[r]\arrow[d,"\alpha_M"] & N\otimes M\arrow[r]\arrow[d,"\beta_M"] & N_2\otimes M\arrow[r]\arrow[d,"\gamma_M"] & 0 \\
+            0\arrow[r] & E_1\otimes M\arrow[r] & (E_1\oplus E_2)\otimes M \arrow[r] & E_2\otimes M\arrow[r] & 0.
+        \end{tikzcd}
+    \end{figure}
+    \noindent By Snake lemma, $\ker \beta_M=0$.
+\end{proof}
+
+%Lang Lemma 3.5.
+\begin{lemma}
+    Let $0\to Q_1\to Q\to N\to 0$. Assume $M$ is $Q$-flat. Then $M$ is $N$-flat and $Q_1$-flat.
+\end{lemma}
+\begin{proof}
+    Let $0\to E'\to E\to E''\to 0$ and let $N'\subset N$ be a submodule. Then
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & Q_1\arrow[r]\arrow[d, equal] & Q'\arrow[r]\arrow[d] & N'\arrow[r]\arrow[d] & 0 \\
+            0 \arrow[r] & Q_1\arrow[r] & Q\arrow[r] & N\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent and
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & M\otimes Q_1 \arrow[r]\arrow[d, equal] & M\otimes Q'\arrow[r]\arrow[d, "\beta"] & M\otimes N'\arrow[r]\arrow[d] & 0 \\
+            0\arrow[r] & M\otimes Q_1 \arrow[r] & M\otimes Q\arrow[r] & M\otimes N\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent By Snake lemma, $\ker\beta = 0$.
+\end{proof}
+
+\begin{proposition}\label{prop:test_for_flatness}
+    Let $M$ be an $R$-module. Suppose
+    \begin{align*}
+        M\otimes (0\to \mathfrak{a}\to R\to R/\mathfrak{a}\to 0)
+    \end{align*}
+    is exact for all ideals $\mathfrak{a}\subset R$. Then $M$ is flat.
+\end{proposition}
+\begin{remark}
+    $(R/\mathfrak{a})\otimes M\simeq M/\mathfrak{a}M$.
+\end{remark}
+\begin{proof}
+    Let $0\to E'\to E\to E''\to 0$ be a short exact sequence. Choose $0\to P_1\to P\to E\to 0$ where $P$ is free. First, write $P=\bigoplus Re_i$. As $M$ is $Re_i$-flat, then it is $P$-flat. This implies that $M$ is $E$-flat.
+\end{proof}
+
+\begin{definition}
+    A commutative ring $R$ is called \emph{local} if it has a unique maximal ideal.
+\end{definition}
+
+\begin{definition}
+    A $R$-module $M$ is called \emph{finitely presented} if $M$ admits a presentation
+    \begin{align*}
+        R^m\to R^n\to M\to 0
+    \end{align*}
+    for some finite $m$ and $n$.
+\end{definition}
+\begin{remark}
+    If $R$ is Noetherian, then every finitely generated $R$-module is finitely presented.
+\end{remark}
+
+\begin{lemma}[Nakayama's Lemma]
+    Let $A$ be a local ring with maximal ideal $\mathfrak{m}$. Suppose that $T$ is a finitely generated $R$-module. If $T=\mathfrak{m}T$, then $T=0$.
+\end{lemma}
+\begin{proof}
+    Since $T$ is finitely generated and $T=\mathfrak{m}T$, a generating set $\{x_1,\dots,x_n\}$ satisfies
+    \begin{align*}
+        x_i=m_{i1}x_1+m_{i2}x_2+\cdots+m_{in}x_n
+    \end{align*}
+    for some $m_{ij}\in\mathfrak{m}$. Consider
+    \begin{align*}
+        A^n &\to A^n \\
+        e_i &\mapsto m_{i1}e_1+\cdots+m_{in}x_n
+    \end{align*}
+    and put $B=(m_{ij})_{i,j}$ an $n\times n$ matrix with coefficients in $\mathfrak{m}$. Then
+    \begin{align*}
+        \overline{\det (I-B)} = \det (\overline{I-B}) = \det \overline{I}=1
+    \end{align*}
+    (where quotients are given by $A\to A/\mathfrak{m}$) and $\det (I-B)\notin\mathfrak{m}$. Hence $\det(I-B)\in A^\times$ and $I-B$ is invertible. Then
+    \begin{align*}
+        (I-B) \begin{pmatrix}
+            x_1 \\ \vdots \\ x_n
+        \end{pmatrix} = 0\implies \begin{pmatrix}
+            x_1 \\ \vdots \\ x_n
+        \end{pmatrix} = 0.
+    \end{align*}
+    Therefore $T=0$.
+\end{proof}
+
+\begin{theorem}
+    Let $R$ be a local ring and $M$ be a finitely presented $R$-module. If $M$ is flat, then $M$ is free.
+\end{theorem}
+\begin{proof}
+    Choose a presentation
+    \begin{align*}
+        0\to N\to R^n\to M\to 0
+    \end{align*}
+    for some $n$. Denote by $I\subset R$ the maximal ideal of $R$. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & I\otimes_R N\arrow[r]\arrow[d, "\alpha"] & I\otimes_R R^n\arrow[r]\arrow[d, "\beta"] & I\otimes_R M \arrow[r]\arrow[d, "\gamma"] & 0 & a\otimes m\arrow[d, mapsto]\\
+            0\arrow[r] & N\arrow[r] & R^n\arrow[r, "\pi"'] & M\arrow[r] & 0 & a\cdot m
+        \end{tikzcd}
+    \end{figure}
+    \noindent Since $M$ is flat, $\gamma$ is injective. By Snake lemma, we get a $4$-term long exact sequence
+    \begin{align*}
+        \ker\gamma = 0\to \mathrm{coker}\alpha\to\mathrm{coker}\beta\to\mathrm{coker}\gamma\to 0.
+    \end{align*}
+    As
+    \begin{align*}
+        I\otimes_R R^n = I\otimes_R (\underbrace{R\oplus \cdots\oplus R}_n) = \underbrace{(I\otimes_R R)\oplus \cdots\oplus (I\otimes_R R)},
+    \end{align*}
+    we obtain $\mathrm{coker}\beta=(R/I)^n$. As $M$ is flat, $\mathrm{coker}\gamma=M/IM$. We put $e_i$ to be generators of $R^n$ and $\pi(e_i)=x_i$. If $\overline{x}_1,\dots,\overline{x}_n$ generated $M/IM$, then $M/(IM+\langle x_{1},\dots,x_{n}\rangle)=0$ and
+    \begin{align*}
+        I(M/\langle x_1,\dots,x_n\rangle) = M/\langle x_1,\dots,x_n\rangle.
+    \end{align*}
+    Hence by Nakayama's lemma $M$ is generated by $x_1,\dots,x_n$. Then $(R/I)^n\to M/IM$ can be assumed to be an isomorphism, so $\mathrm{coker}\alpha=0$. By Nakayama's lemma, $N=0$ and we obtain the result.
+\end{proof}
+\begin{remark}
+    The statement holds true if $R$ is not necessarily Noetherian and $M$ is finitely generated.
+\end{remark}
+
+
+\section{Extension of the base}
+
+\begin{definition}
+    Let $R$ be a commutative ring. A \emph{(central) $R$-algebra} is a (possibly noncommutative) ring $A$ equipped with a ring homomorphism $R\xrightarrow[]{i}A$ such that $i(R)$ is central.
+\end{definition}
+
+\begin{example}
+    Let $k$ be a field and let $A=M_n(k)$. Consider $R\to A$ with $1\to I_n$. Then $A$ is a central $k$-algebra.
+\end{example}
+
+\begin{definition}
+    If $A$ is an $R$-algebra, then the multiplication is
+    \begin{align*}
+        A\otimes_R A &\to A \\
+        (a,b) &\mapsto ab.
+    \end{align*}
+    Alternatively, an $R$-algebra is an $R$-module $A$ equipped with
+    \begin{align*}
+        m:A\otimes_R A\to A,\quad e:R\to A
+    \end{align*}
+    such that
+    \begin{enumerate}
+        \item $m(m(a\otimes b)\otimes c) = m(a\otimes m(b\otimes c))$,
+        \item $m(a\otimes e(1)) = a = m(e(1)\otimes a)$,
+        \item $m(a\otimes e(r)) = m(e(r)\otimes a)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Let $R\to R'$ be a commutative $R$-algebra. If $M$ is an $R$-module, then $R'\otimes_R M$ is an $R'$-module. $R'\otimes_R M$ is called the \emph{base change of $M$ along $R\to R'$}.
+\end{definition}
+\begin{remark}
+    $R'\otimes_R M$ is an $R'$-module, as one can define an $R$-module homomorphism
+    \begin{align*}
+        R'\otimes_R (R'\otimes_R M) &\to (R'\otimes_R M).
+    \end{align*}
+\end{remark}
+
+In particular, if $A$ is commutative, then $A$ is an $R$-algebra when there is a homomorphism $R\to A$. Note that $R\to A$ is an additional structure(information).
+
+\begin{example}
+    Let $\R=\C$ and $A=\C[x]$. Consider
+    \begin{align*}
+        \alpha:\C&\to \C[x] \\
+        a &\mapsto a
+    \end{align*}
+    which makes $\C[x]$ a $\C$-algebra. Note that
+    \begin{align*}
+        \beta:\C&\to \C[x] \\
+        a &\mapsto \overline{a}
+    \end{align*}
+    is also a ring homomorphism. We have two $\C$-algebra structures on $\C[x]$. They are different in the following sense; define morphisms between $R$-algebras $R\to A_1$, $R\to A_2$ as diagrams
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}[row sep=tiny]
+            & A_1 \arrow[dd, "\phi"] \\
+            R \arrow[ur] \arrow[dr] & \\
+            & A_2
+        \end{tikzcd}
+    \end{figure}
+    \noindent in rings. In the case of $\alpha$ and $\beta$, the diagram is not commutative.
+\end{example}
+
+\begin{proposition}
+    If $A_1$, $A_2$ are (commutative) $R$-algebras, then $A_1\otimes_R A_2$ is a (commutative) $R$-algebra.
+    \begin{align*}
+        (A_1\otimes_R A_2) \otimes_R (A_1\otimes_R A_2) &\to A_1\otimes_R A_2 \\
+        (a_1\otimes_R a_2) \otimes_R (a_1'\otimes_R a_2') &\mapsto a_1a_1'\otimes_R a_2 a_2'
+    \end{align*}
+    is an $R$-module homomorphism which turns $A_1\otimes_R A_2$ into an $R$-algebra.
+\end{proposition}
+
+\begin{example}
+    Our basic problem is to compute $A_1\otimes_R A_2$ when $A_1$ and $A_2$ are given. Below are some examples.
+    \begin{enumerate}
+        \item $A_1\otimes_R R\simeq A_1$, which is clear as an $R$-module. Consider
+        \begin{align*}
+            A_1 &\to A_1 \otimes_R R \\
+            a_1 &\mapsto a_1\otimes_R 1.
+        \end{align*}
+        It suffices to check if this $R$-module isomorphism is a morphism of $R$-algebras.
+        \item $\C$ is an $\R$-algebra with natural embedding $\R\hookrightarrow\C$. Here we show $\C\otimes_\R \C\simeq \C\times\C$. We can present $\C$ as a quotient
+        \begin{align*}
+            0\to (x^2+1) \xrightarrow[]{f} \R[x] \to \C\to 0.
+        \end{align*}
+        Then $\otimes_\R \C$ yields
+        \begin{align*}
+            (x^2+1)\otimes_\R \C \xrightarrow[]{f_\C} \R[x]\otimes_\R \C \to \C\otimes_\R \C\to 0.
+        \end{align*}
+        Here we have $\mathrm{coker}(f_\C)\simeq \C\otimes_\R \C$. It remains to identify $f_\C$ as the diagram below.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                (x^2+1)x^k\otimes a \arrow[d, mapsto] &
+                (x^2+1)\otimes_\R \C \arrow[r, "f_\C"] \arrow[d, "\sim"'] & 
+                \R[x]\otimes_\R \C \arrow[d, "\sim"] & 
+                x^k\otimes a \arrow[d, mapsto] \\
+                a(x^2+1)x^k &
+                (x^2+1)\C[x] \arrow[r, "\theta"'] & 
+                \C[x] &
+                ax^k
+            \end{tikzcd}
+        \end{figure}
+        \noindent Here, $\mathrm{coker}(f_\C)\simeq \mathrm{coker}(\theta)$ and 
+        \begin{align*}
+            \mathrm{coker}(\theta) \simeq \frac{\C[x]}{(x^2+1)}\simeq \frac{\C[x]}{(x-\sqrt{-1})}\times \frac{\C[x]}{(x+\sqrt{-1})} \simeq \C\times \C.
+        \end{align*}
+        We need to check the $\R$-module isomorphisms
+        \begin{align*}
+            \mathrm{coker}(f_\C)\simeq \mathrm{coker}(\theta)\simeq \C\times\C
+        \end{align*}
+        preserve multiplications.
+    \end{enumerate}
+\end{example}
+
+\begin{definition}
+    Let $R$ be a commutative ring. Consider a commutative monoid $(S,+)$. Define an \emph{$S$-graded $R$-algebra} as an algebra $R\to A$ equipped with \emph{$S$-grading}
+    \begin{align*}
+        A\simeq \bigoplus_{s\in S} A_{(s)}
+    \end{align*}
+    ($\R$-module homomorphism) satisfying the commutative diagram
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A\otimes_R A \arrow[r] & A \\
+            A_{(s_1)}\otimes_R A_{(s_2)}\arrow[u]\arrow[r] & A_{(s_1+s_2)} \arrow[u].
+        \end{tikzcd}
+    \end{figure}
+\end{definition}
+
+\begin{example}
+    $\C[x]$ is $(\Z_{\ge0},+)$-graded $\C$-algebra.
+\end{example}
+
+\begin{example}
+    Typically, $(S,+)=(\Z_{\ge 0},+),(\Z,+)$ with $\C[x]$ and $\C[x,x^{-1}]$ and $(\Z/2\Z,+)\simeq (\{\pm 1\},\cdot)$.
+\end{example}
+
+\begin{proposition}
+    If $A_1$ and $A_2$ are $S$-graded, then $A_1\otimes_R A_2$ is also $S$-graded by
+    \begin{align*}
+        (A_1\otimes_R A_2)_{(s)} = \bigoplus_{s_1+s_2=s} (A_1)_{(s_1)}\otimes_R (A_2)_{(s_2)}.
+    \end{align*}
+     Here, the grading is called the \emph{total grading}.
+\end{proposition}
+
+\begin{example}
+    Note that
+    \begin{align*}
+        R[x] \otimes_R R[y] &\simeq R[x,y] \\
+        x^k \otimes y^\ell &\mapsto x^ky^\ell.
+    \end{align*}
+    The $(\Z\ge 0,+)$-grading on $R[x]$ given by
+    \begin{align*}
+        (R[x])_{(s)}=Rx^s
+    \end{align*}
+    gives rise to
+    \begin{align*}
+        (R[x,y])_{(s)} = \mathrm{span} (\text{monomials of degree }s).
+    \end{align*}
+\end{example}
+
+For $R$-algebras graded by $(\Z,+)$ or $(\Z/2\Z,+)$, there is a notion of supercommutativity.
+
+\begin{definition}
+    $R$-algebra $A$ is \emph{supercommutative} (or \emph{graded-commutative}) if $xy=(-1)^{|x||y|}yx$ where $x$, $y$ are homogeneous elements (elements of $A_{(s)}$ for some $s\in S$) of the form $x\in A_{|x|}$, $y\in A_{|y|}$.
+\end{definition}
+
+\begin{example}
+    For an open connected subset $U\subset \R^n$, the differential forms of degree $k$ $\Omega^k(U)$ give rise to a supercommutative $\R$-algebra; $\Omega^k(U)$ can be considered as a $C^\infty(U)$-module spanned by
+    \begin{align*}
+        dx_{i_1}\wedge dx_{i_2}\wedge\cdots \wedge dx_{i_k}, \quad 1\le i_1<i_2<\cdots<i_k\le n.
+    \end{align*}
+\end{example}
+
+\begin{proposition}
+    If $A_1$ and $A_2$ are supercommutative, then $A_1\otimes_R A_2$ with total grading is a supercommutative algebra.
+\end{proposition}
+
+
+\section{Tensor algebras}
+
+\begin{definition}
+    Let $R$ be a commutative ring and $M$ be an $R$-module. Define
+    \begin{align*}
+        T^s(M) := \underbrace{M\otimes_R M\otimes_R \cdots\otimes_R M}_s.
+    \end{align*}
+    Then
+    \begin{align*}
+        T^{s_1}(M)\otimes_r T^{s_2}(M) &\to T^{s_1+s_2}(M) \\
+        x_1\cdots x_{s_1}\otimes y_1\cdots y_{s_2} &\mapsto x_1\cdots x_{s_1}y_1\cdots y_{s_2}
+    \end{align*}
+    is called the \emph{concatenation product}. This turns
+    \begin{align*}
+        T(M) := \bigoplus_{s\ge 0} T^s(M)
+    \end{align*}
+    into a graded $R$-algebra (via $R\to T^0(M)$).
+\end{definition}
+
+\begin{example}
+    If $M=R$, $T(M)\simeq R[t]$ via
+    \begin{align*}
+        M=Rx,\quad \underbrace{xx\cdots x}_k \mapsto t^k.
+    \end{align*}
+    If $M=Rx\oplus Ry$, $T(M)$ is the algebra of polynomials in noncommuting variables $x$ and $y$.
+\end{example}
+
+\begin{definition}
+    The \emph{symmetric algebra} is defined as
+    \begin{align*}
+        S(M) := T(M)/(\text{2-sided ideal generated by }xy-yx,~x,y\in M).
+    \end{align*}
+    The \emph{exterior algebra} is defined as
+    \begin{align*}
+        \bigwedge(M) := T(M) / (\text{2-sided ideal generated by }xy+yx,~x,y\in M).
+    \end{align*}
+\end{definition}
+\begin{remark}
+    The exterior algebra can also be defined as
+    \begin{align*}
+        \bigwedge(M) := T(M) / (z^2=0),
+    \end{align*}
+    as $x^2=0$ and $(x+y)^2=x^2+xy+yx+y^2$.
+\end{remark}
+
+\begin{proposition}
+    If $M=R^n=\bigoplus_{i=1}^n Re_i$, then $\bigwedge^k(M)$ is free of rank ${n\choose k}$ over $R$ with basis
+    \begin{align*}
+        e_{i_1}\wedge e_{i_2}\wedge \cdots\wedge e_{i_k},\quad 1\le i_1<i_2<\cdots<i_k\le n.
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Consider
+    \begin{align*}
+        \pi:R^{n\choose k} &\to {\bigwedge}^k(M) \\
+        \{i_1,\dots,i_k\} &\mapsto e_{i_1}\wedge \cdots \wedge e_{i_k}.
+    \end{align*}
+    We show that it is surjective. Indeed, if $M=R^n$, $M\otimes\cdots\otimes M$ is free of rank $n^k$ with basis $e_{i_1},e_{i_2},\dots,e_{i_k}$ where
+    $(i_1,i_2,\dots,i_k)\in \{1,2,\dots,n\}^k$. If $|\{i_1,\dots,i_k\}|<k$, then $\pi(e_{i_1},\dots,e_{i_k})=0$ because the change of order only changes the sign and $e_{i_r}\wedge e_{i_r}=0$ where $i_r$ is the duplicated index.\\
+    Now it suffices to show that $e_{i_1}\wedge\cdots\wedge e_{i_k}$ are linearly independent over $R$. Observe
+    \begin{align*}
+        \sum_{1\le i_1<\cdots<i_k\le n} a_{i_1,\dots,i_k} e_{i_1}\wedge\cdots\wedge e_{i_k}=0.
+    \end{align*}
+    For each $i_1<\cdots<i_{n-k}$, we have
+    \begin{align*}
+        &(e_{i_1}\wedge \cdots\wedge e_{i_k})\wedge (e_{j_1}\wedge\cdots\wedge e_{j_{n-k}})\\
+        &=\begin{cases}
+            \pm 1\cdot (e_1\wedge \cdots\wedge e_n) & \{i_1,\dots,i_k\}\cup \{j_1,\dots,j_{n-k}\}=\{1,\dots,n\} \\
+            0 & \text{otherwise}.
+        \end{cases}
+    \end{align*}
+    Thus it suffices to show $\bigwedge^n M$ is free of rank $1$ with basis $e_1\wedge \cdots\wedge e_n$. The isomorphism $\det:\bigwedge^n R^n\to R$ implies that $\bigwedge^n (R^n)=R\Delta$ with $\Delta=\det^{-1}(1)$.
+\end{proof}
+
+\begin{example}
+    If $M=R^{\oplus k}$, then $S(M)\simeq R[t_1,\dots,t_k]$ with usual commuting variables and $\bigwedge(M)$ is a (supercommutative) free $R$-module of rank $k\choose i$.
+\end{example}
+
+
+
+
+\chapter{Algebraic Equations}
+
+\section{Integral ring extensions}
+In this chapter, we are interested in extensions of commutative rings. Recall that a field extension $F/k$ is called algebraic (over $k$) if for all $\alpha\in F$ there exists some monic polynomial $p\in k[t]$ such that $p(\alpha)=0$. Similarly, we consider a ring homomorphism $A\to B$ (we think $B/A$). We call it a \emph{ring extension} if $A\hookrightarrow B$.
+
+\begin{definition}
+    An element $\alpha\in B$ is called \emph{integral over $A$} if there exists a monic polynomial $p(t)\in A[t]$ such that $p(\alpha)=0$.
+\end{definition}
+
+\begin{definition}
+    A finitely generated extension $B/A$ is called \emph{integral} if every element in $B$ is integral over $A$.
+\end{definition}
+
+\begin{example}
+    Consider the field extension $\C/\R$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \R\arrow[r, hook] & \C\arrow[d, dash] \\
+            \Z\arrow[u, hook]\arrow[r, hook] & \R
+        \end{tikzcd}
+    \end{figure}
+    \noindent $\R$ is a ring extension of $\Z$ with many non-algebraic (hence non-integral) elements.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \Z[\sqrt{-1}]\arrow[r, hook] & \C\arrow[d, dash] \\
+            \Z\arrow[u, dash]\arrow[r, hook] & \R
+        \end{tikzcd}
+    \end{figure}
+    \noindent $\Z[\sqrt{-1}]/\Z$ is a ring extension and every $\alpha\in\Z[\sqrt{-1}]$ is integral over $\Z$, as $a+b\sqrt{-1}$ satisfies $p(t)=0$ where $p(t)=t^2-2at+a^2+b^2$.
+\end{example}
+
+\begin{example}
+    Consider the field extension $\Q/\Q$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \Z[1/p]\arrow[r, hook] & \Q\arrow[d, dash] \\
+            \Z\arrow[u, dash]\arrow[r, hook] & \Q
+        \end{tikzcd}
+    \end{figure}
+    \noindent $1/p$ is not integral over $\Z$ because
+    \begin{align*}
+        \left( \frac{1}{p} \right)^n + a_1\left( \frac{1}{p} \right)^{n-1}+\cdots+a_n=0 
+    \end{align*}
+    with $a_1,\dots,a_n\in\Z$, $n\ge 1$ implies
+    \begin{align*}
+        1+pa_1+p^2a_2+\cdots+p^{n}a_n=0,
+    \end{align*}
+    which is impossible.
+\end{example}
+
+\begin{proposition}
+    Let $B/A$ be a ring extension. For $\alpha\in B$, the following statements are equivalent.
+    \begin{enumerate}[label=Int\arabic*)]
+        \item $\alpha$ is integral over $A$.
+        \item The subring $A[\alpha]$ is finitely generated over $A$.
+        \item There is a faithful $A[\alpha]$-module $M$ which is finitely generated over $A$.
+    \end{enumerate}
+\end{proposition}
+\begin{remark}
+    An $R$-module $N$ is called \emph{faithful} if $R\to\mathrm{End}(N)$ is injective. That is, $rN=0$ implies $r=0$.
+\end{remark}
+\begin{proof}
+    ($\mathrm{Int}1\implies \mathrm{Int}2$) If $\alpha^n+a_1\alpha^{n-1}+\cdots+a_n=0$ with $n\ge 1$ and $a_1,\dots,a_n\in A$, then
+    \begin{align*}
+        A[\alpha]=A+A\alpha+\cdots+A\alpha^{n-1}
+    \end{align*}
+    and $A[\alpha]$ is finitely generated over $A$. \\
+    ($\mathrm{Int}2\implies \mathrm{Int}3$) Take $A[\alpha]=M$. By assumption, $M$ is finitely generated over $A$. $A[\alpha]\to \mathrm{End}(A[\alpha])$ is injective because for all $z\in A[\alpha]$,
+    \begin{align*}
+        zA[\alpha]=0\implies z\cdot 1=0\implies z=0.
+    \end{align*}
+    ($\mathrm{Int}3\implies\mathrm{Int}1$) Let $M$ be generated by $m_1,\dots,m_n$ over $A$. Since $M$ is an $A[\alpha]$-module,
+    \begin{align*}
+        \alpha m_1 &= a_{i1}m_1+\cdots+a_{in}m_n \\
+        \vdots \\
+        \alpha m_n &= a_{n1}m_1+\cdots+a_{nn}m_n
+    \end{align*}
+    where $a_{ij}\in A$. Consider the $n\times n$ matrix $(a_{ij})_{1\le i,j\le n}$ and $\alpha I-(a_{ij})$, Then
+    \begin{align*}
+        0&=(a_{11}-\alpha)m_1+a_{12}m_2+\cdots+a_{1n}m_n, \\
+        0&= a_{21}m_1+(a_{22}-\alpha)m_2+\cdots+a_{2n}m_n, \\
+        \vdots \\
+        0&= a_{n1}m_1+a_{n2}m_2+\cdots + (a_{nn}-\alpha)m_n.
+    \end{align*}
+    Then for each $m_k$,
+    \begin{align*}
+        \det(\alpha I - (a_{ij}))m_k=0
+    \end{align*}
+    by Cayley-Hamilton theorem. As $M$ is faithful, $p(\alpha)=0$ where $p(t)$ is the characteristic polynomial of $(a_{ij})$. Therefore $\alpha$ is integral over $A$.
+\end{proof}
+
+\begin{definition}
+    A class $\mathcal{C}$ of ring extensions is called \emph{distinguished} if the followings hold.
+    \begin{enumerate}
+        \item If $A\subset B\subset C$, then $C/A\in\mathcal{C}$ if and only if $B/A,C/A\in \mathcal{C}$.
+        \item If $B/A\in\mathcal{C}$ and $C/A$, then $B[C]/A[C]\in\mathcal{C}$.
+        \item If $B/A\in\mathcal{C}$ and $C/A\in\mathcal{C}$, then $B[C]/A\in\mathcal{C}$.
+    \end{enumerate}
+    Here all ring extensions are considered to be subrings of a large common ring. $B[C]=C[B]$ denotes the smallest ring containing both $B$ and $C$.
+\end{definition}
+
+\begin{proposition}
+    Let $B/A$ be integral. Then $B/A$ is finitely generated as an $A$-module if and only if $B=A[\alpha_1,\dots,\alpha_k]$; $B$ is a finitely generated $A$-algebra.
+\end{proposition}
+\begin{proof}
+    It is clear that if $B/A$ is finitely generated as an $A$-module, then $B$ is a finitely generated $A$-algebra. We show if $B=A[\alpha_1,\dots,\alpha_k]$ and if each $\alpha_i$ is integral over $A$, then $B$ is finitely generated as an $A$-module. Let $A_i=A[\alpha_1,\dots,\alpha_i]$ and consider
+    \begin{align*}
+        A=A_0\subset A_1\subset A_2\subset\cdots\subset A_k=B.
+    \end{align*}
+    Each $A_{i+1}=A_i[\alpha_{i+1}]$ is generated by $\alpha_{i+1}$ which is integral over $A_i$. Hence $A_{i+1}$ is finitely generated as an $A_i$-module. If $A_i=\langle x_1,\dots,x_n\rangle$ as an $A$-module and $A_{i+1}=\langle y_1,\dots,y_m\rangle$ as an $A_i$-module, then
+    \begin{align*}
+        A_{i+1}=\langle x_iy_j:1\le i\le n,1\le j\le m\rangle
+    \end{align*}
+    is finitely generated as an $A$-module. Therefore by induction we conclude that $B$ is finitely generated as an $A$-module.
+\end{proof}
+
+\begin{proposition}
+    Integral ring extensions form a distinguished class.
+\end{proposition}
+\begin{proof}
+    We prove for the three conditions.
+    \begin{enumerate}
+        \item Suppose $C/A$ is integral. By (Int1), $B/A$ and $C/B$ is integral. Conversely, suppose both $B/A$ and $C/B$ are integral. Let $\alpha\in C$. Since $\alpha$ is integral,
+        \begin{align*}
+            \alpha^n + b_1\alpha^{n-1}+\cdots+b_{n-1}\alpha+b_n=0
+        \end{align*}
+        for some $b_i\in B$. Consider
+        \begin{align*}
+            A_0=A \subset \underbrace{A[b_1,\dots,b_n]}_{=A_1} \subset \underbrace{A[b_1,\dots,b_n,\alpha]}_{=A_2}.
+        \end{align*}
+        $A_2$ is finitely generated as an $A_1$-module, and $A_1$ is finitely generated as an $A$-module. Hence $A_2$ is finitely generated over $A$, and $A_2/A$ is integral. Therefore every element in $C$ is integral over $A$, and $C/A$ is integral.
+        \item Note that $B[C]/A[C]=C[B]/C[A]$. We need to show that $c_1b_1+\cdots+c_kb_k$ is integral over $C[A]$ for arbitrary $c_1,\dots,c_k\in C$ and $b_1,\dots,b_k\in B$. Since each $c_i$ and $b_j$ are integral over $C[A]=A[C]$, it suffices to prove that
+        \begin{align*}
+            \alpha,\beta\text{~integral}\implies \alpha+\beta,\alpha\beta\text{~integral}.
+        \end{align*}
+        This can be derived from $C[A]\subset C[A][\alpha]\subset C[A][\alpha,\beta]$.
+        \item Omitted
+    \end{enumerate}
+\end{proof}
+\begin{remark}
+    Both the class of integral extensions and the class of finitely generated integral extensions form distinguished classes.
+\end{remark}
+
+\begin{corollary}
+    Let $A_2/A_1$ be a ring extension. If $\alpha,\beta\in A_2$ are integral over $A_1$, then $\alpha+\beta$ and $\alpha\beta$ are integral over $A_1$.
+\end{corollary}
+\begin{proof}
+    As $A_1[\alpha]/A_1$ and $A_1[\alpha,\beta]/A_1[\alpha]$ are integral ring extensions, $A_1[\alpha,\beta]/A_1$ is also an integral ring extension.
+\end{proof}
+
+\begin{definition}
+    So far we considered the integrality of a ring extension $B/A$. More generally, if $f:A\to B$ is an arbitrary ring homomorphism, we say \emph{$B$ is integral over $A$} when $B$ is an integral extension of $f(A)$.
+\end{definition}
+
+\begin{example}
+    Let $A=\Z$ and $B=\mathbb{F}_p[x]/(u(x))$, where $u(x)$ is a non-constant polynomial. Then $B/\mathbb{F}_p$ is integral. As we have a ring homomorphism $\Z\to\mathbb{F}_p$, we can induce $\Z\to B$. In the generalized definition of integrality, we simply say $B$ is integral over $\Z$.
+\end{example}
+
+\begin{definition}
+    Let $A$ be a commutative domain. We say $A$ is \emph{integrally closed} if every $\alpha\in K=\mathrm{Frac}(A)$ which is integral over $A$ is in $A$. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}[column sep=tiny]
+            K\arrow[d, dash] & =\mathrm{Frac}(A)=\{\frac{a}{b}:a,b\in A,b\neq 0\} \\
+            \tilde{A} \arrow[d, dash] & =\{\alpha\in K:\alpha\text{ is integral over }A\} \\
+            A
+        \end{tikzcd}
+    \end{figure}
+    \noindent $\tilde{A}/A$ is a ring extension. We call it the \emph{integral closure of $A$}.
+\end{definition}
+\begin{remark}
+    $A$ is integrally closed if $\tilde{A}=A$.
+\end{remark}
+
+\begin{proposition}
+    Let $A$ be a commutative domain. Then $\tilde{\tilde{A}}=\tilde{A}$.
+\end{proposition}
+\begin{proof}
+    Let $\beta\in\tilde{\tilde{A}}$. Then
+    \begin{align*}
+        \beta^n + a_1\beta^{n-1}+\cdots+a_{n-1}\beta+a_n=0
+    \end{align*}
+    for some $a_1,\dots,a_n\in \tilde{A}$. As $A[a_1,\dots,a_n]/A$ and $A[a_1,\dots,a_n,\beta]/A[a_1,\dots,a_n]$ are integral, $A[a_1,\dots,a_n,\beta]/A$ is integral and $\beta\in \tilde{A}$.
+\end{proof}
+
+\begin{proposition}
+    Let $A$ be a UFD. Then $A$ is integrally closed.
+\end{proposition}
+\begin{proof}
+    If $u\in A^\times$, $\alpha$ is integral if and only if $u\alpha$ is integral. Let $\alpha\in \tilde{A}\subset K=\mathrm{Frac}(A)$ and put $\alpha=\frac{a}{b}$. Then $\alpha\in K\setminus A$ if and only if $b\notin A^\times$. If $b\notin A^\times$, then $p|b$ for some $p\in A$ such that $(p)$ is a prime ideal of $A$. Choose $k$ such that $p^k|b$ and $p^{k+1}\nmid b$ (i.e. $p^k \| b$). As $\alpha$ is integral over $A$, there exists $a_1,\dots,a_n\in A$ such that
+    \begin{align*}
+        \alpha^n+a_1\alpha^{n-1}+\cdots+a_{n-1}\alpha+a_n = 0,
+    \end{align*}
+    and multiplying $p^{nk}$ we obtain
+    \begin{align*}
+        \left( \frac{p^ka}{b}\right)^n + (p^ka_1) \left(\frac{p^ka}{b}\right)^{n-1} + \cdots+ p^{(n-1)k}a_{n-1}\left(\frac{p^ka}{b}\right) + p^{nk}a_n=0.
+    \end{align*}
+    Doing the reduction modulo $(p)$, we get the contradiction.
+\end{proof}
+
+\begin{proposition}
+    Consider the finite field extension
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            B \arrow[r, dash] \arrow[d, dash] & L \arrow[d, dash] \\
+            A \arrow[r, dash] & K=\mathrm{Frac}(A).
+        \end{tikzcd}
+    \end{figure}
+    \noindent Take $B$ to be the integral closure of $A$ in $L$. If $\alpha\in B$, then
+    \begin{align*}
+        \mathrm{Norm}_{L/K}(\alpha),\mathrm{Tr}_{L/K}(\alpha)\in A.
+    \end{align*}
+\end{proposition}
+\begin{proof}
+    Recall that
+    \begin{align*}
+        \mathrm{Norm}_{L/K}(\alpha) &= \left(\prod_{\sigma:L\to\overline{K}}\sigma(\alpha)\right)^{[L:K]_{\mathrm{insep}}}, \\
+        \mathrm{Tr}_{L/K}(\alpha) &= \left(\sum_{\sigma:L\to\overline{K}}\sigma(\alpha)\right)\cdot[L:K]_{\mathrm{insep}}.
+    \end{align*}
+    It suffices to show that $\sigma(\alpha)$ is integral over $A$. Note that as $\alpha$ is integral over $A$,
+    \begin{align*}
+        \alpha^n+a_1\alpha^{n-1}+\cdots+a_{n-1}\alpha+a_n=0
+    \end{align*}
+    for some $a_i\in A$, and this implies
+    \begin{align*}
+        (\sigma(\alpha))^n + a_1(\sigma(\alpha))^{n-1}+\cdots+a_{n-1}(\sigma(\alpha))+a_n=0
+    \end{align*}
+    as $\sigma$ fixes $A$.
+\end{proof}
+
+\begin{proposition}
+    Let $A\to B$ be integral. For any multiplicatively closed $S\subset A$, $S^{-1}A\to S^{-1}B$ is integral.
+\end{proposition}
+\begin{proof}
+    Let $\beta\in S^{-1}B$ and write $\beta=\frac{b}{s}$ where $b\in B$ and $s\in S$. As $b$ is integral in $A$,
+    \begin{align*}
+        b^n+a_1b^{n-1}+\cdots+a_{n-1}b+a_n=0
+    \end{align*}
+    for some $a_i\in A$, and
+    \begin{align*}
+        \beta^n + \frac{a_1}{s}\beta^{n-1} + \cdots + \frac{a_{n-1}}{s^{n-1}}\beta + \frac{a_n}{s^n} = 0.
+    \end{align*}
+    As $\frac{a_i}{s^i}\in S^{-1}A$ for all $i=1,\dots,n$, we conclude that $\beta$ is integral over $S^{-1}A$.
+\end{proof}
+
+\begin{proposition}
+    If a domain $A$ is integrally closed and $S\subset A$ is a multiplicatively closed subset, then $S^{-1}A$ is integrally closed.
+\end{proposition}
+\begin{proof}
+    Let $K=\mathrm{Frac}(A)$ and consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            S^{-1}A \arrow[r, dash] \arrow[d, dash] & K \arrow[d, dash] \\
+             A \arrow[r, dash] & K.
+        \end{tikzcd}
+    \end{figure}
+    \noindent Let $\alpha\in K$ be integral over $S^{-1}A$. Then
+    \begin{align*}
+        \alpha^n+\frac{a_1}{s_1}\alpha^{n-1} + \cdots+\frac{a_{n-1}}{s_{n-1}}\alpha + \frac{a_n}{s_n} = 0
+    \end{align*}
+    for some $a_i\in A$ and $s_i\in S$. Then $(s_1\cdots s_n)^n \alpha$ is integral over $A$, and as $A$ is integrally closed, it is in $A$. This implies $\alpha\in S^{-1}A$. Therefore $S^{-1}A$ is integrally closed.
+\end{proof}
+
+\begin{theorem}[Going up theorem]
+    Let $A$ be a ring and $f:A\to B$ be integral. If $\mathfrak{p}\subset A$ is a prime ideal, then there is a prime ideal $\mathfrak{P}\subset B$ such that $f^{-1}(\mathfrak{P})=\mathfrak{p}$.
+\end{theorem}
+\begin{remark}
+     When $B/A$ is an extension, it amounts to $\mathfrak{P}\cap A=\mathfrak{p}$.
+     \begin{figure}[H]
+         \centering
+         \begin{tikzcd}
+             \mathfrak{P} \arrow[r, dash]\arrow[d, dash] & B \arrow[d, dash] \\
+             \mathfrak{P}\cap A = \mathfrak{p} \arrow[r, dash] & A
+         \end{tikzcd}
+     \end{figure}
+\end{remark}
+\begin{proof}
+    We first move the case to the case where $A$ is local. Consider the localization at $\mathfrak{p}$
+    \begin{align*}
+        f_\mathfrak{p}:A_\mathfrak{p}\to B_\mathfrak{p}
+    \end{align*}
+    where $B_\mathfrak{p}$ is the localization of $B$ at $f(A\setminus \mathfrak{p})$. Observe that if $S$ is multiplicatively closed, then $f(S)$ is multiplicatively closed. So $B_\mathfrak{p}$ is well-defined. We claim that if $\mathfrak{m}\subset B_\mathfrak{p}$ is a prime ideal such that $f_\mathfrak{p}^{-1}(\mathfrak{m})=\mathfrak{p}A_\mathfrak{p}$, then
+    \begin{align*}
+        f^{-1}(\mathfrak{P})=\mathfrak{p},\quad \mathfrak{P}=j^{-1}(\mathfrak{m})
+    \end{align*}
+     where $j:B\to B_\mathfrak{p}$ is a localization map. For any homomorphism $g:R\to R'$ between commutative rings, we have
+     \begin{align*}
+         \{\text{primes in }R'\} &\to \{\text{primes in }R\} \\
+         \mathfrak{a} &\mapsto g^{-1}(\mathfrak{a})
+     \end{align*}
+     with
+     \begin{align*}
+         \mathfrak{a}_1\subset \mathfrak{a}_2\implies g^{-1}(\mathfrak{a}_1)\subset g^{-1}(\mathfrak{a}_2).
+     \end{align*}
+     When $g=j:B\to B_\mathfrak{p}$ is a localization, we have
+     \begin{align*}
+         \{\text{primes in }B_\mathfrak{p}\} \hookrightarrow \{\text{primes in }B\}.
+     \end{align*}
+     Now consider
+     \begin{figure}[H]
+         \centering
+         \begin{tikzcd}
+             & & 
+             \mathfrak{P} \arrow[lld, "j_\mathfrak{P}^{-1}(\mathfrak{m})=\mathfrak{P}"'] \arrow[r, dash] \arrow[d, dash] &
+             B \arrow[lld, "j_B"] \\
+             \mathfrak{m} \arrow[r, dash] \arrow[d, dash] &
+             B_\mathfrak{p} & 
+             \mathfrak{p} \arrow[r, dash] &
+             A \arrow[u, "f"'] \arrow[lld, "j_A"] \\
+             \mathfrak{p}A_\mathfrak{p} \arrow[r, dash] &
+             A_\mathfrak{p} \arrow[u, "f_\mathfrak{p}"] & &
+         \end{tikzcd}
+     \end{figure}
+     \noindent Now it suffices to show when $A$ is local. Assume $A$ is local with maximal ideal $\mathfrak{p}\subset A$. Consider $\mathfrak{p}B=f(\mathfrak{p})B$. We first show that if $\mathfrak{p}B$ is a proper ideal. (This implies that there exists a maximal ideal $\mathfrak{m}$ containing $\mathfrak{p}B$.) Suppose $B=\mathfrak{p}B$. Since $1\in B$,
+     \begin{align*}
+         1=\sum_{i=1}^k a_ib_i
+     \end{align*}
+     for some $a_i\in f(\mathfrak{p})$ and $b_i\in B$. Since only finitely many $b_i$'s occur, consider
+     \begin{align*}
+         A \subset\underbrace{A[b_1,\dots,b_k]}_{=B'}\subset B.
+     \end{align*}
+     Let $f'=A\to B'$. Then $f'$ is integral and $B'/A$ is finitely generated as an $A$-module. As $1\in B'$, $f(\mathfrak{p})B'=B'$. By Nakayama lemma, $B'=0$, which is a contradiction. Hence $\mathfrak{p}B$ is a proper ideal, we can find a maximal ideal $\mathfrak{m}$ containing $\mathfrak{p}B$. As
+     \begin{alignat*}{2}
+         \mathfrak{p}B &\subset \mathfrak{m} &&\subset B \\
+         \mathfrak{p} &\subset f^{-1}\mathfrak{m} &&\subset A, 
+     \end{alignat*}
+     we have $\mathfrak{p}=f^{-1}(\mathfrak{m})$. 
+\end{proof}
+
+
+\clearpage
+\section{Integral Galois extensions}
+Let $A$ be an integrally closed domain with field of fraction $K$. Let $L/K$ be a finite Galois extension and let $B$ be an integral closure of $A$ in $L$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        B\arrow[r, dash]\arrow[d, dash] & L\arrow[d, dash] \\
+        A\arrow[r, dash] & K
+    \end{tikzcd}
+\end{figure}
+
+\begin{definition}
+    We say $B/A$ is \emph{Galois with Galois group $G=\mathrm{Gal}(L/K)$}.
+\end{definition}
+
+We first observe that $G$ acts well on $B$.
+
+\begin{proposition}
+    If $\sigma\in G$, then $B=\sigma(B)$.
+\end{proposition}
+\begin{proof}
+    The elements of $B$ are integral over $A$, and hence they have irreducible polynomials in $A[x]$. Note that $\sigma$ fixes $A[x]$.
+\end{proof}
+
+\begin{proposition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$, and let $\mathfrak{P}$, $\mathfrak{Q}$ be prime ideals of $B$ lying above $\mathfrak{p}$. Then there exists $\sigma\in G$ such that $\sigma\mathfrak{P}=\mathfrak{Q}$.
+\end{proposition}
+\begin{proof}
+    Suppose $\mathfrak{Q}\neq \sigma\mathfrak{P}$ for all $\sigma\in G$. By Chinese remainder theorem, we can find $x\in B$ such that
+    \begin{align*}
+        x\equiv 0\mod \sigma\mathfrak{P},\quad x\equiv 1\mod \sigma\mathfrak{Q}
+    \end{align*}
+    for all $\sigma\in G$. Consider the norm
+    \begin{align*}
+        N_{L/K}(x) = \prod_{\sigma\in G}\sigma x.
+    \end{align*}
+    By the property of norms, $N_{L/K}(x)\in K$, and as $B$ is algebraically closed, $N_{L/K}(x)\in B$. Hence $N_{L/K}(x)\in B\cap K=A$. As $\sigma x\in \mathfrak{P}$ for all $\sigma\in G$, we have $N_{L/K}(x)\in \mathfrak{P}\cap A = \mathfrak{p}$. However, $\sigma x\not\in \mathfrak{Q}$ for all $\sigma\in G$, and this implies $N_{L/K}(x)\notin \mathfrak{Q}\cap A = \mathfrak{p}$. This is a contradiction, and therefore there exists $\sigma\in G$ such that $\sigma\mathfrak{P}=\mathfrak{Q}$. 
+\end{proof}
+\begin{remark}
+    We can view a collection of maximal ideals in $B$ lying above a maximal ideal $\mathfrak{p}$ in $A$ as a $G$-set. The proposition asserts that the group action is transitive.
+\end{remark}
+
+\begin{definition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$ and let $\mathfrak{P}$ be a maximal ideal of $B$ lying above $\mathfrak{p}$. The \emph{decomposition group} of $\mathfrak{P}$ is defined as
+    \begin{align*}
+        D_\mathfrak{P}=\{\sigma\in G:\sigma\mathfrak{P}=\mathfrak{P}\}.
+    \end{align*}
+    Let $L^\mathrm{dec}$ be the fixed field of $D_\mathfrak{P}$ and let $B^\mathrm{dec}$ be the integral closure of $A$ in $L^\mathrm{dec}$. $L^\mathrm{dec}$ is called the \emph{decomposition field of $\mathfrak{P}$}.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            B\arrow[r, dash]\arrow[d, dash] & L\arrow[d, dash] & \{1\}\arrow[d, dash] \\
+            B^\mathrm{dec}\arrow[r, dash]\arrow[d, dash] & L^\mathrm{dec}\arrow[d, dash] & D_\mathfrak{P}\arrow[d, dash]\\
+            A\arrow[r, dash] & K & G
+        \end{tikzcd}
+    \end{figure}
+\end{definition}
+\begin{remark}
+    $D_\mathfrak{P}$ is the stabilizer subgroup of $\mathfrak{P}$.
+\end{remark}
+
+\begin{proposition}
+    $A/\mathfrak{p}\simeq B^\mathrm{dec}/(\mathfrak{P}\cap B^\mathrm{dec})$.
+\end{proposition}
+\begin{proof}
+    We have an injective map
+    \begin{align*}
+        A/\mathfrak{p} \to B^\mathrm{dec}/(\mathfrak{P}\cap B^\mathrm{dec}).
+    \end{align*}
+    It suffices to show that the map is surjective. Let $x\in B^\mathrm{dec}$. Let $\mathfrak{Q}=\mathfrak{P}\cap B^\mathrm{dec}$ and $\mathfrak{Q}_\sigma=\sigma^{-1}\mathfrak{P}\cap B^\mathrm{dec}$. Then for all $\sigma\in G\setminus D_\mathfrak{P}$, we have
+    \begin{align*}
+        \sigma^{-1}\mathfrak{P}\neq \mathfrak{P} \implies \mathfrak{Q}_\sigma \neq \mathfrak{Q}.
+    \end{align*}
+    By Chinese remainder theorem, we can find $y\in B^\mathrm{dec}$ such that
+    \begin{align*}
+        y&\equiv x\mod \mathfrak{Q}, \\
+        y&\equiv 1\mod \mathfrak{Q}_{\sigma},\quad \forall \sigma\in G\setminus D_\mathfrak{P}.
+    \end{align*}
+    Here, we have
+    \begin{align*}
+        y&\equiv x\mod \mathfrak{P}, \\
+        \sigma y&\equiv 1\mod \mathfrak{P},\quad \forall \sigma\in G\setminus D_\mathfrak{P}. 
+    \end{align*}
+    Now consider the extension $L^\mathrm{dec}/K$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            L^\mathrm{dec}\arrow[d, dash] & \{1\}\arrow[d, dash] \\
+            K & G/D_\mathfrak{P}
+        \end{tikzcd}
+    \end{figure}
+    \noindent We obtain the norm
+    \begin{align*}
+        N_{L^\mathrm{dec}/K}(y) = \prod_{\overline{\sigma}\in G/D_\mathfrak{P}} \overline{\sigma}(y) \equiv x\mod \mathfrak{P}.
+    \end{align*}
+    Here, by the property of norm, $N_{L^\mathrm{dec}/K}(y)\in A$. Hence we have a surjective homomorphism
+    \begin{align*}
+        A/\mathfrak{p} &\to B^\mathrm{dec}/\mathfrak{Q}, \\
+        \overline{N_{L^\mathrm{dec}/K}(y)} &\mapsto \overline{x}.
+    \end{align*}
+\end{proof}
+
+\begin{definition}
+    For $x\in B$ we define $\overline{x}$ to be the image of $x$ under the homomorphism $B\to B/\mathfrak{P}$. We write $\overline{\sigma}$ to be the automorphism of $B/\mathfrak{P}$ such that $\overline{\sigma}(\overline{x})=\overline{\sigma(x)}$.
+\end{definition}
+
+\begin{proposition}
+    Let $\mathfrak{p}$ be a maximal ideal of $A$ and let $\mathfrak{P}$ be a maximal ideal of $B$ lying above $\mathfrak{p}$. Then the followings hold.
+    \begin{enumerate}
+        \item $B/\mathfrak{P}$ is a normal extension of $A/\mathfrak{p}$.
+        \item $\sigma\mapsto\overline{\sigma}$ induces a homomorphism of $D_\mathfrak{P}$ onto the Galois group of $B/\mathfrak{P}$ over $A/\mathfrak{p}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Let $\overline{B}=B/\mathfrak{P}$ and $\overline{A}=A/\mathfrak{p}$. Let $\overline{x}\in\overline{B}$ be an arbitrary element. Let $f(X)\in K[X]$ be the irreducible polynomial for $x$ over $K$. As $x$ is algebraic over $A$, $f(X)\in A[X]$ and all roots of $f$ are integral over $A$. As $B$ is an integral closure of $A$, $f$ splits into linear factors in $B$. Write
+    \begin{align*}
+        f(X)=\prod_{i=1}^m(X-x_i).
+    \end{align*}
+    Then
+    \begin{align*}
+        \overline{f}(X)=\sum_{i=1}^m (X-\overline{x}_i)
+    \end{align*}
+    satisfies $\overline{f}(\overline{x})=0$, and the irreducible polynomial of $\overline{x}$ divides $\overline{f}$. As $\overline{f}$ splits into linear factors in $\overline{B}$, the irreducible polynomial of $\overline{x}$ also splits into linear factors in $\overline{B}$. This implies that $\overline{B}$ is normal in $\overline{A}$. \\
+    Now we observe $\sigma\mapsto \overline{\sigma}$. First, construct a map
+    \begin{align*}
+        \Phi:D_{\mathfrak{P}} &\to \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p})) \\
+        \sigma &\mapsto \overline{\sigma}
+    \end{align*}
+    where $\overline{\sigma}(x+\mathfrak{P})=\sigma(x)+\mathfrak{P}$. Note that the map is well-defined, as if $x+\mathfrak{P}=y+\mathfrak{P}$, then $x-y\in\mathfrak{P}$ and as $\sigma\in D_\mathfrak{P}$ we have $\sigma(x)+\mathfrak{P}=\sigma(y)+\mathfrak{P}$. Also, $\overline{\sigma}$ fixes $A/\mathfrak{p}$, as for all $a+\mathfrak{p}\in A/\mathfrak{p}$ we have
+    \begin{align*}
+        \overline{\sigma}(a+\mathfrak{P})=\sigma(a)+\mathfrak{P}=a+\mathfrak{P}.
+    \end{align*}
+    It is clear that $\Phi$ is a homomorphism. It suffices to show that the map is surjective. We may assume that $K=L^\mathrm{dec}$, or otherwise let $A'=B\cap L^\mathrm{dec}$. In this setting, $G=D_\mathfrak{P}$. As $(B/\mathfrak{P})/(A/\mathfrak{p})$ is Galois, by the primitive element theorem there exists $\overline{x}$ such that $B/\mathfrak{P} = (A/\mathfrak{p})[\overline{x}]$. Let $x\in B$ be the element such that $x+\mathfrak{P}=\overline{x}$. Next, let $\overline{g}\in \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p}))$ be an arbitrary automorphism. Let $\overline{g}(\overline{x})=\overline{y}$. As $\overline{g}$ fixes $k$, $\overline{y}$ is the conjugate of $\overline{x}$. As the $G$-set action is transitive, there exists $\sigma\in G$ such that $\sigma(x)+\mathfrak{P}=\overline{y}$. Then we have
+    \begin{align*}
+        \overline{\sigma}(\overline{x}) = \sigma(x)+\mathfrak{P}=\overline{y}=\overline{g}(\overline{x}).
+    \end{align*}
+    Therefore we have the result.
+\end{proof}
+
+\begin{definition}
+    The kernel of the map
+    \begin{align*}
+        D_\mathfrak{P} \to \overline{D}_{\mathfrak{P}}
+    \end{align*}
+    is called the \emph{inertia group} of $\mathfrak{P}$, and is denoted as $I_\mathfrak{P}$.
+\end{definition}
+\begin{remark}
+    The inertia group is the set of automorphisms $\sigma$ which acts trivially on $B/\mathfrak{P}$.
+\end{remark}
+\begin{remark}
+    $D_\mathfrak{P}/I_\mathfrak{P}\simeq \mathrm{Gal}((B/\mathfrak{P})/(A/\mathfrak{p}))$ is the dictionary used to describe prime splitting.
+\end{remark}
+
+To summarize, we have $I_\mathfrak{P}\subset D_\mathfrak{P}\subset G$.
+\begin{align*}
+    G &= \{\sigma:L\to L:\sigma(k)=k\quad\forall k\in K\} \\
+    D_\mathfrak{P} &= \{\sigma\in G: \sigma\mathfrak{P}=\mathfrak{P}\} \\
+    I_\mathfrak{P} &= \{\sigma\in D_\mathfrak{P}:\overline{\sigma}=\mathrm{id}_{B/\mathfrak{P}}\}.
+\end{align*}
+
+\begin{proposition}
+    $[L:K]=[G:D_\mathfrak{P}] \cdot [D_{\mathfrak{P}}:I_\mathfrak{P}] \cdot |I_\mathfrak{P}|$.
+\end{proposition}
+
+
+\clearpage
+\section{Transcendental extensions}
+\begin{definition}
+    Let $K/k$ be a field extension. $I\subset K$ is called a \emph{(transcendental) basis} if $I$ are algebraically independent over $k$ and $K/k(I)$ is algebraic.
+\end{definition}
+
+\begin{theorem}
+    If $I_1,I_2\subset K$ are bases, then $|I_1|=|I_2|$.
+\end{theorem}
+\begin{proof}
+    First, we consider the finite cases. Let $x_1,\dots,x_m$ be a basis for $K/k$. It suffices to show that if $w_1,\dots,w_n$ is another basis, then $n\le m$. Since $w_1$ is algebraic over $k(x_1,\dots,x_m)$, we have
+    \begin{align*}
+        \sum_{i=0}^{N_0} f_i w_1^i,\quad f_i\in k(x_1,\dots,x_n).
+    \end{align*}
+    We may assume (after renumbering $x_i$'s) that $\{f_1,\dots,f_{N_0}\}\not\subset k(x_2,\dots,x_m)$. Then we can view the polynomial as the polynomial of $x_1$;
+    \begin{align*}
+        \sum_{i=0}^N g_i x_1^i,\quad g_i\in k[w_1,x_2,\dots,x_m],g_N\neq 0.
+    \end{align*}
+    Here we regard $g_i=\tilde{g}_i(w_1,x_2,\dots,x_m)$ where $\tilde{g}_i$ is a polynomial in $m$ variables. Next we should show that $\tilde{g}_N(w_1,x_2,\dots,x_m)\neq 0$. We may take $\sum_{i=0}^{N_0}f_iw_1^i$ to be the minimal polynomial of $w_1$ over $k(x_1,\dots,x_m)$. Such polynomial is unique. If $\tilde{g}_N(w_1,x_2,\dots,x_m)=0$, then we obtain a different polynomial
+    \begin{align*}
+        \sum_{i=0}^{N-1}\tilde{g}_i(w_1,x_2,\dots,x_m)x_1^i = \sum_{i=0}^{N_1} h_j w_1^j \neq \sum_{i=0}^{N_0}f_iw^i.
+    \end{align*}
+    Now we know that $x_1$ is algebraic over $k(w_1,x_2,\dots,x_m)$. For arbitrary $\alpha\in K$, $\alpha$ is algebraic over $k(w_2,\dots,x_m)(x_1)$, and is algebraic over $k(w_1,x_2,\dots,x_m)$. Here, $\{w_1,x_2,\dots,x_m\}$ is algebraically independent as $\{f_1,\dots,f_{N_0}\}\not\subset k(x_2,\dots,x_m)$. If $n>m$, then continuing this process we obtain that $K/k(w_1,\dots,w_m)$ is algebraic and $w_n$ is algebraic over $k(w_1,\dots,w_m)$. This contradicts with the fact that $\{w_1,\dots,w_n\}$ is a basis. Hence $n\le m$. \\
+    Now we prove the infinite case. Let $I,J\subset K$ be two basis and assume $|I|$, $|J|$ are infinite. For each $x\in I$, $x/k(J)$ is algebraic. Let $\sum_{i=0}^N f_ix^i$ be the minimal polynomial. There exists a finite $J_x\subset J_1$ such that $f_i\in k(J_x)$. Then
+    \begin{align*}
+        K/k\left(\bigcup_{x\in I}J_x\right)
+    \end{align*}
+    is an algebraic extension. Hence $\bigcup_{x\in I}J_x\subset J$ has a basis
+    \begin{align*}
+        |I| = \left|\bigcup_{x\in I}J_x\right|\le |J|.
+    \end{align*}
+    (If $I$ is infinite and $J_x$ is nonempty finite, then $|\coprod_{x\in I}J_x|=|I|$. Then $|\coprod_{x\in I}J_x|\le |I|\times\Z=\max \{|I|,|\Z|\}=I$.) Similarly, we can obtain $|J|\le |I|$.
+\end{proof}
+
+\begin{proposition}
+    Let $K/k$ is a field extension. Let $\Gamma\subset K$ is a subset such that $K/k(\Gamma)$ is algebraic and let $S\subset \Gamma$ is algebraically independent. Then there exists a basis $\mathcal{B}$ such that $S\subset \mathcal{B}\subset \Gamma$.
+\end{proposition}
+\begin{proof}
+    Use Zorn's Lemma.
+\end{proof}
+
+
+\clearpage
+\section{Noether normalization}
+\begin{theorem}
+    Let $A=k[x_1,\dots,x_n]$ be finitely generated algebra over a field $k$. Assume $A$ is a domain. Then there are $y_1,\dots,y_r\in A$ such that
+    \begin{enumerate}
+        \item $y_1,\dots,y_r$ are algebraically independent,
+        \item $A/k[y_1,\dots,y_r]$ is integral.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Our idea is to find $y_2,\dots,y_n$ such that $k[x_1,\dots,x_n]/k[y_2,\dots,y_n]$ is an extension satisfying
+    \begin{enumerate}
+        \item $x_1/k[y_2,\dots,y_n]$ is integral,
+        \item $k[x_1,\dots,x_n]=k[y_2,\dots,y_n][x_1]$.
+    \end{enumerate}
+    Such $y_{1+i}$ will be found as
+    \begin{align*}
+        y_{1+i}=x_{1+i}-x_1^{m_{1+i}} \iff x_{1+i}=y_{1+i}+x_1^{m_{1+i}}.
+    \end{align*}
+    If $x_1,\dots,x_n$ are algebraically independent over $k$, then we are done because we may let $y_i=x_i$. Assume $x_i$'s are dependent. There exists finite $J$ and $a_i\in k$ such that
+    \begin{align*}
+        \sum_{i\in J}a_ix^i=0.
+    \end{align*}
+    (Here, $i=(i_1,\dots,i_n)$ and $x^i=x_1^{i_1}\cdots x_n^{i_n}$.) Here, we may write
+    \begin{align*}
+        x_1^{i_1}x_2^{i_2}\cdots x_n^{i_n} &= x_1^{i_1}(y_2+x_1^{m_2})^{i_2}(y_3+x_1^{m_3})^{i_3}\cdots (y_n+x_1^{m_n})^{i_n} \\
+        &= x_1^{i_1+i_2m_2+i_3m_3+\cdots+i_nm_n}+f_i(x_1,y_2,\dots,y_n).
+    \end{align*}
+    Here, simply let $m=(1,m_2,\dots,m_n)$ and write
+    \begin{align*}
+        i_1+i_2m_2+i_3m_3+\cdots+i_nm_n = i\cdot m.
+    \end{align*}
+    A `monomial' in $f_i$ is not a power of $x_1$ and the exponent of $x_1$ is smaller than $i\cdot m$. Then
+    \begin{align*}
+        \sum_{i\in J}a_ix^i &= \sum_{i\in J} \underbrace{a_ix_1^{i\cdot m}+f_i(x_1,y_2,\dots,y_n)}_{=g_i(x_1)}.
+    \end{align*}
+    We would like to ensure that $g_i$ is a monic polynomial in $x_1$ with coefficients in $k[y_2,\dots,y_n]$ by choosing a sufficiently large $m$. We order monomials in $x_1,\dots,x_n$ in the reverse lexicographic order.
+    \begin{align*}
+        &(i_1,\dots,i_n)\le (i_1',\dots,i_n') \\
+        &\iff \exists r\ge 0\text{ s.t. } i_n=i_n',i_{n-1}=i_{n-1}',\dots,i_{n-r+1}=i_{n-r+1}',i_{n-r}\le i_{n-r}'.
+    \end{align*}
+    We find $m$ such that for all $i,i'\in J$ such that $i<i'$, then $i\cdot m<i'\cdot m$. Such $m=(1,d,d^2,\dots,d^{n-1})$ for sufficiently large $d$. Then, we obtain that $x_1$ is integral over $k[y_2,\dots,y_n]$ and $k[x_1,\dots,x_n]=k[y_2,\dots,y_n][x_1]$. Inductively, if $y_2,\dots,y_n$ are algebraically independent, then $r=n-1$ and we have $y_2,\dots,y_n$ satisfying the argument. If not, repeat the argument with $A'=k[x_1',\dots,x_{n-1}']$. The case $n=1$ is treated by taking $r=0$.
+\end{proof}
+
+
+\section{Hilbert’s nullstellensatz}
+We are interested in zeros of multi-variable polynomials. We also consider systems of equations
+\begin{align*}
+    f_1(X_1,X_2,\dots,X_n)&=0, \\
+    f_2(X_1,X_2,\dots,X_n)&=0, \\
+    \vdots \\
+    f_m(X_1,X_2,\dots,X_n)&=0
+\end{align*}
+where $f_i\in k[X_1,\dots,X_n]$. If $\underline{c}=(c_1,\dots,c_n)$ satisfies the equations, then $g(\underline{c})$ for all
+\begin{align*}
+    g\in \mathfrak{A}=\langle f_1,\dots,f_m\rangle \subset k[X_1,\dots,X_n].
+\end{align*}
+So it is convenient to formulate such systems as ideals. Let $k^a$ be a fixed algebraic closure of $k$ and put
+\begin{align*}
+    V(\mathfrak{A})=\{\underline{c}\in k^a:g(\underline{c})=0\ \forall g\in\mathfrak{A}\}.
+\end{align*}
+Note that $V(\mathfrak{A})$ is the set of all solutions.
+
+\begin{theorem}
+    Let $k$ be a field and $k\to A$ a finitely generated $k$-algebra. For a homomorphism $k\to L$ into an algebraically closed $L$, there is an extension $\varphi:A\to L$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A\arrow[r, dashed, "\varphi"]\arrow[d, dash] & L\arrow[d, dash] \\
+            k\arrow[r, dash] & L
+        \end{tikzcd}
+    \end{figure}
+\end{theorem}
+\begin{proof}
+    Choose maximal $\mathfrak{M}\subset A$ and put $B=A/\mathfrak{M}$. We have
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            A\arrow[dr] \arrow[dd, dash] & & \\
+            & B \arrow[dr, dashed, "?"] & \\
+            k\arrow[ur]\arrow[rr, dash] & & L
+        \end{tikzcd}
+    \end{figure}
+    \noindent Let $B=k[x_1,\dots,x_n]$. Note that $B$ is a domain. By Noether normalization, we can find $y_1,\dots,y_r$ such that $k[x_1,\dots,x_n]/k[y_1,\dots,y_r]$ is integral and $y_1,\dots,y_r$ are algebraically independent. We may find $\varphi_i:k[y_1,\dots,y_r]$ such that $\varphi_i(y_i)=0$. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \mathfrak{M}' & B\arrow[r]\arrow[dd, dash] & B/\mathfrak{M}'=B' & L \\
+            & & k\simeq \frac{k[y_1,\dots,y_r]}{(y_1,\dots,y_r)} \arrow[u] \arrow[ur, "\overline{\varphi}_i"'] & \\
+            \mathfrak{M}\arrow[uu, dashed, "\text{going up}"] & k[y_1,\dots,y_r] \arrow[ur] &
+        \end{tikzcd}
+    \end{figure}
+    \noindent We know that $B'$ is finitely generated, domain and $B'/k$ is integral. Hence $B'$ is a field. By field theory, we can find $B'\to L$.
+\end{proof}
+
+Let $\mathfrak{A}\subset k[X_1,\dots,X_n]$ and $V(\mathfrak{A})\subset(k^a)^n$. Let $f\in\mathfrak{A}$. Then we have
+\begin{align*}
+    (f)\subset\mathfrak{A} &\implies V((f))\supset V(\mathfrak{A}) \\
+    &\iff \text{If }g(\underline{c})\text{ for all }g\in\mathfrak{A}\text{, then }f(\underline{c})=0.
+\end{align*}
+The converse does not hold. Let $\mathfrak{A}=(T^N)\subset k[T]$ for some $N\ge 2$ and $f=T$. It is clear that $(f)\not\subset\mathfrak{A}$.
+
+\begin{theorem}[Nullstellensatz]
+    If $V(f)\supset V(\mathfrak{A})$, then for some $N$, $f^N\in\mathfrak{A}$.
+\end{theorem}
+\begin{proof}
+    Recall that $\mathfrak{A}\subset k[X_1,\dots,X_n]$. Introduce another variable $Y$ and consider $1-fY$. Let
+    \begin{align*}
+        \mathfrak{A}'=(\mathfrak{A},1-fY)\subset k[X_1,\dots,X_n,Y].
+    \end{align*}
+    In fact, $\mathfrak{A}'=k[X_1,\dots,X_n,Y]$, as if not, then
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \frac{k[X_1,\dots,X_n,Y]}{\mathfrak{A}'}\arrow[dr, dashed, "\phi"] \\
+            k\arrow[rr]\arrow[ur] && k^a
+        \end{tikzcd}
+    \end{figure}
+    \noindent if $\phi(X_i)=c_i$, then $\underline{c}\in V(\mathfrak{A})$ and $1-\phi(f)\phi(Y)=0$ implies $f(\underline{c})\neq 0$ and $\underline{c}\notin V(f)$. This is a contradiction. Hence $1\in\mathfrak{A}'=(\mathfrak{A},1-fY)$ and we may write
+    \begin{align*}
+        1=h(1-fY)+\sum h_i f_i
+    \end{align*}
+    where $h_i\in k[X_1,\dots,X_n,Y]$ and $f_i\in\mathfrak{A}$. Put $Y=\frac{1}{f}$. Then
+    \begin{align*}
+        1=\sum h_i\left(X_1,\dots,X_n,\frac{1}{f}\right) f_i(X_1,\dots,X_n).
+    \end{align*}
+    For sufficiently large $N$,
+    \begin{align*}
+        f^N=\sum_{i=1}^r f^N h_i\left(X_1,\dots,X_n,\frac{1}{f}\right) f_i(X_1,\dots,X_n) \in \mathfrak{A}.
+    \end{align*}
+\end{proof}
+
+
+
+
+
+
+
+%\section{Algebraic sets, spaces and varieties}
+
+\section{Elimination}
+
+We are interested in solving a system of equations
+\begin{align*}
+    f_1(X_1,X_2,\dots,X_n)&=0, \\
+    f_2(X_1,X_2,\dots,X_n)&=0, \\
+    \vdots \\
+    f_m(X_1,X_2,\dots,X_n)&=0.
+\end{align*}
+where $f_i\in k[x_1,\dots,x_n]$. The question is, when does the system have a common solution in the algebraic closure $k^a$. In fact, there are two variants.
+\begin{enumerate}
+    \item $f_i$'s are arbitrary, and we find solutions in $(k^a)^n$.
+    \item $f_i$'s are homogeneous of degree $\ge 1$, and we find solutions in $(k^a)^n\setminus \{(0,\dots,0)\}$.
+\end{enumerate}
+
+\begin{example}
+    Consider the system
+    \begin{align*}
+        a_{11}X_1+\cdots+a_{1n}X_n &= 0, \\
+        \vdots \\
+        a_{n1}X_1+\cdots+a_{nn}X_n &= 0.
+    \end{align*}
+    The system has a solution in $(k^a)^n\setminus \{(0,\dots,0)\}$ if and only if $\det (a_{ij})=0$. Here we observe that determinant of coefficients can play a role in determining the existence of the solution. We try to generalize this.
+\end{example}
+
+\begin{theorem}[Fundamental theorem of elimination theory]
+    Let $d_1,\dots,d_m\ge 1$ be integers. Let $f_1,\dots,f_m\in k[X_1,\dots,X_n]$ be homogeneous polynomials of degrees $d_1,\dots,d_m$, respectively, and let
+    \begin{align*}
+        f_j = \sum_{i_1+\dots+i_n=d_j} u_{ji}X^{\underline{i}},\quad u_{ji}\in k.
+    \end{align*}
+    There exists
+    \begin{align*}
+        R\in k[u_{ji},j=1,\dots,m,i_1+\cdots+i_n=d_j]
+    \end{align*}
+    such that $f_1=\cdots=f_m=0$ has a solution if and only if $R(u_{ji})=0$.
+\end{theorem}
+\begin{remark}
+    Such $R$ is called a \emph{resultant}.
+\end{remark}
+\begin{remark}
+     In fact, one can show that there is a universal (independent of $k$) $R\in \Z[X_1,\dots,X_n]$ determined by $d_1,\dots,d_m$. Such a result is a consequence of a theory of equations over $\Z$. Even other fields, we do not have a suitable language to discuss sets of solutions.
+\end{remark}
+\begin{remark}
+     Nullstellensatz only considers solutions in $k^a$.
+\end{remark}
+
+To deal with such problems, we extend the notion of solution sets.
+\begin{definition}
+    Define
+    \begin{align*}
+        \mathcal{Z}_\mathfrak{a}:\{k\text{-algebras}\} &\to \mathbf{Sets} \\
+        A &\mapsto \{\text{homomorphisms }k[X_1,\dots,X_n]/\mathfrak{a}\to A\}=\Hom{k[X_1,\dots,X_n]/\mathfrak{a}}{A}{k\text{-alg}}
+    \end{align*}
+\end{definition}
+\begin{remark}
+    $\mathcal{Z}_\mathfrak{a}(k^a)=V(\mathfrak{a})$. $\mathcal{Z}_\mathfrak{a}$ is not determined by $V(\mathfrak{a})$.
+\end{remark}
+
+\begin{example}
+    Let $k=\R$, $\mathfrak{a}_1=(x^2+1)$, $\mathfrak{a}_2=(x(x-1))$. Then
+    \begin{align*}
+        \Hom{\R[X]/(x^2+1)}{\R}{\R\text{-alg}} &= \emptyset, \\
+        \Hom{\R[X]/(x(x-1)}{\R}{\R\text{-alg}} &= \{\psi_0:X\mapsto 0,\psi_1:X\mapsto 1\}.
+    \end{align*}
+    However, by Chinese Remainder Theorem, $\C[X]/\mathfrak{a}_1\simeq \C[X]/\mathfrak{a}_2$.
+\end{example}
+
+The example above shows that $\mathcal{Z}_\mathfrak{a}$ contains more information than $V(\mathfrak{a})$. Next, we study about tools to handle homogeneous polynomials.
+
+\begin{definition}
+    The \emph{affine space} $\mathbb{A}_k^n$ is defined as
+    \begin{align*}
+        \mathbb{A}_k^n : \{k\text{-algebras}\} &\to \mathbf{Sets}, \\
+        A &\mapsto A^n.
+    \end{align*}
+    The \emph{projective space} $\mathbb{P}_k^n$ is defined as
+    \begin{align*}
+        \mathbb{P}_k^n : \{k\text{-algebras}\} &\to \mathbf{Sets}, \\
+        A &\mapsto \{\text{short exact sequences }0\to M\to A^{n+1}\to M'\to 0\}.
+    \end{align*}
+    where $M$ is free of rank $1$ and $M'$ is free of rank $n$. For a field $A=L$, $0\to M\to L^{n+1}\to M'\to 0$ is determined by $M\subset L^{n+1}$. That is,
+    \begin{align*}
+        \mathbb{P}_k^n(L) &= \{1\text{-dimensional subspaces of }L^{n+1}\} \\
+        &= \{(a_0,\dots,a_n)\in L^{n+1}:(a_0,\dots,a_n)\neq 0\}/(a_1,\dots,a_n)\sim \lambda (a_1,\dots,a_n).
+    \end{align*}
+\end{definition}
+\begin{remark}
+    If $f_1,\dots,f_m\in k[X_0,\dots,X_n]$ are homogeneous polynomials, then their zero set is
+    \begin{align*}
+        L\mapsto \{(a_0,\dots,a_n)\in \mathbb{P}_k^n(L):f_i(a_0,\dots,a_n)=0~\forall i\}.
+    \end{align*}
+    Observe that $f_i(\lambda a_0,\dots,\lambda a_n)=\lambda^{\deg f}f_i(a_0,\dots,a_n)$.
+\end{remark}
+
+Using this notion, we rewrite the fundamental theorem in elimination theory.
+
+\begin{theorem}
+    Let $d_1,\dots,d_m\ge 1$ be integers. Consider $\mathbb{A}^N\times \mathbb{P}_k^{n-1}$ and $\mathcal{Z}$ defined by
+    \begin{align*}
+        \mathcal{Z}=\{(\underline{u},\underline{x})\in\mathbb{A}^N(L)\times \mathbb{P}_k^{n-1}(L):f_{i\underline{u}}(\underline{x})=0\}.
+    \end{align*}
+    Then
+    \begin{align*}
+        L\mapsto \{(\underline{u})\in \mathbb{A}^N(\underline{u}),f_{i\underline{u}}(\underline{x})=0\text{ has a common zero}\}
+    \end{align*}
+    is a functor given by $\mathcal{Z}_\mathfrak{a}$ for some $\underline{\mathfrak{a}}\subset k[\underline{u}]$.
+\end{theorem}
+\begin{remark}
+    The second formulation has an advantage of being a formal consequence. We will not cover this here.
+\end{remark}
+
+\clearpage
+\section{Resultants}
+The basic case is when $m=2$ and $n=1$. 
+
+
+\clearpage
+\section{Spec of a ring}
+
+Nullstellensatz describes $\mathcal{Z}(\mathfrak{A})\subset (k^a)^n$ of $\mathfrak{A}\subset k[X_1,\dots,X_n]$ as the set of zeros of $f$'s such that $f^n\in\mathfrak{A}$ for some $n$.
+\begin{align*}
+    \mathcal{Z}(\mathfrak{A})=\{(a_1,\dots,a_n)\in (k^a)^n:f(a_1,\dots,a_n)=0\text{ for all }f\in\mathfrak{A}\}.
+\end{align*}
+The question is, if $g(b_1,\dots,b_n)=0$ for all $(b_1,\dots,b_n)\in\mathcal{Z}(\mathfrak{A})$, then $g\in\mathfrak{A}$? \\
+
+\begin{definition}
+    Given a commutative ring $A$ and an ideal $\mathfrak{A}\subset A$, define
+    \begin{align*}
+        \mathrm{rad}(\mathfrak{A})=\{f\in A:f^n\in\mathfrak{A}\text{ for some }n\}.
+    \end{align*}
+\end{definition}
+
+\begin{proposition}
+    Let $A$ be a commutative ring and let $\mathfrak{A}$ be its ideal. Then
+    \begin{align*}
+        \mathrm{rad}(\mathfrak{A})=\bigcap_{\mathfrak{P}\supset\mathfrak{A}}\mathfrak{P}
+    \end{align*}
+    where $\mathfrak{P}$ runs over the set of all prime ideals of $A$ containing $\mathfrak{A}$.
+\end{proposition}
+\begin{proof}
+    If $f\in\bigcap \mathfrak{P}$, then for all $\mathfrak{P}$ we have $f^n\in\mathfrak{P}$ and $f\in\mathfrak{P}$. Hence $f\in\mathrm{rad}(\mathfrak{A})$.
+\end{proof}
+
+Using our proposition, Nullstellensatz can be upgraded to
+\begin{figure}[H]
+    \centering
+    \begin{tikzcd}
+        \{V\subset(k^a)^n:V=\mathcal{Z}(\mathfrak{A})\text{ for some }\mathfrak{A}\subset k[X_1,\dots,X_n]\} \arrow[d, dash] & \mathcal{Z}(\mathfrak{A}) & V\arrow[d, mapsto] \\
+        \{\mathfrak{A}\subset k[X_1,\dots,X_n]:\mathfrak{A}=\mathrm{rad}(\mathfrak{A})\} & \mathfrak{A}\arrow[u, mapsto] & \mathfrak{A}_V
+    \end{tikzcd}
+\end{figure}
+\noindent where $\mathfrak{A}_V=\{g:g(b_1,\dots,b_n)=0\text{ for all }(b_1,\dots,b_n)\in V\}$. Nullstellensatz tells us that $\mathfrak{A}_{\mathcal{Z}(\mathfrak{A})}=\mathrm{rad}(\mathfrak{A})$.\\
+
+It is natural to consider $\mathcal{Z}(\mathfrak{A})$ as the set of certain prime ideals rather than maximal ideals. By Nullstellensatz we know
+\begin{align*}
+    (b_1,\dots,b_n)\in\mathcal{Z}(\mathfrak{A})\iff (X_1-b_1,\dots,X_n-b_n)\supset \mathfrak{A}.\quad (\mathfrak{A}=\mathrm{rad}(\mathfrak{A}))
+\end{align*}
+
+For a commutative ring $A$ and an ideal $\mathfrak{A}\subset A$, define
+\begin{align*}
+    \mathcal{Z}(\mathfrak{A})=\{\mathfrak{P}\subset A:\mathfrak{P}\supset\mathfrak{A}\}.
+\end{align*}
+By our proposition, we know that $\mathcal{Z}(\mathfrak{A})=\mathcal{Z}(\mathrm{rad}(\mathfrak{A}))$.
+
+\begin{definition}
+    Define $\mathrm{spec}(A)$ to be the topological space consisting of all prime ideals of $A$ where closed sets are $\mathcal{Z}(\mathfrak{A})$ for (radical) ideals $\mathfrak{A}$.
+\end{definition}
+
+Now, we need to check that
+\begin{enumerate}
+    \item $\emptyset$, $\mathrm{spec}(A)$ are closed.
+    \item If $V_1$ and $V_2$ is closed, then $V_1\cup V_2$ is closed.
+    \item If $V_i$ are closed for $i\in I$, then $\bigcap V_i$ is closed.
+\end{enumerate}
+
+\begin{remark}
+    Let $X$ be a compact Hausdorff space. Let $C(X)=\{f:X\to\R\}$ If $Y\subset X$ is a closed subset, consider
+    \begin{align*}
+        \mathfrak{A}_Y=\{f\in C(X):f(y)=0\text{ for all }y\in Y\}.
+    \end{align*}
+    We consider $C(X)\to C(Y)$ as the restriction $f\to f|_Y$. Then
+    \begin{align*}
+        0\to\mathfrak{A}_Y\to C(X)\to C(Y)\to 0
+    \end{align*}
+    is a short exact sequence. In fact, the sequence splits (Gelfand–Naimark theorem).
+\end{remark}
+
+We consider $X$ to be $\mathrm{spec}(A)$ and $Y$ to be $\mathcal{Z}(\mathfrak{A})$. The problem is that we don't have objects as $C(X)$. Given $f\in A$, we view $f$ as a function on $\mathrm{spec}(A)$. Given $\mathfrak{P}\subset A$, 
+\begin{align*}
+    A &\to A/\mathfrak{P} \\
+    f &\mapsto f_\mathfrak{P},
+\end{align*}
+regard $f_\mathfrak{P}$ as the values of $f$ at $\mathfrak{P}$. Then, $\mathcal{Z}((f))$ is the zero set of the function $f$ on the set $\mathrm{spec}(A)$. Then there is the smallest topology which makes all $f$ to be continuous. Then $\mathcal{Z}(\mathfrak{A})$ is closed by definition. One needs to show that there are no more closed sets. This comes from our proposition. \\
+
+We observe the irreducibility. Let $X$ be a topological space. A closed subset $Y\subset X$ is called \emph{irreducible} if $Y=Y_1\cup Y_2$ with $Y_1$, $Y_2$ closed implies $Y=Y_1$ or $Y=Y_2$.
+
+\begin{proposition}
+    Suppose $A$ is Noetherian. Any closed subset $Z\subset\mathrm{spec}(A)$ can be decomposed as
+    \begin{align*}
+        Z=Z_1\cup Z_2\cup\cdots\cup Z_k
+    \end{align*}
+    where $Z_i$ are irreducible and $Z_i\not\subset Z_j$ for $i\neq j$. Moreover, the decomposition is unique.
+\end{proposition}
+
+
+\bibliography{references}
+\bibliographystyle{plain}
+\nocite{*}
+
+
+
+\end{document}

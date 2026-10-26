@@ -1,0 +1,3 @@
+# Keep downloadable source snapshots identical to their recorded SHA-256 hashes.
+source/** -text
+dist/source/** -text

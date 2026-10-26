@@ -1,0 +1,671 @@
+\documentclass[12pt]{article}
+ 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{physics}
+\usepackage[pdfencoding=auto, psdextra]{hyperref}
+\usepackage{bookmark}
+\usepackage{enumitem}
+\usepackage{fullpage}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{tikz}
+\hypersetup{
+    colorlinks=true,
+    linktoc=all,
+    linkcolor=blue,
+}
+
+\usepackage{mathtools}
+
+\usetikzlibrary{cd}
+
+% Packages for algorithm
+\usepackage{algorithm}
+\usepackage{algorithmicx, algpseudocode}
+\usepackage{float}
+
+% Definitions for algorithm
+
+\algblockdefx{MRepeat}{EndRepeat}{\textbf{repeat}}{}
+\algnotext{EndRepeat}
+
+% Packages for Korean
+\usepackage{kotex} 
+
+
+\usepackage{extpfeil}
+\newextarrow{\xbigtoto}{{20}{20}{20}{20}}
+   {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
+
+
+\graphicspath{{./images/}}
+
+\newcommand{\piecewise}[1]{
+   \foreach \f/\a/\b/\open/\closed in {#1}{%
+      \draw[domain=\a:\b, smooth, variable=\x] plot ({\x}, \f);
+      \foreach \x[evaluate={\y=\f;}] in \open{%
+         \draw[fill=white] (\x,\y) circle (.6mm);
+      }
+      \foreach \x[evaluate={\y=\f;}] in \closed{%
+         \fill (\x,\y) circle (.6mm);
+      }
+   }
+}
+
+%% Theorem, Corollary, Lemma
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+%% User-defined commands
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+%\newcommand{\DD}{\mathbb{D}}
+%\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\Expec}[2]{\underset{#2}{\mathbb{E}}\left[ #1 \right]}
+\newcommand{\ExpecTwo}[3]{\underset{#3}{\underset{#2}{\mathbb{E}}}\left[ #1 \right]}
+\newcommand{\ExpecThree}[4]{\underset{#4}{\underset{#3}{\underset{#2}{\mathbb{E}}}}\left[ #1 \right]}
+\newcommand{\Prob}[2]{\underset{#2}{\mathbb{P}}\left[ #1 \right]}
+\newcommand{\Var}[2]{\underset{#2}{\mathrm{Var}}\left[ #1 \right]}
+
+\newcommand{\diam}[1]{\mathrm{diam}\left( #1 \right)}
+\newcommand{\hcap}[1]{\mathrm{hcap}\left( #1 \right)}
+\newcommand{\Imm}[1]{\mathrm{Im}\left[ #1 \right]}
+
+\newcommand{\Caraconv}{\stackrel{\mathrm{Cara}}{\longrightarrow}}
+
+\newcommand{\RightSqP}{]}
+
+
+\newcommand{\Hom}[3]{\mathrm{Hom}_{#3}(#1,#2)}
+
+
+\begin{document}
+
+\title{Projective Modules and Injective Modules}
+\author{Juhyeok Choi}
+\date{}
+
+\maketitle
+
+
+\section{Projective modules}
+\begin{theorem}\label{Theorem 2.6.1.}
+    For a module $P$ over $A$, the followings are equivalent.
+    \begin{enumerate}
+        \item For all $\pi$, there exists $\tilde{\pi}$ such that $q\circ \tilde{\pi} = \pi$.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                & P \arrow[dl, dashed, "\tilde{\pi}"'] \arrow[d, "\pi"] \\
+                M \arrow[r, "q"'] & M' \arrow[r] & 0
+            \end{tikzcd}
+        \end{figure}
+        \item If $0\rightarrow M'\rightarrow M\rightarrow P\rightarrow 0$ is exact, then it splits.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                0\arrow[r] & M'\arrow[r] & M\arrow[r] & P\arrow[r]\arrow[l, dashed, bend right = 20] & 0
+            \end{tikzcd}
+        \end{figure}
+        \item There exists an $A$-module $M$ such that $P\oplus M$ is free.
+        \item $M\mapsto \Hom{P}{M}{A}$ is exact; if $0\rightarrow M'\rightarrow M\rightarrow M''\rightarrow 0$ is exact, so is
+        \begin{align*}
+            0\rightarrow \Hom{P}{M'}{A}\rightarrow \Hom{P}{M}{A}\rightarrow \Hom{P}{M''}{A}\rightarrow 0.
+        \end{align*}
+    \end{enumerate}
+\end{theorem}
+\begin{remark}
+    For any $N$,
+    \begin{align*}
+        0\rightarrow \Hom{N}{M'}{A}\rightarrow \Hom{N}{M}{A}\rightarrow \Hom{N}{M''}{A}\rightarrow 0
+    \end{align*}
+    is exact.
+\end{remark}
+\begin{proof}
+    ($1\implies 2$) Recall that the above sequence splits if $M\rightarrow P$ splits(admits a section); there is $\sigma:P\rightarrow M$ such that $q\circ \sigma=\mathbf{1}_{P}$. Letting $M'=P$ and $\pi=\mathbf{1}_P$ we get $\sigma=\tilde{\pi}$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & & & P \arrow[dl, dashed, "\sigma"'] \arrow[d, "\mathbf{1}_P"] \\
+            0\arrow[r] & M'\arrow[r] & M \arrow[r, "q"'] & P \arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent ($2\implies 3$) Observe that there exists a free $A$-module $F$ and a surjective $A$-homomorphism $F\xrightarrow[]{q}P$. (Let $|P|$ be the underlying set of $P$. Free module on $|P|$, say $F_{P}$, admits a map $F_{|P|}\rightarrow P$, which is surjective.) Let $M=\ker(q)$. Then
+    \begin{align*}
+        0\rightarrow M\rightarrow F\rightarrow P\rightarrow 0
+    \end{align*}
+    is exact. By assumption,
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M\arrow[r]\arrow[d, dash, double] & F\arrow[r]\arrow[d] & P\arrow[r]\arrow[d, dash, double] & 0 \\
+            0\arrow[r] & M\arrow[r] & M\oplus P\arrow[r] & P\arrow[r] & 0
+        \end{tikzcd}
+    \end{figure}
+    \noindent Therefore $F\simeq M\oplus P$. \\
+    ($3\implies 4$) It suffices to show that if
+    \begin{align*}
+        M\xrightarrow[]{q}M''\rightarrow 0
+    \end{align*}
+    is exact, then
+    \begin{align*}
+        \Hom{P}{M}{A}\xrightarrow[]{q_*}\Hom{P}{M''}{A}\rightarrow 0
+    \end{align*}
+    is exact. Assume $P$ is free. Let
+    \begin{align*}
+        P\simeq \bigoplus_{i\in I} A\cdot e_i.
+    \end{align*}
+    For all $A$-module, we have
+    \begin{align*}
+        \Hom{P}{N}{A}\simeq \Hom{I}{N}{\mathbf{Sets}}.
+    \end{align*}
+    It suffices to show that $\Hom{P}{M}{A}\xrightarrow[]{q_*} \Hom{P}{M''}{A}$ is surjective. Note that $\Hom{I}{M}{\mathbf{Sets}}\xrightarrow[]{\tilde{q_*}} \Hom{I}{M''}{\mathbf{Sets}}$ is surjective as $q$ is surjective as set functions. Therefore $\mathrm{coker}(q_*)=0$. If $P$ is not free, observe the bijection
+    \begin{align*}
+        \Hom{M_1\oplus M_2}{N}{A}\simeq \Hom{M_1}{N}{A}\times \Hom{M_2}{N}{A}.
+    \end{align*}
+    Let $M_P$ be an $A$-module such that $P\oplus M_P$ is free. Take $M_1=P$, $M_2=M_P$ and $P\oplus M_P\simeq \bigoplus_{i\in I} A\cdot e_i$. Then
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            \Hom{P\oplus M_P}{M}{A} \arrow[r, "q_*"] \arrow[d, dash, double] & \Hom{P\oplus M_P}{M''}{A} \arrow[r]\arrow[d, dash, double] & 0 \\
+            \Hom{P}{M}{A} \times \Hom{M_P}{M}{A} \arrow[r, "\alpha\times\beta"'] & \Hom{P}{M''}{A}\times \Hom{M_P}{M''}{A} & \\
+            (u,v) \arrow[r, mapsto] & (q\circ u,q\circ v) &
+        \end{tikzcd}
+    \end{figure}
+    \noindent As $\alpha\times\beta$ is surjective, $\alpha$ and $\beta$ are surjective. The surjectivity of $\alpha$ shows that $M\mapsto \Hom{P}{M}{A}$ is exact. \\
+    ($4\implies 1$) Let $q:M\rightarrow M''$ be surjective and let $\pi:P\rightarrow M''$ be a homomorphism. Then
+    \begin{align*}
+        0\rightarrow \ker q\rightarrow M\xrightarrow[]{q} M''\rightarrow 0
+    \end{align*}
+    is exact, and by assumption
+    \begin{align*}
+        0\rightarrow \Hom{P}{\ker q}{A}\rightarrow \Hom{P}{M}{A}\xrightarrow[]{q_*} \Hom{P}{M''}{A}\rightarrow 0
+    \end{align*}
+    is also exact. For $\pi\in\Hom{P}{M''}{A}$, take $\tilde{\pi}$ to be a preimage of $\pi$ along $p_*$. Then $q\circ \tilde{\pi} = q_*(\tilde{\pi})=\pi$.
+\end{proof}
+
+\begin{definition}
+    A module $P$ is called \emph{projective} if $P$ satisfies the conditions of the theorem above.
+\end{definition}
+
+\begin{corollary}
+    A free module is projective.
+\end{corollary}
+\begin{proof}
+    Note that $F\oplus 0$ is free.
+\end{proof}
+\begin{remark}
+    The converse does not hold; there are projective modules that are not free. For example, if $A_1$ and $A_2$ are rings, then $A_1\oplus A_2\simeq A_1\times A_2$ is also a ring. Then the ideals $A_1\times\{0\}$, $\{0\}\times A_2$ of $A_1\times A_2$ satisfy
+    \begin{align*}
+        (A_1\times\{0\})\oplus (\{0\}\oplus A_2) \simeq A_1\times A_2.
+    \end{align*}
+    $A_1\times A_2$ is free, but $A_1\times \{0\}$ and $\{0\}\times A_2$ are not free.
+\end{remark}
+
+\begin{remark}
+    In general, we have such a diagram.
+    \begin{align*}
+        \text{free} \implies \text{projective} \implies \text{flat} \implies \text{torsion-free}
+    \end{align*}
+\end{remark}
+
+
+\subsection{Grothendieck group}
+
+Finitely generated projective modules over a ring $A$ with short exact sequences form a \emph{Grothendieck group} $K(A)$. It is an additive group generated by finitely generated projective modules and the relations are given by
+\begin{align*}
+    P=P'\oplus P''\iff 0\rightarrow P'\rightarrow P\rightarrow P'' \rightarrow 0 \iff [P]=[P']+[P''].
+\end{align*}
+Let $X$ be a set of all finitely generated projective modules and let $R$ be a set of short exact sequences. Then we have an exact sequence
+\begin{alignat*}{2}
+    0\rightarrow F_R &\rightarrow F_X&& \rightarrow K_0(A)\rightarrow 0. 
+\end{alignat*}
+Such an exact sequence is a standard algebraic way of defining a group from generators and relations. The group $K(A)$ can be understood as a group generated by $X$ with relations $R$, or a quotient group $F_X/\mathrm{Im}(F_R)$. \\
+We define $K_0(A)$ as $K(A)/\sim$ with the equivalence equation
+\begin{align*}
+    P\sim P' \iff \exists \text{free }F,F'\text{ s.t. }P\oplus F\simeq P'\oplus F'.
+\end{align*}
+
+
+\subsection{Projective modules over Dedekind rings}
+
+Here, we discuss about the projective modules over Dedekind rings. First, we study Dedekind rings.
+
+\begin{definition}
+    Let $R$ be an integral domain and let $F$ be a field of fraction of $R$. Let $M\le F$ be a $R$-submodule. If there exists $d\in R\setminus\{0\}$ such that $dM\subset R$, we say $M$ is a \emph{fractional ideal of $R$}.
+\end{definition}
+
+\begin{definition}
+    Let $M$, $N$ be fractional ideals of $R$. Then we define the product as
+    \begin{align*}
+        MN = \left\{ \sum_{i=1}^n x_iy_i:n\in\N,x_i\in M,y_i\in N \right\}.
+    \end{align*}
+\end{definition}
+\begin{remark}
+    $MN$ is also a fractional ideal.
+\end{remark}
+
+\begin{theorem}\label{Theorem 1.3.7.}
+    Let $R$ be an integral domain. The following conditions are equivalent.
+    \begin{enumerate}
+        \item $R$ is an integrally closed Noetherian ring and every nonzero prime ideal is a maximal ideal.
+        \item Every nonzero proper ideal can be uniquely expressed as a product of prime ideals.
+        \item The set of nonzero fractional ideal of $R$ is a multiplicative abelian group.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ($1\implies 2$) Let $P$ be a nonzero prime ideal of $R$. Let
+    \begin{align*}
+        P^{-1}:=\{x\in F:xP\subset R\}.
+    \end{align*}
+    We observe that
+    \begin{itemize}
+        \item $P^{-1}$ is a fractional ideal.\\
+        $P^{-1}$ is an $R$-submodule of $F$, and for all $a\in P$, $aP^{-1}\in R$. Hence $P^{-1}$ is a fractional ideal.
+        \item $R\subsetneq P^{-1}$. \\
+        Let $b\in P$ where $b\neq 0$. As $R$ is Noetherian, there exists prime ideals $P_1,\dots,P_r$ such that $P_i\supset Rb$ for $i=1,\dots,r$ and $Rb\supset P_1\cdots P_r$. As $Rb\subset P$, $P\supset P_i$ for some $i$, without loss of generality let $P\supset P_1$. As every prime ideal is maximal, $P=P_1.$ As $Rb\not\supset P_2\cdots P_r$, then there exists $a\in P_2\cdots P_r$ such that $a\notin Rb$ and $\frac{a}{b}\notin R$. However,
+        \begin{align*}
+            \left(\frac{a}{b}\right)P\subset \left(\frac{1}{b}\right) P_1\cdots P_r\subset R
+        \end{align*}
+        and $\frac{a}{b}\in P^{-1}$. Therefore $R\subsetneq P^{-1}$.
+        \item $PP^{-1}=R$ \\
+        As $P=PR\subset PP^{-1}\subset R$, $PP^{-1}=R$ or $PP^{-1}=P$. Suppose $PP^{-1}=P$. Then
+        \begin{align*}
+            PP^{-2}=(PP^{-1})P^{-1} = PP^{-1} = P
+        \end{align*}
+        and for all $n\ge 1$, $PP^{-n}=P$. Then for arbitrary $a\in P$ and $b\in P^{-1}$, $ab^n \in PP^{-n} = P$ for all $n\ge 1$. Now consider an ideal
+        \begin{align*}
+            J = \sum_{n=0}^\infty Rab^n.
+        \end{align*}
+        As $R$ is Noetherian, $J$ is finitely generated and there exists $n$ such that
+        \begin{align*}
+            ab^n = \sum_{i=0}^{n-1}c_i ab^i,\quad c_i\in R.
+        \end{align*}
+        Then 
+        \begin{align*}
+            b^n-\sum_{i=0}^{n-1}c_i b^i = 0
+        \end{align*}
+        and $b$ is integral over $R$. As $R$ is integrally closed, $b\in R$. This implies that $P^{-1}\subset R$, which contradicts with the prior observation. Therefore $PP^{-1}=R$.
+    \end{itemize}
+    Now consider a nonzero proper ideal of $R$. Then there exists a prime ideal $P_1,\dots,P_r$ such that
+    \begin{align*}
+        P_i\supset I,\quad I\supset P_1\cdots P_r,
+    \end{align*}
+    here set $r$ to be the minimal possible value. We do the induction with respect to $r$. If $r=1$, $I=P_1$. Suppose the assertion holds for $1,\dots,r-1$. Then for $r$,
+    \begin{align*}
+        R=P_rP_r^{-1}\supset IP_r^{-1}\supset P_1\cdots P_rP_r^{-1}=P_1\cdots P_{r-1}.
+    \end{align*}
+    By induction hypothesis, $IP_r^{-1} = P_1'\cdots P_s'$ for some prime ideals $P_1',\dots,P_s'$ and $I=P_1'\cdots P_s'$.\\
+    Now we show the uniqueness. Let
+    \begin{align*}
+        I=P_1\cdots P_r = P_1'\cdots P_s'.
+    \end{align*}
+    If we set $P_1$ to be maximal, $P_1\supset P_1\cdots P_r = P_1'\cdots P_s'$, and $P_1\supset P_i'$. Without loss of generality, let $i=1$ and we get $P_1=P_1'$. Inductively we can get $P_i=P_i'$.\\
+    ($2\implies 3$) Let $M\neq 0$ be a fractional ideal of $R$. Then there exists $d\in R\setminus\{0\}$ such that $dM\subset R$. Write $M=(Rd)^{-1}(RdM)$ where $(Rd)^{-1} = Rd^{-1}$. By assumption, $RdM$ can be written as a product of prime ideals. \\
+    It suffices to show that every nonzero prime ideal $P$ has an inverse. Let $a\in P$ and $a\neq 0$. Then
+    \begin{align*}
+        P\supset Ra = R_1\cdots P_r.
+    \end{align*}
+    where $P_i$ are prime ideals of $R$. As $Ra$ is invertible, $P_i$'s are invertible. Note that $P\supset P_i$ for some $i$ and if we show that every invertible prime ideal is maximal, we obtain $P=P_i$.\\
+    Now we prove every invertible prime ideal is maximal. Let $P$ be an invertible prime ideal of $R$. It suffices to show that if $a\in R$ and $a\neq P$, then $P+Ra=R$. Let
+    \begin{align*}
+        I=P+Ra = P_1\cdots P_m,\quad (P_i\text{ prime ideals of }R)
+    \end{align*}
+    and
+    \begin{align*}
+        I'=P+Ra^2 = P_1'\cdots P_n'\quad (P_i'\text{ prime ideals of }R).
+    \end{align*}
+    As $\overline{R}=R/P$ is an integral domain,
+    \begin{align*}
+        \overline{R}\overline{a} = \overline{P}_1\cdots\overline{P}_m,\quad (\overline{P_i}=P_i/P)
+    \end{align*}
+    and
+    \begin{align*}
+        \overline{R}\overline{a}^2 = \overline{P}_1'\cdots\overline{P}_m',\quad (\overline{P_i}'=P_i'/P).
+    \end{align*}
+    As $\overline{R}\overline{a}$ and $\overline{R}\overline{a}^2$ are invertible, $\overline{P}_i$'s and $\overline{P}_j'$ are invertible. Also note that
+    \begin{align*}
+        \overline{P}_1'\cdots\overline{P}_m' =\overline{R}\overline{a}^2 = \left( \overline{R}\overline{a} \right)^2 = \overline{P}_1^2\cdots\overline{P}_m^2.
+    \end{align*}
+    By the uniqueness of factorization, we may write
+    \begin{align*}
+        2m=n,\quad \overline{P}_{2i-1}'=\overline{P}_{2i}'=\overline{P}_i,\quad i=1,\dots,m.
+    \end{align*}
+    (Such a factorization is unique as if we consider a minimal ideal among $\overline{P}_1,\dots,\overline{P}_m$, let $\overline{P}_1$, then it equals $\overline{P}_j'$ for some $j$.) Then we obtain $P_{2i-1}'=P_{2i}'=P_i$. Hence $(P+Ra)^2=P+Ra^2$ and
+    \begin{align*}
+        P\subset P+Ra^2 = (P+Ra)(P+Ra)\subset P^2+Ra.
+    \end{align*}
+    Now let $x\in P$. Then $x=y+za$ fore some $y\in P^2$ and $z\in R$. Here, $za = x-y\in P$, and as $a\notin P$, $z\in P$. Hence
+    \begin{align*}
+        P\subset P^2+P(Ra)\subset P
+    \end{align*}
+    and $P=P(P+Ra)$. As $P$ is invertible, $R=P+Ra$ and $P$ is maximal. \\
+    ($3\implies 1$) Let $I$ be a nonzero proper ideal of $R$. Then $R=II^{-1}$. There exists $x_1,\dots,x_n\in I$ and $y_1,\dots,y_n\in I^{-1}$ such that
+    \begin{align*}
+        1=\sum_{i=1}^n x_i y_i.
+    \end{align*}
+    Hence for all $a\in I$,
+    \begin{align*}
+        a = \sum_{i=1}^n x_i(ay_i)
+    \end{align*}
+    and as $ay_i\in R$, $I$ is finitely generated by $\{x_1,\dots,x_n\}$. As every nonzero proper ideal of $R$ is finitely generated, $R$ is a Noetherian ring. \\
+    Next we show that $R$ is algebraically closed. Let $x\in F$ be an integer over $R$. Then $R[x]$ is a finitely generated $R$-module and is a fractional ideal. By assumption, $R$ is invertible. Hence
+    \begin{align*}
+        R[x] = RR[x] = (R[x]^{-1}R[x])R[x] = R[x]^{-1}R[x] = R.
+    \end{align*}
+    This implies $x\in R$. Therefore $R$ is algebraically closed.\\
+    Finally we prove that every prime ideal is a maximal ideal. Let $P$ be a nonzero prime ideal. Let $a\in R\setminus P$ and let $I=P+Ra$. By assumption, $I$ is invertible. Let $I'=I^{-1}P$. Then $I'\supset P$ as $1\in I^{-1}$. If $y\in I'$, $ay\in P$ and $y\in P$. This implies $I'\subset P$ and $I'=P$. Hence $IP=P$ and $I=R$. Therefore $P$ is maximal.
+\end{proof}
+
+\begin{definition}
+    An integral domain satisfying the equivalent conditions of Theorem \ref{Theorem 1.3.7.} is called a \emph{Dedekind domain}.
+\end{definition}
+
+\begin{definition}
+    Let $R$ be a Dedekind ring and $F$ be a field of fraction of $R$. For a nonzero $a\in K$, $Ra$ is a fractional ideal of $R$. Such ideals are called \emph{principal fractional ideals}.
+\end{definition}
+
+\begin{definition}
+    Principal fractional ideals form a subgroup of a group of fractional ideals. The factor group is called the \emph{ideal class group} or the \emph{Picard group}.
+\end{definition}
+
+Our goal here is to prove that the Grothendieck group over a Dedekind ring is isomorphic to a Picard group.
+
+\begin{theorem}
+    Let $M$ be a finitely generated torsion-free module over a Dedekind ring $R$. Then $M$ is projective.
+\end{theorem}
+
+\begin{proof}
+    Since $M$ is a finitely generated $R$-module, let $\{m_1, \dots, m_n\}$ be a set of generators. Let $F$ be the free $R$-module of rank $n$, $F = R^n$, with basis $\{e_1, \dots, e_n\}$. We can define a surjective $R$-module homomorphism $f: F \to M$ by setting $f(e_i) = m_i$ for each $i=1, \dots, n$ and extending linearly. Let $L = \ker(f)$. This gives us a short exact sequence:
+    \begin{align*}
+        0\rightarrow L\rightarrow F\xrightarrow[]{f} M\rightarrow 0
+    \end{align*}
+    To show that $M$ is projective, we need to prove that this sequence splits. This requires constructing a homomorphism $g: M \to F$ such that $f \circ g = \mathrm{id}_M$. \\
+    Let $\mathfrak{p}$ be any maximal ideal of $R$. We consider the localization of the sequence at $\mathfrak{p}$. This yields a short exact sequence of $R_\mathfrak{p}$-modules:
+    \begin{align*}
+        0 \to L_\mathfrak{p} \to F_\mathfrak{p} \xrightarrow{f_\mathfrak{p}} M_\mathfrak{p} \to 0
+    \end{align*}
+    The ring $R_\mathfrak{p}$ is a principal ideal domain. The module $M_\mathfrak{p}$ is a finitely generated module over $R_\mathfrak{p}$. Since $M$ is torsion-free over $R$, $M_\mathfrak{p}$ is torsion-free over $R_\mathfrak{p}$. A finitely generated, torsion-free module over a PID is free. Therefore, $M_\mathfrak{p}$ is a free $R_\mathfrak{p}$-module for every maximal ideal $\mathfrak{p}$. This implies that $M_\mathfrak{p}$ is projective. Hence for each maximal ideal $\mathfrak{p}$, there exists an $R_\mathfrak{p}$-module homomorphism $g_\mathfrak{p}: M_\mathfrak{p} \to F_\mathfrak{p}$ such that $f_\mathfrak{p} \circ g_\mathfrak{p} = \mathrm{id}_{M_\mathfrak{p}}$. \\
+    Now we go back to $M$. Our goal is to use the family of local maps $\{g_\mathfrak{p}\}$ to construct a single global map $g: M \to F$. For each $\mathfrak{p}$, consider the composition $M \to M_\mathfrak{p} \xrightarrow{g_\mathfrak{p}} F_\mathfrak{p}$, where the first map is the natural localization map $m \mapsto m/1$. Since $M$ is finitely generated, we can find a common denominator $s_\mathfrak{p} \in R \setminus \mathfrak{p}$ for the images of the generators of $M$ under $g_\mathfrak{p}$. This means that $s_\mathfrak{p} \cdot g_\mathfrak{p}(M) \subseteq F$ (where we view $F$ as an $A$-submodule of $F_\mathfrak{p}$). Let us define an $A$-module homomorphism $h_\mathfrak{p}: M \to F$ by $h_\mathfrak{p}(m) = s_\mathfrak{p} g_\mathfrak{p}(m)$. \\
+    Now, consider the ideal $I$ of $R$ generated by all such elements $\{s_\mathfrak{p} \mid \mathfrak{p} \in R\}$. This ideal cannot be a proper ideal. If it were, it would be contained in some maximal ideal $\mathfrak{m}$. But this would imply that every generator $s_\mathfrak{p}$ is in $\mathfrak{m}$, which is a contradiction because by construction, $s_\mathfrak{m} \notin \mathfrak{m}$. Therefore, the ideal $I$ must be the entire ring $R$, so $I = (1)$. \\
+    Since $1 \in I$, there exists a finite set of maximal ideals $\{\mathfrak{p}_1, \dots, \mathfrak{p}_k\}$ and elements $x_1, \dots, x_k \in o$ such that
+    \begin{align*}
+        \sum_{i=1}^k x_i s_{\mathfrak{p}_i} = 1
+    \end{align*}
+    We now define our candidate for the global splitting map $g: M \to F$ as the linear combination of the maps $h_{\mathfrak{p}_i}$.
+    \begin{align*}
+        g = \sum_{i=1}^k x_i h_{\mathfrak{p}_i} = \sum_{i=1}^k x_i s_{\mathfrak{p}_i} g_{\mathfrak{p}_i}
+    \end{align*}
+    This is a well-defined $R$-module homomorphism from $M$ to $F$. We must verify that it is a section for $f$, i.e., $f \circ g = \mathrm{id}_M$. Let $m \in M$.
+    \begin{align*}
+    (f \circ g)(m) &= f \left( \sum_{i=1}^k x_i h_{\mathfrak{p}_i}(m) \right) \\
+    &= \sum_{i=1}^k x_i f(h_{\mathfrak{p}_i}(m)) \\
+    &= \sum_{i=1}^k x_i f(s_{\mathfrak{p}_i} g_{\mathfrak{p}_i}(m)) \\
+    &= \sum_{i=1}^k x_i s_{\mathfrak{p}_i} f(g_{\mathfrak{p}_i}(m))
+    \end{align*}
+    The equality $f(g_{\mathfrak{p}_i}(m)) = m$ holds in the module $M_{\mathfrak{p}_i}$. However, both $f(s_{\mathfrak{p}_i} g_{\mathfrak{p}_i}(m))$ and $s_{\mathfrak{p}_i} m$ are elements of $M$, and their images in $M_{\mathfrak{p}_i}$ are equal. Since $M$ is torsion-free, the localization map $M \to M_{\mathfrak{p}_i}$ is injective, so the equality must have held in $M$ to begin with. Thus, $f(h_{\mathfrak{p}_i}(m)) = s_{\mathfrak{p}_i} m$. Substituting this back into our calculation, we obtain
+    \begin{align*}
+        (f \circ g)(m) = \sum_{i=1}^k x_i (s_{\mathfrak{p}_i} m) = \left( \sum_{i=1}^k x_i s_{\mathfrak{p}_i} \right) m = 1 \cdot m = m.
+    \end{align*}
+    Since this holds for all $m \in M$, we have shown that $f \circ g = \mathrm{id}_M$.
+\end{proof}
+
+\begin{theorem}
+    Let $M$ be a finitely generated projective module over a Dedekind ring $R$. Then there exists free modules $F$, $F'$ such that $F\subset M\subset F'$ and $F$, $F'$ have the same rank.
+\end{theorem}
+\begin{remark}
+    The \emph{rank of $M$} is defined to be the rank of $F$.
+\end{remark}
+\begin{proof}
+    Let $K$ be a quotient field of $R$. Note that $(R\setminus\{0\})^{-1}M$ is a free vector space over $K$. $\{v_i\}\subset M$ are linearly independent over $R$ if and only if $\{v_i/1\}$ are linearly independent over $K$. Hence we can find a maximal linearly independent set $\{v_1,\dots,v_n\}$ in $M$. \\
+    Let $F$ be a free module generated by $\{v_i\}$. Then $F$ is of rank $n$ and $F\subset M$. Now we find an upper bound. Consider the generators $m_1,\dots,m_k$ of $M$. For each $m_i$, consider $m_j/1\in K$ and write
+    \begin{align*}
+        \frac{m_j}{1} = \sum_{i=1}^n k_i\frac{v_i}{1},\quad k_i\in K. 
+    \end{align*}
+    Let $b_j$ be the least common multiplier of the dividends of $k_i$'s and let
+    \begin{align*}
+        b = \prod_{j=1}^k b_j.
+    \end{align*}
+    Then $F'=\frac{F}{b}$ is a free module over $R$ of rank $n$, and $M\subset F'$.
+\end{proof}
+
+\begin{theorem}
+    Let $M$ be a finitely generated projective module over a Dedekind ring $R$. There exists ideals $\mathfrak{a}_1,\dots,\mathfrak{a}_n$ such that
+    \begin{align*}
+        M\simeq \mathfrak{a}_1\oplus \cdots\oplus \mathfrak{a}_n.
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    We do the induction. $n=1$ case is trivial. Suppose the statement holds for $n-1$ and let $M$ be a finitely generated projective module over $R$. Let $\{e_1,\dots,e_n\}$ be generators, and let $N=\mathrm{span} (e_1,\dots,e_{n-1})$. Then $N$ is of rank $n-1$, and we may write
+    \begin{align*}
+        N=\mathfrak{a}_1 \oplus \cdots \oplus \mathfrak{a}_{n-1}.
+    \end{align*}
+    Then consider a short exact sequence
+    \begin{align*}
+        0 \to N \to M \to M/N \to 0.
+    \end{align*}
+    As $M/N$ is of rank $1$, we can find an ideal $\mathfrak{a}_n$ such that $M/N\simeq \mathfrak{a}_n$. As $M/N$ is finitely generated and torsion-free, it is also projective. Thus the sequence splits and we conclude that
+    \begin{align*}
+        M = \bigoplus_{i=1}^n \mathfrak{a}_i.
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    $M\simeq R^{n-1}\oplus \mathfrak{a}$ for some ideal $\mathfrak{a}$
+\end{corollary}
+
+\begin{theorem}
+    $K_0(R)$ is isomorphic to $\mathrm{Pic}(R)$.
+\end{theorem}
+\begin{proof}
+    Consider the isomorphism $[R^{n-1}\oplus\mathfrak{a}]\mapsto [\mathfrak{a}]$
+\end{proof}
+
+
+
+\clearpage
+\section{Injective modules}
+% See Lang Chaper 20
+
+\begin{theorem}
+    For a module $Q$ over $A$, the followings are equivalent.
+    \begin{enumerate}
+        \item For all $\pi$, there exists $\tilde{\pi}$ such that $q\circ \tilde{\pi} = \pi$.
+        \begin{figure}[H]
+            \centering
+            \begin{tikzcd}
+                0\arrow[r] & M'\arrow[r]\arrow[d] & M\arrow[dl, dashed] \\
+                & Q &
+            \end{tikzcd}
+        \end{figure}
+        \item If $0\rightarrow I\rightarrow M\rightarrow M''\rightarrow 0$ is exact, then it splits.
+        \item $M\mapsto \Hom{M}{Q}{A}$ is exact.
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{definition}
+    A module $Q$ is called \emph{injective} if $Q$ satisfies the conditions of the theorem above.
+\end{definition}
+\begin{remark}
+    The injective module is the dual of the projective module.
+\end{remark}
+
+\begin{definition}
+    Let $M$ be an abelian group. $M$ is \emph{divisible} if
+    \begin{align*}
+        M &\rightarrow M \\
+        m &\mapsto km
+    \end{align*}
+    is surjective for all $k=1,2,\dots$.
+\end{definition}
+
+\begin{example}
+    $\Q$ and $\Q/\Z$ are divisible. Any finite abelian group is not divisible. $\Z$ is not divisible.
+\end{example}
+
+\begin{proposition}
+    An abelian group is injective if and only if it is divisible.
+\end{proposition}
+\begin{proof}
+    We verify the first condition. Let $Q$ be a divisible abelian group. We identify $M'=i(M)$ and regard $M'\subset M$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M'\arrow[r, "i"]\arrow[d] & M\arrow[dl, dashed] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Let $x\in M\setminus M'$. Consider $N=\langle M',x\rangle$. There are two cases. \\
+    If $kx\notin M'$ for all $k=1,2,\dots$, then $M'\cap \langle x\rangle = 0$. Hence $N=M\oplus \langle x\rangle \simeq M\oplus \Z$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & M'\arrow[r, "i"]\arrow[d, "f"'] & N=M'\oplus \Z\arrow[dl, dashed, "\tilde{f}"] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent Define $\tilde{f}(n)=f(m')$ where $n=m'+kx$. \\
+    If $kx\in M'$ for some $k\ge 1$, then $km\in M'$. Then for $y\in Q$, there exists $kx\in M'$ such that $f(kx)=y$. By divisibility, there exists $\tilde{y}$ such that $k\tilde{y}=y$. Define $\tilde{f}$ so that $\tilde{f}(x)=\tilde{y}$. To verify this, write
+    \begin{align*}
+        N=M'\cup (M'+x)\cup \cdots \cup (M'+(k-1)x).
+    \end{align*}
+    $\tilde{f}$ maps $m'+\ell x$ to $f(m')+\ell\tilde{y}$. To extend $f:M'\rightarrow Q$ to $M$ we apply Zorn's Lemma. Consider the set of pairs $(N,f_N)$ where $N\subset M$ and $f_N:N\rightarrow Q$. Define a partial order: $(N_1,f_{N_1})\le (N_2,f_{N_2})$ if $N_1\subset N_2$ and $f_{N_1}(x)=f_{N_2}(x)$ for all $x\in N_1$. We claim that every chain is bounded. For a chain
+    \begin{align*}
+        (N_1,f_{N_1})\le (N_2,f_{N_2})\le \cdots,
+    \end{align*}
+    Define $N=\bigcup_{i=1}^\infty N_i\subset M$ and $f_N(x)=f_{N_k}(x)$ where $x\in N_k$. By Zorn's lemma, there exists a maximal element $(M_0,f_{M_0})$. Next we claim that $M_0=M$. If $M_0\subsetneq M$, then choose $x\in M\setminus M_0$. Then $f_{M_0}$ extends to $\langle M_0,x\rangle$, which leads to a contradiction.\\
+    Conversely, consider an injective abelian group $Q$. Consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & \Z\arrow[r]\arrow[d] & \Q\arrow[dl, dashed] \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+    \noindent For $x\in Q$, define $f:\Z\rightarrow Q$ by $f(1)=x$. Obtain extension $\tilde{f}:\Q\rightarrow Q$. Then $\tilde{f}(\frac{1}{k})\in Q$ satisfies $k\cdot \tilde{f}(\frac{1}{k})=x$.
+\end{proof}
+\begin{remark}
+    If $x\in Q$ has order $r$, we may use
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            0\arrow[r] & \left(\frac{1}{r}\Z\right)/\Z\arrow[r]\arrow[d] & \left(\frac{1}{kr}\Z\right)\Z\arrow[dl, dashed] & \subset \Q/\Z \\
+            & Q &
+        \end{tikzcd}
+    \end{figure}
+\end{remark}
+
+Let $T$ be a divisible abelian group. Consider $\Hom{A}{T}{\Z}$ as an (left) $A$-module.
+\begin{align*}
+    (a\cdot f)(b) = f(b\cdot a).
+\end{align*}
+
+\begin{proposition}
+    $\Hom{X}{\Hom{A}{T}{\Z}}{A}\simeq \Hom{X}{T}{\Z}$ for any $A$-module $X$. The isomorphisms are
+    \begin{align*}
+        \Psi &\mapsto \left(f:x\mapsto \Psi(x)(1) \right) \\
+        \left( \Psi: x\mapsto (a\mapsto f(ax))\right) &\mapsto  f
+    \end{align*}
+\end{proposition}
+\begin{remark}
+    These isomorphisms are natural.
+\end{remark}
+
+\begin{proposition}
+    Suppose that $T$ is a divisible abelian group. Then $\Hom{A}{T}{\Z}$ is injective in the category of $A$-modules.
+\end{proposition}
+\begin{proof}
+    It suffices to check that
+    \begin{align*}
+        x\mapsto \Hom{X}{\Hom{A}{T}{\Z}}{A}
+    \end{align*}
+    is exact. Recall that $x\mapsto \Hom{X}{N}{A}$ is left-exact for all $N$, and it remains to show that if $X\rightarrow Y\rightarrow 0$ then
+    \begin{align*}
+        \Hom{Y}{\Hom{A}{T}{\Z}}{A}\rightarrow \Hom{X}{\Hom{A}{T}{\Z}}{A} \rightarrow 0.
+    \end{align*}
+    By our proposition above, it suffices to check
+    \begin{align*}
+        \Hom{Y}{T}{\Z}\rightarrow \Hom{X}{T}{\Z}\rightarrow 0.
+    \end{align*}
+\end{proof}
+
+\begin{theorem}\label{Theorem 2.7.8.}
+    Let $M$ be an $A$-module. There is an injective $A$-module $I_M$ and an injective $A$-module homomorphism $M\hookrightarrow I_M$.
+\end{theorem}
+
+\begin{definition}
+    For an abelian group $M$,
+    \begin{align*}
+        M^\wedge := \Hom{M}{\Q/\Z}{}.
+    \end{align*}
+    $M^\wedge$ and $M^\vee$ is often called a \emph{Pontryagin dual of $M$}.
+\end{definition}
+
+\begin{lemma}
+    $M\rightarrow M^{\wedge\wedge}$ is injective.
+\end{lemma}
+\begin{proof}
+    It suffices to show that if $m\in M\setminus\{0\}$, there is $\alpha_m\in M^\wedge$ such that $\alpha_m(m)\neq 0$. Take $m\in M\setminus\{0\}$ and consider
+    \begin{figure}[H]
+        \centering
+        \begin{tikzcd}
+            & \Q/\Z & \\
+            0\arrow[r] & \langle m\rangle \arrow[u, "f"] \arrow[r] & M \arrow[ul, dashed, "\tilde{f}"']
+        \end{tikzcd}
+    \end{figure}
+    \noindent where
+    \begin{align*}
+        f:\langle m\rangle &\rightarrow \Q/\Z 
+    \end{align*}
+    is a homomorphism such that $f(m)\neq 0$. As $\Q/\Z$ is divisible, it is injective as a $\Z$-module. Hence we can find such $\tilde{f}$. Note that $\tilde{f}\in M^\wedge$ is our desiring element.
+\end{proof}
+
+Now we prove our theorem.
+
+\begin{proof}[Proof of Theorem \ref{Theorem 2.7.8.}]
+    Consider a surjective $A$-module homomorphism $F\twoheadrightarrow M^\wedge$, where $F$ is a free $A$-module. Then $M^{\wedge\wedge}\rightarrow F^\wedge$ is an injective $A$-module homomorphism. $F^\wedge$ is injective, as if $F\simeq \bigoplus A$ and $A^\wedge=\Hom{A}{\Q/\Q}{}$ is injective. Now we have
+    \begin{align*}
+        M\hookrightarrow M^{\wedge\wedge} \hookrightarrow F^\wedge,
+    \end{align*}
+    and we obtain an injective $A$-module homomorphism $M\hookrightarrow I_M$.
+\end{proof}
+
+\begin{definition}
+    An abelian category $\mathcal{A}$ has \emph{enough projectives} if any object $M$ admits an epimorphism
+    \begin{align*}
+        P_M\rightarrow M\rightarrow 0
+    \end{align*}
+    where $P_M$ is projective. We say $\mathcal{A}$ has \emph{enough injectives} if any object $M$ admits a monomorphism
+    \begin{align*}
+        0\rightarrow M\rightarrow I_M
+    \end{align*}
+    where $I_M$ is injective.
+\end{definition}
+
+\begin{proposition}
+    $\mathbf{Mod}_A$ has enough projectives and injectives.
+\end{proposition}
+
+
+\end{document}

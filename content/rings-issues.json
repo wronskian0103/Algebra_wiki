@@ -1,0 +1,110 @@
+[
+  {
+    "section": "s18",
+    "original": "n_1e_1+\\cdots+n_me_m=n_1'e_1+\\cdots+n_m'e_m\\iff (n_1,\\dots,n_m)=(n_1',\\dots,n_m')",
+    "correction": "Being a generating set alone does not imply that expressions with integer coefficients are unique. This step requires a separate argument establishing the existence of a linearly independent basis.",
+    "reason": "For example, the generators 1 and 2 of Z are not linearly independent. The theorem that the subgroup is free is correct, but this step of the proof is invalid."
+  },
+  {
+    "section": "s18",
+    "original": "As the torsion subgroups of each groups are $\\Z^r$ and $\\Z^{r'}$, we obtain $r=r'$.",
+    "correction": "The torsion subgroup is the direct sum of the finite cyclic summands. The quotients by the torsion subgroups are Z^r and Z^{r'}, respectively, so the ranks of the free parts are equal.",
+    "reason": "The group Z^r has no nonzero torsion elements. The torsion subgroup and the torsion-free quotient have been interchanged."
+  },
+  {
+    "section": "s19",
+    "original": "M_\\mathrm{tor}=\\{m\\in M:am=0\\mathrm{~for~some~}a\\in \\Z\\}",
+    "correction": "For an abelian group M, define M_tor={m∈M: am=0 for some integer a>0}.",
+    "reason": "If a=0 is allowed, every m satisfies the condition. The assumption that the group is abelian must also be stated to ensure that the torsion elements form a subgroup."
+  },
+  {
+    "section": "s20",
+    "original": "\\Q/\\Z \\rightarrow \\Q/\\Z \\quad b\\mapsto b/2",
+    "correction": "The map b↦b/2 is not well-defined on Q/Z. As an example of nonsurjectivity, use the endomorphism of Q/Z=⊕_p(Q/Z)(p) that acts as the identity on the 2-primary component and as zero on every other primary component.",
+    "reason": "The representatives 0 and 1 define the same element of Q/Z, but their halves 0 and 1/2 define different elements. The proposed replacement endomorphism cannot be expressed as multiplication by any integer."
+  },
+  {
+    "section": "s24",
+    "original": "\\ker f = Re_1 \\cap R e_2 = 1.",
+    "correction": "ker f=Re_1∩Re_2={0}.",
+    "reason": "Injectivity requires the kernel to be the zero ideal. Orthogonality of the idempotents makes the intersection zero."
+  },
+  {
+    "section": "s28",
+    "original": "f^*\\circ \\sigma(Q) = f^*(QA_S)=A_S.",
+    "correction": "f^*∘σ(Q)=f^{-1}(QA_S)=Q.",
+    "reason": "The contracted ideal is an ideal of A. To show that the two correspondences are inverse to one another, the result must be Q."
+  },
+  {
+    "section": "s28",
+    "original": "Among them, there is only one prime ideal $p\\Z_{(p)}$.",
+    "correction": "The prime ideals of Z_(p) are (0) and pZ_(p). The ideal pZ_(p) is the unique maximal ideal.",
+    "reason": "Since Z_(p) is an integral domain, the zero ideal is also prime. Prime ideals in this localization correspond to the prime ideals of Z contained in (p)."
+  },
+  {
+    "section": "s28",
+    "original": "the prime ideals in $\\Z[N^{-1}]$ are of the form $p\\Z[N^{-1}]$ where $p$ is a prime number not dividing $N$.",
+    "correction": "For N>0, the prime ideals are (0) and pZ[N^{-1}] for primes p that do not divide N.",
+    "reason": "Since Z[N^{-1}] is an integral domain, the zero ideal must be included in the list of prime ideals."
+  },
+  {
+    "section": "s29",
+    "original": "If $a$ is irreducible, we can find $f,g\\notin A^\\times$ such that $a=fg$",
+    "correction": "If a is reducible, we can find nonunits f,g such that a=fg.",
+    "reason": "Factorization into two nonunits is a condition for reducibility, rather than irreducibility."
+  },
+  {
+    "section": "s30",
+    "original": "A \\emph{principal ideal domain (PID)} is a commutative ring in which every ideal is principal",
+    "correction": "A PID is an integral domain in which every ideal is principal.",
+    "reason": "Without the integral domain assumption, this defines a principal ideal ring. The domain assumption is needed for the subsequent implication PID⇒UFD."
+  },
+  {
+    "section": "s30",
+    "original": "An integral domain with a Dedekind-Hasse function is not always a UFD; one example is $\\Z+\\Z\\frac{1+\\sqrt{-19}}{2}$.",
+    "correction": "An integral domain satisfying the Dedekind–Hasse condition is a PID and hence a UFD. Thus the statement that it need not be a UFD is incompatible with this condition.",
+    "reason": "Choose a nonzero element b of a nonzero ideal with minimal function value. If there were an element a of the ideal not divisible by b, the Dedekind–Hasse condition would produce a nonzero element of the ideal with a smaller value, a contradiction. Therefore every ideal is principal."
+  },
+  {
+    "section": "s33",
+    "original": "If $p\\|a_0$, $p|a_1,\\dots,a_{n-1}$ and $p\\nmid a_n$, then $f(x)$ is irreducible.",
+    "correction": "Under the Eisenstein hypotheses, f is irreducible in Frac(A)[x]. To conclude irreducibility in A[x], one must also assume that f is primitive.",
+    "reason": "For example, A=Z, p=2, and f=3x+6 satisfy the hypotheses, but f factors as 3(x+2) in Z[x]. Here p∥a0 is interpreted to mean that p divides a0 exactly once."
+  },
+  {
+    "section": "s33",
+    "original": "As $\\Phi_{p}$ is irreducible, $\\Phi_{p^k}$ is irreducible for all $k\\in\\N$.",
+    "correction": "The irreducibility of Φ_p(x^{p^{k-1}}) requires a separate argument. Applying Eisenstein's criterion to Φ_{p^k}(x+1) proves the conclusion.",
+    "reason": "Substituting a power of x into an irreducible polynomial does not always preserve irreducibility. The conclusion about these cyclotomic polynomials is nevertheless correct."
+  },
+  {
+    "section": "s33",
+    "original": "f(x,y)=x^2+y^2-1\\in F[x,y] ... implies that $f$ is irreducible.",
+    "correction": "This example requires the assumption char(F)≠2.",
+    "reason": "In characteristic 2, x²+y²−1=(x+y+1)² is reducible. For x−1 to divide the constant term x²−1 exactly once, the characteristic must differ from 2."
+  },
+  {
+    "section": "s34",
+    "original": "Let $a,b\\in \\R$. The minimal polynomial of $a+b\\sqrt{-1}\\in \\C$ over $\\R$ is $(x-a)^2+b^2$.",
+    "correction": "If b≠0, the minimal polynomial is (x−a)²+b²; if b=0, it is x−a.",
+    "reason": "The minimal polynomial of a real element a is linear, so the case b=0 must be treated separately."
+  },
+  {
+    "section": "s34",
+    "original": "For an indeterminate $x$, $\\Q(x)$ is an infinite extension of $\\Q$. The basis $\\{1,x,x^2,x^3,\\dots\\}$ is infinite.",
+    "correction": "The set {1,x,x²,…} is an infinite linearly independent subset of Q(x). It is a basis of Q[x], but not of all of Q(x).",
+    "reason": "A finite linear combination of these elements cannot represent a rational function such as 1/x. Linear independence alone is enough to establish that the extension has infinite degree."
+  },
+  {
+    "section": "s34",
+    "original": "Hence $a=b=\\frac{1}{2}$ and $c=-\\frac{1}{2}$.",
+    "correction": "Over F=F₂, the coefficients are a=0, b=1, c=0, and 1/(α²+1)=α. Using α³=α+1 gives (1+α²)(a+bα+cα²)=(a+b)+cα+aα².",
+    "reason": "The element 1/2 is undefined in a field of characteristic 2. Correcting the product expansion using α³+α+1=0 gives the stated coefficients."
+  },
+  {
+    "section": "s34",
+    "original": "Let $E=\\C(t)$ and $F=\\C(t^2+1)$. As the minimal polynomial of $t$ over $F$ is $x^2+1$, $[E:F]=2$.",
+    "correction": "Writing u=t²+1∈F, the minimal polynomial of t over F is x²+1−u=x²−t², and [E:F]=2.",
+    "reason": "Substituting t into x²+1 gives t²+1≠0. The minimal polynomial must use the element u of F as a coefficient. The automorphism t↦−t fixes F, so t∉F and this quadratic is the minimal polynomial."
+  }
+]

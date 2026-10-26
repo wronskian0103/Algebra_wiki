@@ -1,0 +1,398 @@
+[
+  {
+    "id": "s01",
+    "summary": "We begin with monoids: algebraic structures whose operation is associative and has an identity. The free monoid of strings illustrates how universal properties describe algebraic objects.",
+    "keyPoints": [
+      "The operation of a monoid $S$ satisfies $(xy)z=x(yz)$ and has an identity $e$ such that $ex=x=xe$ for every $x$.",
+      "A monoid is commutative if $xy=yx$ for every $x,y\\in S$. In additive notation, its identity is written as $0$.",
+      "For the string monoid $\\mathrm{str}(X)$ on a set $X$, every function $X\\to M$ extends uniquely to a monoid homomorphism $\\mathrm{str}(X)\\to M$."
+    ],
+    "related": [
+      "s02",
+      "s03",
+      "s22",
+      "s25"
+    ],
+    "keywords": [
+      "monoid",
+      "identity",
+      "associativity",
+      "free monoid",
+      "universal property"
+    ],
+    "titleEn": "Monoids"
+  },
+  {
+    "id": "s02",
+    "summary": "A monoid is a group when every element has an inverse. Permutation groups, general linear groups, cyclic groups, and direct products provide basic examples and motivate the subgroup criterion.",
+    "keyPoints": [
+      "Every element $g$ of a group $G$ has an inverse satisfying $gg^{-1}=g^{-1}g=1$.",
+      "A nonempty subset $H\\subseteq G$ is a subgroup if $xy^{-1}\\in H$ for every $x,y\\in H$.",
+      "A cyclic group has the form $G=\\{g^n:n\\in\\mathbb Z\\}$ for some $g$. The operation on $G_1\\times G_2$ is defined componentwise."
+    ],
+    "related": [
+      "s01",
+      "s03",
+      "s04",
+      "s15"
+    ],
+    "keywords": [
+      "group",
+      "subgroup",
+      "inverse",
+      "cyclic group",
+      "permutation group",
+      "general linear group"
+    ],
+    "titleEn": "Groups and Subgroups"
+  },
+  {
+    "id": "s03",
+    "summary": "Maps that preserve the operation express relationships between groups. The kernel connects injectivity with normal subgroups, while an isomorphism identifies groups with the same algebraic structure.",
+    "keyPoints": [
+      "A monoid homomorphism $f:G\\to G'$ satisfies $f(1)=1$ and $f(xy)=f(x)f(y)$.",
+      "A homomorphism with an inverse homomorphism is an isomorphism. Every bijective group homomorphism is an isomorphism.",
+      "The kernel $\\ker f=\\{g:f(g)=1\\}$ of a group homomorphism $f$ is a normal subgroup. The map $f$ is injective if and only if $\\ker f=\\{1\\}$."
+    ],
+    "related": [
+      "s02",
+      "s04",
+      "s05",
+      "s13"
+    ],
+    "keywords": [
+      "homomorphism",
+      "isomorphism",
+      "kernel",
+      "normal subgroup"
+    ],
+    "titleEn": "Homomorphisms and Kernels"
+  },
+  {
+    "id": "s04",
+    "summary": "The cosets of a subgroup partition the group, giving the index and Lagrange's theorem. Conjugation and normality allow us to define quotient groups and establish the universal property of the quotient map.",
+    "keyPoints": [
+      "The left cosets $gH$ of $H\\le G$ partition $G$. For a finite group, $|G|=(G:H)|H|$.",
+      "A subgroup $H$ is normal if and only if $gH=Hg$ for every $g\\in G$. Every subgroup of index $2$ is normal.",
+      "If $N\\trianglelefteq G$, the rule $(xN)(yN)=xyN$ defines a quotient group. Every homomorphism $f$ with $N\\subseteq\\ker f$ factors uniquely through $G\\to G/N$."
+    ],
+    "related": [
+      "s03",
+      "s05",
+      "s06",
+      "s14"
+    ],
+    "keywords": [
+      "coset",
+      "index",
+      "Lagrange",
+      "conjugation",
+      "quotient group"
+    ],
+    "titleEn": "Cosets, Normality, and Conjugation"
+  },
+  {
+    "id": "s05",
+    "summary": "A group action interprets group elements as permutations of a set. Left multiplication, conjugation, and actions on coset spaces reveal group structure through its action on other sets.",
+    "keyPoints": [
+      "An action of $G$ on $X$ is a homomorphism $G\\to\\mathrm{Perm}(X)$, or equivalently a function $G\\times X\\to X$ satisfying $1x=x$ and $(gh)x=g(hx)$.",
+      "The rule $g\\cdot x=gxg^{-1}$ defines the conjugation action of $G$ on itself, while $g\\cdot H=gHg^{-1}$ defines an action on the set of subgroups.",
+      "The kernel of the action $g\\cdot(xH)=gxH$ on $G/H$ is the largest normal subgroup of $G$ contained in $H$."
+    ],
+    "related": [
+      "s04",
+      "s06",
+      "s07",
+      "s16"
+    ],
+    "keywords": [
+      "group action",
+      "left action",
+      "conjugation action",
+      "coset action",
+      "conjugation",
+      "permutation representation"
+    ],
+    "titleEn": "Group Actions"
+  },
+  {
+    "id": "s06",
+    "summary": "Orbits and stabilizers give two ways to analyze a set with a group action. The identification of transitive actions with coset spaces describes the basic structure of every group action.",
+    "keyPoints": [
+      "The orbit of $x\\in X$ is $Gx=\\{gx:g\\in G\\}$, and its stabilizer is $G_x=\\{g\\in G:gx=x\\}$.",
+      "If a nonempty $G$-set $X$ is transitive, the map $gG_x\\mapsto gx$ is an isomorphism of $G$-sets from $G/G_x$ to $X$.",
+      "A $G$-map satisfies $r(gx)=gr(x)$. Every $G$-set decomposes into the disjoint union of its orbits, $X\\simeq\\bigsqcup_iG/G_i$."
+    ],
+    "related": [
+      "s04",
+      "s05",
+      "s07",
+      "s09"
+    ],
+    "keywords": [
+      "G-set",
+      "orbit",
+      "stabilizer",
+      "transitive action",
+      "equivariant map",
+      "transitive"
+    ],
+    "titleEn": "$G$-Sets and Orbit Structure"
+  },
+  {
+    "id": "s07",
+    "summary": "The correspondence between orbits and stabilizers becomes a counting formula. In particular, the equation obtained from a group acting on itself by conjugation is a starting point for the Sylow theorems and the structure theory of finite groups.",
+    "keyPoints": [
+      "The size of the orbit of $x$ equals the index of its stabilizer: $|Gx|=(G:G_x)$.",
+      "Choosing one representative $x_i$ from each orbit gives $X=\\bigsqcup_iGx_i$ and $|X|=\\sum_i(G:G_{x_i})$.",
+      "For the conjugation action of a finite group, a set $C$ of conjugacy class representatives gives $|G|=\\sum_{x\\in C}(G:G_x)$."
+    ],
+    "related": [
+      "s05",
+      "s06",
+      "s08",
+      "s10"
+    ],
+    "keywords": [
+      "orbit decomposition formula",
+      "orbit-stabilizer",
+      "conjugacy class",
+      "class equation"
+    ],
+    "titleEn": "The Orbit Decomposition Formula"
+  },
+  {
+    "id": "s08",
+    "summary": "Sylow subgroups capture the part of a finite group's order corresponding to a power of one prime. The orbit decomposition formula and the center establish the existence of Sylow subgroups in every finite group.",
+    "keyPoints": [
+      "A finite group $G$ is a $p$-group if its order is a power of the prime $p$. A $p$-subgroup $P$ is a Sylow $p$-subgroup if its index $(G:P)$ is relatively prime to $p$.",
+      "If $A$ is a finite abelian group and $p\\mid|A|$, then $A$ contains a subgroup of order $p$.",
+      "If a finite group has order $|G|=p^am$ with $p\\nmid m$, then $G$ has a Sylow $p$-subgroup of order $p^a$."
+    ],
+    "related": [
+      "s07",
+      "s09",
+      "s10",
+      "s11"
+    ],
+    "keywords": [
+      "p-group",
+      "p-subgroup",
+      "Sylow subgroup",
+      "Sylow existence theorem",
+      "center"
+    ],
+    "titleEn": "$p$-Groups and Sylow $p$-Subgroups"
+  },
+  {
+    "id": "s09",
+    "summary": "Normalizers help describe the relationships among Sylow subgroups. Fixed points of group actions show that every $p$-subgroup lies in a Sylow subgroup and that any two Sylow subgroups for the same prime are conjugate.",
+    "keyPoints": [
+      "The normalizer of a subgroup $M$ is $N_G(M)=\\{g\\in G:gMg^{-1}=M\\}$.",
+      "For a Sylow $p$-subgroup $P$ of a finite group $G$ and any $p$-subgroup $H$, there is a $g\\in G$ such that $H\\le gPg^{-1}$.",
+      "Any two Sylow $p$-subgroups $P,Q$ of a finite group are conjugate: $Q=gPg^{-1}$ for some $g\\in G$."
+    ],
+    "related": [
+      "s06",
+      "s08",
+      "s10",
+      "s12"
+    ],
+    "keywords": [
+      "normalizer",
+      "Sylow conjugacy",
+      "fixed point",
+      "p-subgroup"
+    ],
+    "titleEn": "Containment and Conjugacy of Sylow Subgroups"
+  },
+  {
+    "id": "s10",
+    "summary": "The action on the set of Sylow subgroups restricts their possible number. Combining congruence and divisibility conditions provides an efficient way to detect normal subgroups in small finite groups.",
+    "keyPoints": [
+      "The number $n_p$ of Sylow $p$-subgroups of a finite group $G$ satisfies $n_p\\equiv1\\pmod p$.",
+      "Counting the conjugates of a Sylow $p$-subgroup $P$ gives $n_p=(G:N_G(P))$, so $n_p$ divides $|G|$.",
+      "The existence, containment, conjugacy, and counting results for Sylow subgroups are collectively called the Sylow theorems."
+    ],
+    "related": [
+      "s07",
+      "s08",
+      "s09",
+      "s12"
+    ],
+    "keywords": [
+      "Sylow theorems",
+      "number of Sylow subgroups",
+      "congruence",
+      "normalizer"
+    ],
+    "titleEn": "Counting Sylow Subgroups"
+  },
+  {
+    "id": "s11",
+    "summary": "The regular action of a finite group gives an embedding into a matrix group through permutation matrices. Applying the Sylow theorems realizes every finite $p$-group as a subgroup of an upper unitriangular matrix group.",
+    "keyPoints": [
+      "The group $\\mathrm U(n,\\mathbb F_p)$ consists of upper triangular matrices with every diagonal entry equal to $1$ and has order $p^{n(n-1)/2}$.",
+      "For $n\\ge2$, $\\mathrm U(n,\\mathbb F_p)$ is a Sylow $p$-subgroup of $\\mathrm{GL}(n,\\mathbb F_p)$.",
+      "For a finite group $G$ and any field $k$, there is an embedding $G\\hookrightarrow\\mathrm{GL}(|G|,k)$. Consequently, every finite $p$-group is isomorphic to a subgroup of $\\mathrm U(|G|,\\mathbb F_p)$."
+    ],
+    "related": [
+      "s02",
+      "s05",
+      "s08",
+      "s13"
+    ],
+    "keywords": [
+      "unipotent matrix",
+      "upper triangular matrix",
+      "regular action",
+      "permutation matrix",
+      "embedding",
+      "unipotent",
+      "matrix group"
+    ],
+    "titleEn": "$p$-Groups as Matrix Groups"
+  },
+  {
+    "id": "s12",
+    "summary": "A semidirect product combines a normal subgroup with a group acting on it. Subgroup structure obtained from the Sylow theorems then provides a method for classifying groups of small order.",
+    "keyPoints": [
+      "If $N\\trianglelefteq G$, $H\\le G$, $N\\cap H=\\{1\\}$, and $G=NH$, then every element has a unique expression $nh$, and $G$ is an internal semidirect product.",
+      "Given a homomorphism $\\phi:H\\to\\mathrm{Aut}(N)$, multiplication in $N\\rtimes_\\phi H$ is defined by $(n,h)(m,k)=(n\\phi_h(m),hk)$.",
+      "A group of order $6$ is isomorphic to $\\mathbb Z/6\\mathbb Z$ or $S_3$. A group of order $10$ is isomorphic to $\\mathbb Z/10\\mathbb Z$ or the dihedral group of order $10$."
+    ],
+    "related": [
+      "s08",
+      "s09",
+      "s10",
+      "s13"
+    ],
+    "keywords": [
+      "semidirect product",
+      "internal semidirect product",
+      "external semidirect product",
+      "classification of finite groups",
+      "dihedral group",
+      "finite groups"
+    ],
+    "titleEn": "Semidirect Products and Small Finite Groups"
+  },
+  {
+    "id": "s13",
+    "summary": "Commutators measure noncommutativity and give the universal property of abelianization. Comparing the derived series and the lower central series leads to solvable and nilpotent groups, with finite nilpotent groups described as direct products of their Sylow subgroups.",
+    "keyPoints": [
+      "The commutator is $[g,h]=ghg^{-1}h^{-1}$, and the subgroup $[G,G]$ generated by all commutators is normal. The quotient $G/[G,G]$ is abelian, and every homomorphism from $G$ to an abelian group factors uniquely through it.",
+      "A group is solvable if its derived series $G^{i+1}=[G^i,G^i]$ reaches $1$ after finitely many steps. Equivalently, it has a finite subnormal series ending at $1$ with abelian factors.",
+      "A group is nilpotent if its lower central series $\\gamma_{i+1}(G)=[G,\\gamma_i(G)]$ terminates. Every finite $p$-group is nilpotent, and every finite nilpotent group is the direct product of its Sylow subgroups."
+    ],
+    "related": [
+      "s03",
+      "s11",
+      "s14",
+      "s47"
+    ],
+    "keywords": [
+      "commutator",
+      "commutator subgroup",
+      "abelianization",
+      "derived series",
+      "solvable",
+      "nilpotent"
+    ],
+    "titleEn": "Commutators, Solvable Groups, and Nilpotent Groups"
+  },
+  {
+    "id": "s14",
+    "summary": "A composition series breaks a group into simple quotient groups. The Jordan-Hölder theorem guarantees that the isomorphism classes and multiplicities of the composition factors are independent of the choice of series.",
+    "keyPoints": [
+      "A subnormal series is a chain of subgroups satisfying $G_{i+1}\\trianglelefteq G_i$ at each step.",
+      "A nontrivial group is simple if its only normal subgroups are $1$ and itself. A finite subnormal series ending at $1$ is a composition series if every factor $G_i/G_{i+1}$ is simple.",
+      "Any two composition series of a group are equivalent: they have the same multiset of isomorphism classes of composition factors."
+    ],
+    "related": [
+      "s04",
+      "s13",
+      "s15",
+      "s16"
+    ],
+    "keywords": [
+      "Jordan-Hölder",
+      "subnormal series",
+      "simple group",
+      "composition series",
+      "composition factor"
+    ],
+    "titleEn": "The Jordan-Hölder Theorem"
+  },
+  {
+    "id": "s15",
+    "summary": "The sign of a transposition leads to the alternating group, while cycle decompositions classify the conjugacy classes of the symmetric group. An analysis of conjugacy class sizes and stabilizers proves that alternating groups are simple for $n\\ge5$.",
+    "keyPoints": [
+      "There is a unique homomorphism $\\mathrm{sign}:S_n\\to\\{\\pm1\\}$ sending every transposition to $-1$, and $A_n=\\ker(\\mathrm{sign})$.",
+      "Two permutations in $S_n$ are conjugate if and only if their cycle decompositions have the same multiset of cycle lengths. Thus conjugacy classes correspond to partitions of $n$.",
+      "The alternating group $A_n$ is simple for $n\\ge5$."
+    ],
+    "related": [
+      "s02",
+      "s04",
+      "s06",
+      "s14"
+    ],
+    "keywords": [
+      "symmetric group",
+      "alternating group",
+      "transposition",
+      "sign",
+      "partition",
+      "cycle type"
+    ],
+    "titleEn": "Symmetric and Alternating Groups"
+  },
+  {
+    "id": "s16",
+    "summary": "The action on the projective line provides a way to study simplicity of groups built from matrices. A simplicity criterion using faithful doubly transitive actions applies to $\\mathrm{PSL}(2,\\mathbb F_p)$ for primes $p\\ge5$.",
+    "keyPoints": [
+      "The projective special linear group is $\\mathrm{PSL}(n,k)=\\mathrm{SL}(n,k)/Z$, where $Z$ is the subgroup of scalar matrices of determinant $1$.",
+      "An action is doubly transitive if it can send any ordered pair of distinct points to any other such pair. A point stabilizer in a doubly transitive action on a set with at least two points is a maximal proper subgroup.",
+      "For every prime $p\\ge5$, $\\mathrm{PSL}(2,\\mathbb F_p)$ is simple. The proof uses its faithful doubly transitive action on the projective line and its commutator subgroup."
+    ],
+    "related": [
+      "s05",
+      "s06",
+      "s13",
+      "s14"
+    ],
+    "keywords": [
+      "projective special linear group",
+      "projective line",
+      "doubly transitive",
+      "faithful action",
+      "maximal subgroup",
+      "PSL"
+    ],
+    "titleEn": "Simplicity of Projective Special Linear Groups"
+  },
+  {
+    "id": "s17",
+    "summary": "Universal properties distinguish direct products from direct sums by how they assemble maps. For an infinite family of abelian groups, the direct product allows arbitrary coordinates, while the direct sum allows only finitely many nonzero coordinates.",
+    "keyPoints": [
+      "Given homomorphisms $f_i:Z\\to G_i$, there is a unique homomorphism $\\phi:Z\\to\\prod_iG_i$ satisfying $\\pi_i\\circ\\phi=f_i$.",
+      "The direct sum $\\bigoplus_iA_i$ of abelian groups is the subgroup of $\\prod_iA_i$ consisting of elements with only finitely many nonzero coordinates.",
+      "Given an abelian group $Z$ and homomorphisms $f_i:A_i\\to Z$, there is a unique homomorphism $\\phi:\\bigoplus_iA_i\\to Z$ satisfying $\\phi\\circ\\iota_i=f_i$."
+    ],
+    "related": [
+      "s01",
+      "s18",
+      "s21",
+      "s23"
+    ],
+    "keywords": [
+      "direct product",
+      "direct sum",
+      "universal property",
+      "finite support",
+      "abelian group"
+    ],
+    "titleEn": "Direct Products and Direct Sums"
+  }
+]
