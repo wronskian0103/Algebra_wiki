@@ -1,12 +1,16 @@
 # Algebra Wiki
 
+**Read online: [Algebra Wiki website](https://wronskian0103.github.io/Algebra_wiki/)**
+
+Open the GitHub Pages website to browse both courses, search the notes, and follow linked terms to their definitions. No download or installation is required.
+
 An English wiki connecting Algebra I and Algebra II: **81 topic pages across 8 chapters**, with 125 diagrams and the original lecture-note numbering.
 
 The wiki combines SNU graduate algebra lectures by **Dohyeong Kim**, notes by **Juhyeok Choi**, and two supplementary notes. English study guides, key points, concept links, and correction notes help connect the material across both courses. Exercises and solutions are excluded.
 
 ## Read the wiki
 
-Visit the repository's GitHub Pages website, or download the repository and open [`index.html`](index.html) in your browser. You can also open [`dist/index.html`](dist/index.html) directly. Keep the entire `dist/` folder together.
+Read online at the **[Algebra Wiki website](https://wronskian0103.github.io/Algebra_wiki/)**, or download the repository and open [`index.html`](index.html) in your browser. You can also open [`dist/index.html`](dist/index.html) directly. Keep the entire `dist/` folder together.
 
 Reading the downloaded wiki works offline. MathJax and all other runtime assets are bundled locally; no installation or server is required.
 
