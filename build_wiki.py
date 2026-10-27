@@ -13,6 +13,7 @@ import os
 import re
 import shutil
 import subprocess
+from definition_links import add_definition_links
 
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / 'dist'
@@ -147,6 +148,8 @@ def main():
 
     meta, issues = {}, []
     for file in sorted((ROOT / 'content').glob('*.json')):
+        if file.stem.startswith('definition-terms-'):
+            continue
         values = json.loads(file.read_text(encoding='utf-8'))
         if file.stem.endswith('-issues'):
             issues.extend(values)
@@ -279,6 +282,7 @@ def main():
         section['issues'] = [issue for issue in issues if issue.get('section') == section['id']]
         print(section['id'], len(converted), len(section['blocks']), flush=True)
 
+    definitions, definition_report = add_definition_links(ROOT, sections)
     sources = []
     for spec in SOURCES:
         src = source_texts[spec['id']]
@@ -289,7 +293,7 @@ def main():
     for chapter in chapters:
         chapter['count'] = sum(s['chapterNo'] == chapter['n'] for s in sections)
     data = dict(sections=sections, chapters=chapters, sources=sources, stats=dict(stats),
-                diagramCount=diagram_count, issues=issues)
+                diagramCount=diagram_count, issues=issues, definitions=definitions)
     (DIST / 'data.js').write_text('window.WIKI_DATA=' + json.dumps(data, ensure_ascii=False).replace('</', '<\\/') + ';\n', encoding='utf-8')
     shutil.copytree(ROOT / 'source', DIST / 'source', dirs_exist_ok=True)
     for name in ('index.html', 'app.js', 'style.css', 'diagram-layout.js'):
@@ -297,7 +301,8 @@ def main():
         if file.exists():
             shutil.copyfile(file, DIST / name)
     report = dict(sections=len(sections), chapters=len(chapters), blocks=dict(stats), diagrams=diagram_count,
-                  brokenRefs=broken_refs, metadataCount=len(meta), issues=len(issues), warnings=conversion_warnings)
+                  brokenRefs=broken_refs, metadataCount=len(meta), issues=len(issues), warnings=conversion_warnings,
+                  definitionLinks=definition_report)
     (WORK / 'build-report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     (WORK / 'sections.json').write_text(json.dumps(sections, ensure_ascii=False, indent=2), encoding='utf-8')
     if broken_refs:

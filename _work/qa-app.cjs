@@ -109,7 +109,9 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
     await go('contents');assert.ok(nodes('.list-row').every(row=>!/^#hw\d/i.test(row.getAttribute('href'))));
   });
   await test('concept filtering includes both courses and valid cross-source links',async()=>{
-    await go('concepts');assert.ok(nodes('.concept-card').length>200);assert.ok(nodes('a').every(a=>byId[a.getAttribute('href').slice(1)]));
+    await go('concepts');assert.ok(nodes('.concept-card').length>200);
+    const validTargets=new Set(S.flatMap(s=>[s.id,s.id+'--original',...s.blocks.map(b=>b.id)]));
+    assert.ok(nodes('a').every(a=>validTargets.has(a.getAttribute('href').slice(1))));
     await input('concept-search','tensor');assert.ok(nodes('.concept-card').length>0);assert.ok(nodes('a').some(a=>a.getAttribute('href').startsWith('#a2')));
     await input('concept-search','Sylow');assert.ok(nodes('.concept-card').length>0);assert.ok(nodes('a').some(a=>a.getAttribute('href').startsWith('#s')));
   });
@@ -154,6 +156,6 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
     for(const hash of ['s01','a2s01','s03','concepts','theorems','supp02','a2s29']){env.location.hash=hash;for(const fn of env.events.hashchange||[])fn();}await flush();assert.equal(maxActive,1);assert.ok(main().textContent.includes(byId.a2s29.titleEn));assert.equal(errors.length,0);
   });
   const report={passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,coverage:{sections:S.length,chapters:D.chapters.length,sources:D.sources.length,anchors:S.reduce((n,s)=>n+s.blocks.length,0),proofs:D.stats.proof},results,math:{calls:typesets.length,maxConcurrent:maxActive,errors},limitation:'Behavioral DOM emulation; this does not verify browser layout or actual MathJax rendering.'};
-  fs.writeFileSync(path.join(__dirname,'qa-app-results.json'),JSON.stringify(report,null,2));
+  if(!process.argv.includes('--no-report'))fs.writeFileSync(path.join(__dirname,'qa-app-results.json'),JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));process.exitCode=report.failed?1:0;
 })();

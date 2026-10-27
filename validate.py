@@ -32,10 +32,15 @@ def main():
     for section in sections:
         parser = Links()
         parser.feed(section['html'])
+        parser.feed(section.get('summaryHtml', ''))
+        for point in section.get('keyPointsHtml', []):
+            parser.feed(point)
         ids.append(section['id'])
+        ids.append(section['id'] + '--original')
         ids.extend(parser.ids)
         links.extend(parser.links)
         links.extend(section['related'])
+        links.extend(d['target'] for d in section.get('definitionLinks', []))
         blocks = section['blocks']
         expected = Counter(re.findall(r'\\begin\{(definition|theorem|lemma|proposition|corollary|example|remark|proof|problem)\}', mask_comments(section['body'])))
         actual = Counter(b['kind'] for b in blocks)
@@ -62,6 +67,9 @@ def main():
     for target in links:
         if target not in set(ids):
             errors.append('Broken internal link: ' + target)
+    for definition in data.get('definitions', []):
+        if definition['target'] not in set(ids):
+            errors.append('Broken definition destination: ' + definition['term'])
     for spec in SOURCES:
         source = sources[spec['id']]
         file = ROOT / source['path']
@@ -83,7 +91,7 @@ def main():
         if not value.startswith(('#', 'data:', 'http')) and not (ROOT / 'dist' / value).exists():
             errors.append('Missing portable asset: ' + value)
     report = dict(sections=len(sections), sources=source_counts, blocks=dict(kinds),
-                  diagrams=data['diagramCount'], links=len(links), errors=errors)
+                  diagrams=data['diagramCount'], links=len(links), definitions=len(data.get('definitions', [])), errors=errors)
     (ROOT / '_work/validation-report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     print(json.dumps(report, indent=2))
     if errors:

@@ -15,6 +15,21 @@
   const byChapter = Object.fromEntries(chapters.map(c => [c.n, c]));
   const courses = [...new Set(S.map(s => s.course).filter(Boolean))];
   const kinds = {definition:'Definition', theorem:'Theorem', lemma:'Lemma', proposition:'Proposition', corollary:'Corollary', example:'Example', remark:'Remark', proof:'Proof'};
+  const definitionOwners = new Map(S.flatMap(s => [
+    [s.id + '--original', {section:s, block:{kind:'section', number:s.number}}],
+    ...s.blocks.map(b => [b.id, {section:s, block:b}])
+  ]));
+  const definitions = (Array.isArray(D.definitions) ? D.definitions : [])
+    .filter(d => d.term && definitionOwners.has(d.target))
+    .map(d => ({...d, aliases:Array.isArray(d.aliases) ? d.aliases : [], ...definitionOwners.get(d.target)}));
+  const normalizeTerm = value => String(value || '').trim().replace(/^\$|\$$/g, '').replace(/[\u2010\u2011\u2013\u2212]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').toLocaleLowerCase();
+  const definitionsByTerm = new Map();
+  definitions.forEach(d => [d.term, ...d.aliases].forEach(term => {
+    const key = normalizeTerm(term);
+    if (!key) return;
+    if (!definitionsByTerm.has(key)) definitionsByTerm.set(key, []);
+    if (!definitionsByTerm.get(key).some(candidate => candidate.target === d.target)) definitionsByTerm.get(key).push(d);
+  }));
   const stats = S.reduce((counts, s) => {s.blocks.forEach(b => {counts[b.kind] = (counts[b.kind] || 0) + 1;}); return counts;}, {});
   const issues = S.flatMap(s => s.issues || []);
   const numberedKinds = Object.keys(kinds).filter(k => !['proof', 'remark'].includes(k));
@@ -125,12 +140,34 @@
   function issueMarkup(issue) {
     return `<div class="issue"><p class="original"><strong>Original</strong> ${escape(issue.original)}</p><p><strong>Suggested correction</strong> ${escape(issue.correction)}</p><p>${escape(issue.reason)}</p></div>`;
   }
+  function definitionLabel(d) {
+    const label = d.block.kind === 'section' ? 'Source notes' : `${kinds[d.block.kind] || 'Definition'} ${d.block.number || ''}`.trim();
+    return `${label} · ${citation(d.section)}`;
+  }
+  function definitionAnchor(term, target, label, className = 'definition-link') {
+    const owner = definitionOwners.get(target);
+    if (!owner) return '';
+    const title = `Definition of ${term} · ${definitionLabel(owner)}`;
+    return `<a class="${className}" href="#${escape(target)}" data-definition="${escape(target)}" title="${escape(title)}">${escape(label)}</a>`;
+  }
+  function sectionDefinitions(s) {
+    const seen = new Set();
+    const links = (s.definitionLinks || []).filter(d => {
+      const key = normalizeTerm(d.term) + '|' + d.target;
+      if (!d.term || !definitionOwners.has(d.target) || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    if (!links.length) return '';
+    return `<details class="definition-shortcuts"><summary>Definitions used here <span>${links.length}</span></summary><p>Follow an underlined term in the notes, or choose one here.</p><div>${links.map(d => definitionAnchor(d.term, d.target, d.term)).join('')}</div></details>`;
+  }
   function article(s, anchor) {
     const source = sourceFor(s), chapter = chapterFor(s);
     const numbered = s.blocks.filter(b => !['proof', 'remark'].includes(b.kind));
     const index = S.indexOf(s), prev = S[index - 1], next = S[index + 1];
     mount(`<div class="article-layout"><article><header class="article-header"><div class="eyebrow">CHAPTER ${pad(s.chapterNo)} · ${escape(chapter.title)} <span>/</span> ${escape(s.course || '')}</div><h1>${escape(s.titleEn)}</h1><div class="article-english">${escape(citation(s))}${s.title && s.title !== s.titleEn ? ' · ' + escape(s.title) : ''}</div><div class="article-meta"><span>${escape(sourceLabel(s))}${s.line ? ` · lines ${s.line}–${s.sourceLineEnd || s.line}` : ''}</span><span>${numbered.length} statements and examples</span><span>${s.blocks.filter(b => b.kind === 'proof').length} proofs</span><span class="tag">${escape(s.sourceStatus || 'Source text preserved')}</span></div><div class="actions"><button class="button small" data-bookmark="${s.id}">${bookmarks.has(s.id) ? '★ Bookmarked' : '☆ Bookmark'}</button><button class="button small" data-read="${s.id}">${read.has(s.id) ? '✓ Read' : 'Mark as read'}</button><button class="button small" id="copy-link">Copy section link ↗</button></div></header>
-      <section class="guide" id="${s.id}--guide"><h2>A guide to this section</h2><p>${escape(s.summary)}</p>${s.keyPoints?.length ? `<ul>${s.keyPoints.map(p => `<li>${escape(p)}</li>`).join('')}</ul>` : ''}</section>
+      <section class="guide" id="${s.id}--guide"><h2>A guide to this section</h2><p>${s.summaryHtml ?? escape(s.summary)}</p>${s.keyPoints?.length ? `<ul>${s.keyPoints.map((p, i) => `<li>${s.keyPointsHtml?.[i] ?? escape(p)}</li>`).join('')}</ul>` : ''}</section>
+      ${sectionDefinitions(s)}
       ${s.issues?.length ? `<details class="issues-panel"><summary>${s.issues.length} correction notes · original text preserved</summary>${s.issues.map(issueMarkup).join('')}</details>` : ''}
       <div class="article-heading" id="${s.id}--original"><span>SOURCE NOTES · ${escape(s.course || '')}</span><button id="expand-proofs">Expand all proofs</button></div><div class="original-note">${s.html}</div>
       <section id="${s.id}--related"><h2 class="article-heading">Related sections</h2><div class="related-links">${(s.related || []).filter(id => byId[id]).map(id => `<a href="#${id}"><small>${escape(citation(byId[id]))}</small>${escape(byId[id].titleEn)} ↗</a>`).join('') || '<p class="muted">Browse the concept index for more connections.</p>'}</div></section>
@@ -147,8 +184,13 @@
   function scrollAnchor(id) {
     const element = document.getElementById(id);
     if (!element) return;
-    const proof = element.closest('details.proof');
-    if (proof) proof.open = true;
+    for (let ancestor = element; ancestor && ancestor !== main; ancestor = ancestor.parentElement) {
+      if (ancestor.matches('details.proof')) ancestor.open = true;
+    }
+    main.querySelectorAll('.anchor-target').forEach(target => target.classList.remove('anchor-target'));
+    element.classList.add('anchor-target');
+    element.setAttribute('tabindex', '-1');
+    element.focus({preventScroll:true});
     element.scrollIntoView({behavior:'instant', block:'start'});
   }
   const concepts = (() => {
@@ -156,21 +198,30 @@
     S.forEach(s => [...(s.terms || []), ...(s.keywords || [])].forEach(raw => {
       const term = raw.trim().replace(/^\$|\$$/g, '');
       if (!term || term.length > 85 || term.includes('\\begin') || /\n/.test(term)) return;
-      const key = term.toLocaleLowerCase();
+      const key = normalizeTerm(term);
       if (!map.has(key)) map.set(key, {term, ids:[]});
       if (!map.get(key).ids.includes(s.id)) map.get(key).ids.push(s.id);
     }));
-    return [...map.values()].sort((a, b) => a.term.localeCompare(b.term));
+    definitions.forEach(d => {
+      const key = normalizeTerm(d.term);
+      if (!map.has(key)) map.set(key, {term:d.term, ids:[]});
+    });
+    return [...map.entries()].map(([key, c]) => {
+      c.definitions = definitionsByTerm.get(key) || [];
+      c.definitions.forEach(d => {if (!c.ids.includes(d.section.id)) c.ids.push(d.section.id);});
+      c.searchTerms = normalizeTerm([c.term, ...c.definitions.flatMap(d => [d.term, ...d.aliases])].join(' '));
+      return c;
+    }).sort((a, b) => a.term.localeCompare(b.term));
   })();
   function conceptView() {
     localQuery = '';
-    mount(pageTitle('CONCEPT INDEX', 'Concept index', 'One index across both courses. Follow emphasized terms and study-guide keywords to the relevant sections.') + `<div class="toolbar"><span class="index-count">${concepts.length} terms</span><input class="local-search" id="concept-search" type="search" placeholder="e.g. normal, tensor, exact" aria-label="Search concepts"></div><div class="concept-grid" id="concept-list"></div>`);
+    mount(pageTitle('CONCEPT INDEX', 'Concept index', 'Look up a term and go directly to its definition. Related section links connect the ideas across both courses.') + `<div class="toolbar"><span class="index-count">${concepts.length} terms</span><input class="local-search" id="concept-search" type="search" placeholder="e.g. normal, tensor, exact" aria-label="Search concepts"></div><div class="concept-grid" id="concept-list"></div>`);
     updateConcepts();
     setBreadcrumb('', 'Concept index');
   }
   function updateConcepts() {
-    const list = concepts.filter(c => c.term.toLowerCase().includes(localQuery.toLowerCase()));
-    document.getElementById('concept-list').innerHTML = list.length ? list.map(c => `<div class="concept-card"><h3>${escape(c.term)}</h3>${c.ids.map(id => `<a href="#${id}"><span>${escape(citation(byId[id]))}</span> ${escape(byId[id].titleEn)} ↗</a>`).join('')}</div>`).join('') : '<div class="empty-state">No matching terms.</div>';
+    const list = concepts.filter(c => c.searchTerms.includes(normalizeTerm(localQuery)));
+    document.getElementById('concept-list').innerHTML = list.length ? list.map(c => `<div class="concept-card"><h3>${escape(c.term)}</h3>${c.definitions.length ? `<div class="concept-definitions">${c.definitions.map(d => definitionAnchor(c.term, d.target, definitionLabel(d) + ' →', 'definition-link concept-definition')).join('')}</div>` : ''}${c.ids.map(id => `<a href="#${id}"><span>${escape(citation(byId[id]))}</span> ${escape(byId[id].titleEn)} ↗</a>`).join('')}</div>`).join('') : '<div class="empty-state">No matching terms.</div>';
     typeset();
   }
   function theoremView(params) {
@@ -276,6 +327,16 @@
     if (event.key === 'Escape') setMenu(false);
   });
   main.addEventListener('click', async event => {
+    const link = event.target.closest('[data-definition]');
+    if (link && !event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && (!event.button || event.button === 0)) {
+      const target = link.dataset.definition;
+      if (location.hash === '#' + target && document.getElementById(target)) {
+        event.preventDefault();
+        const version = routeVersion;
+        await typeset();
+        if (version === routeVersion) scrollAnchor(target);
+      }
+    }
     const button = event.target.closest('button');
     if (!button) return;
     if (button.dataset.chapter !== undefined) {
@@ -334,5 +395,5 @@
   main.addEventListener('toggle', () => window.AlgebraDiagramLayout?.schedule(main), true);
   window.addEventListener('hashchange', navigate);
   navigate();
-  window.ALGEBRA_WIKI = {sections:S.length, chapters:chapters.length, concepts:concepts.length, sources:sources.length, ready:() => mathQueue};
+  window.ALGEBRA_WIKI = {sections:S.length, chapters:chapters.length, concepts:concepts.length, definitions:definitions.length, sources:sources.length, ready:() => mathQueue};
 })();

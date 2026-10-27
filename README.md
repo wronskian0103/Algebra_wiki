@@ -10,7 +10,7 @@ Visit the repository's GitHub Pages website, or download the repository and open
 
 Reading the downloaded wiki works offline. MathJax and all other runtime assets are bundled locally; no installation or server is required.
 
-Features include full-text search, chapter and course filters, concept and statement indexes, links between related topics, expandable proofs, bookmarks, reading status, and a dark theme. Bookmarks, reading status, and theme preferences are stored in the current browser.
+Features include full-text search, chapter and course filters, concept and statement indexes, links between related topics, expandable proofs, bookmarks, reading status, and a dark theme. Underlined terms in the source notes link directly to their definitions; the concept index and each article's **Definitions used here** list offer the same precise links. The destination is highlighted and focused, including inside a collapsed proof. Bookmarks, reading status, and theme preferences are stored in the current browser.
 
 ## Contents
 
@@ -47,6 +47,7 @@ When changing the content or interface, rebuild locally and commit the updated `
 | `content/` | English study guides, related links, and correction notes |
 | `build_wiki.py` | TeX-to-wiki builder |
 | `diagrams.py` | Diagram renderer |
+| `definition_links.py`, `content/definition-terms-*.json` | Context-aware term linking and curated definition destinations |
 | `validate.py`, `validate_math.cjs` | Source, link, structure, and formula checks |
 | `_work/audit_diagrams.py`, `_work/qa-app.cjs` | Diagram and interaction checks |
 | `package_local.py` | Create the portable offline ZIP |
@@ -62,15 +63,19 @@ Run these commands from the repository root:
 ```sh
 python build_wiki.py
 python validate.py
+python test_definition_links.py
 python _work/audit_diagrams.py
 node validate_math.cjs
 node _work/qa-app.cjs
+node _work/qa-definition-links.cjs
 python package_local.py
 ```
 
 The JavaScript checks require Node.js. Formula validation also needs the development package `mathjax-full` 3.2.2; set `MATHJAX_DIR` to its `js/` directory when running outside the original course workspace. The reader's MathJax runtime is already bundled in `dist/assets/`.
 
 Edit the source snapshots or English metadata, then rebuild. Preserve section IDs to keep existing links stable. New sections need corresponding study guides and related links. The builder writes reports to `_work/` and `package_local.py` creates `Algebra-Wiki.zip` locally.
+
+Add terminology to the definition registries with a canonical `term`, plural or spelling `aliases`, and an existing block `target` (or a section's `--original` anchor for an inline definition). Optional `contexts` restrict chapter numbers; `excludeSections` suppresses a known misleading source usage. Longest phrases are matched first, and indistinguishable meanings are left unlinked. Existing references, code, diagrams, and formula contents are preserved. A single inline math letter can form part of a term such as a p-group or R-module.
 
 `validate.py` checks source coverage, numbering, statement anchors, internal links, source hashes, and local assets. The other checks cover diagrams, formulas, and interface behavior. The interface check uses a DOM emulator; it does not verify browser layout.
 

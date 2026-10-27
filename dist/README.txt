@@ -23,6 +23,8 @@ COVERAGE
   Each topic has an English study guide, key points, keywords, and related
   links. Search, concept and statement indexes, course filters, bookmarks,
   reading status, proof folding, and a dark theme work across both courses.
+  Underlined terms in the notes and guides link directly to definitions.
+  The concept index and Definitions used here list provide the same links.
 
 SOURCES AND EDITING
   Algebra I: 2025 Spring; Algebra II: 2025 Fall; SNU graduate courses.
@@ -60,9 +62,11 @@ REBUILDING
   Run from the parent Algebra_Wiki folder:
     python Algebra/build_wiki.py
     python Algebra/validate.py
+    python Algebra/test_definition_links.py
     python Algebra/_work/audit_diagrams.py
     node Algebra/validate_math.cjs
     node Algebra/_work/qa-app.cjs
+    node Algebra/_work/qa-definition-links.cjs
 
   Pandoc is found on PATH, from PANDOC_PATH, or from the existing Algebra I
   wiki's bundled converter. Formula QA uses the original wiki's MathJax

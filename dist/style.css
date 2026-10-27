@@ -13,3 +13,21 @@
 @media(max-width:1200px){.statement-title{flex-wrap:wrap;gap:5px}.statement-title .tag{font-size:8px}.chapter-card h3{font-size:16px}.card-head{font-size:7px}}
 @media(max-width:980px){.chapter-card p{min-height:0;margin-top:7px}.chapter-card .card-symbol{grid-row:2/4}.chapter-card h3{font-size:18px}.card-head{font-size:8px}}
 @media(max-width:720px){.contents-searchbar{flex-wrap:wrap;gap:10px}.contents-searchbar .local-search{margin-top:0}.chapter-separator{display:block}.chapter-separator>span{display:block;margin-top:3px}.statement-title{display:block}.statement-title .tag{display:inline-block;margin-top:8px}.row-no{font-size:15px;min-width:39px}.hero .actions{gap:8px}.hero .button{padding:9px 12px;gap:12px}.article-meta>span:first-child{flex-basis:100%}}
+
+/* Wiki terms retain their surrounding typography and lead to the precise source definition. */
+.original-note a.definition-link,.guide a.definition-link{color:var(--green);text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:1px;text-underline-offset:3px}
+.original-note a.definition-link:hover,.original-note a.definition-link:focus-visible,.guide a.definition-link:hover,.guide a.definition-link:focus-visible{text-decoration-style:solid;background:var(--green-soft)}
+.definition-shortcuts{margin:-8px 0 26px;border-bottom:1px solid var(--line);padding:0 0 12px;font-size:11px;color:var(--muted)}
+.definition-shortcuts summary{cursor:pointer;color:var(--green);width:fit-content}
+.definition-shortcuts summary>span{margin-left:6px;color:var(--muted);font-size:10px}
+.definition-shortcuts p{font-size:11px;margin:10px 0}
+.definition-shortcuts>div{display:flex;flex-wrap:wrap;gap:7px}
+.definition-shortcuts a{display:inline-block;padding:3px 9px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--green);line-height:1.7}
+.definition-shortcuts a:hover{border-color:var(--green)}
+.concept-definitions{display:grid;gap:4px;margin:0 0 10px;padding:0 0 10px;border-bottom:1px solid var(--line)}
+.concept-card a.concept-definition{font-size:11px;color:var(--green);font-weight:600;line-height:1.65}
+.concept-card a.concept-definition:hover{text-decoration:underline;text-underline-offset:3px}
+.note-block:target,.note-block.anchor-target{border-color:var(--green);box-shadow:0 0 0 2px var(--green-soft)}
+.article-heading:target,.article-heading.anchor-target{color:var(--green);background:var(--green-soft);border-radius:4px;padding:8px 10px;scroll-margin-top:105px}
+.anchor-target:focus{outline:none}
+@media print{.definition-shortcuts{display:none}.original-note a.definition-link,.guide a.definition-link{color:inherit;text-decoration:none}.note-block:target,.note-block.anchor-target{box-shadow:none}}

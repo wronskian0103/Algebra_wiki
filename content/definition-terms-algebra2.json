@@ -1,0 +1,981 @@
+[
+  {
+    "term": "category",
+    "target": "a2s01--b001",
+    "aliases": [
+      "categories"
+    ]
+  },
+  {
+    "term": "morphism",
+    "target": "a2s01--b001",
+    "aliases": [
+      "morphisms"
+    ]
+  },
+  {
+    "term": "identity morphism",
+    "target": "a2s01--b001",
+    "aliases": [
+      "identity morphisms"
+    ]
+  },
+  {
+    "term": "universe",
+    "target": "a2s01--b005",
+    "aliases": [
+      "universes",
+      "Grothendieck universe",
+      "Grothendieck universes"
+    ]
+  },
+  {
+    "term": "small category",
+    "target": "a2s01--b008",
+    "aliases": [
+      "small categories"
+    ]
+  },
+  {
+    "term": "locally small category",
+    "target": "a2s01--b008",
+    "aliases": [
+      "locally small categories"
+    ]
+  },
+  {
+    "term": "large category",
+    "target": "a2s01--b008",
+    "aliases": [
+      "large categories"
+    ]
+  },
+  {
+    "term": "categorical isomorphism",
+    "target": "a2s01--b011",
+    "aliases": [
+      "categorical isomorphisms"
+    ]
+  },
+  {
+    "term": "initial object",
+    "target": "a2s01--b012",
+    "aliases": [
+      "initial objects"
+    ]
+  },
+  {
+    "term": "terminal object",
+    "target": "a2s01--b012",
+    "aliases": [
+      "terminal objects",
+      "final object",
+      "final objects"
+    ]
+  },
+  {
+    "term": "functor",
+    "target": "a2s02--b001",
+    "aliases": [
+      "functors"
+    ]
+  },
+  {
+    "term": "natural transformation",
+    "target": "a2s02--b003",
+    "aliases": [
+      "natural transformations"
+    ]
+  },
+  {
+    "term": "equivalence of categories",
+    "target": "a2s02--b004",
+    "aliases": [
+      "equivalences of categories",
+      "categorical equivalence",
+      "categorical equivalences"
+    ]
+  },
+  {
+    "term": "opposite category",
+    "target": "a2s02--b007",
+    "aliases": [
+      "opposite categories"
+    ]
+  },
+  {
+    "term": "Hom functor",
+    "target": "a2s02--b007",
+    "aliases": [
+      "Hom functors"
+    ]
+  },
+  {
+    "term": "representable functor",
+    "target": "a2s02--b008",
+    "aliases": [
+      "representable functors"
+    ]
+  },
+  {
+    "term": "corepresentable functor",
+    "target": "a2s06--b001",
+    "aliases": [
+      "corepresentable functors",
+      "covariantly representable functor",
+      "covariantly representable functors"
+    ]
+  },
+  {
+    "term": "categorical product",
+    "target": "a2s03--b002",
+    "aliases": [
+      "categorical products"
+    ]
+  },
+  {
+    "term": "fibre product",
+    "target": "a2s03--b003",
+    "aliases": [
+      "fibre products",
+      "fiber product",
+      "fiber products",
+      "pullback",
+      "pullbacks"
+    ]
+  },
+  {
+    "term": "categorical limit",
+    "target": "a2s03--b004",
+    "aliases": [
+      "categorical limits"
+    ]
+  },
+  {
+    "term": "equalizer",
+    "target": "a2s03--b006",
+    "aliases": [
+      "equalizers",
+      "equaliser",
+      "equalisers"
+    ]
+  },
+  {
+    "term": "continuous functor",
+    "target": "a2s03--b007",
+    "aliases": [
+      "continuous functors",
+      "limit-preserving functor",
+      "limit-preserving functors"
+    ]
+  },
+  {
+    "term": "adjoint pair",
+    "target": "a2s05--b001",
+    "aliases": [
+      "adjoint pairs",
+      "adjoint functors",
+      "adjunction",
+      "adjunctions"
+    ]
+  },
+  {
+    "term": "left adjoint",
+    "target": "a2s05--b001",
+    "aliases": [
+      "left adjoints",
+      "left adjoint functor",
+      "left adjoint functors"
+    ]
+  },
+  {
+    "term": "right adjoint",
+    "target": "a2s05--b001",
+    "aliases": [
+      "right adjoints",
+      "right adjoint functor",
+      "right adjoint functors"
+    ]
+  },
+  {
+    "term": "forgetful functor",
+    "target": "a2s05--original",
+    "aliases": [
+      "forgetful functors"
+    ]
+  },
+  {
+    "term": "unit of the adjunction",
+    "target": "a2s05--b005",
+    "aliases": [
+      "unit of an adjunction",
+      "adjunction unit"
+    ]
+  },
+  {
+    "term": "counit",
+    "target": "a2s05--b005",
+    "aliases": [
+      "counits",
+      "counit of the adjunction",
+      "counit of an adjunction"
+    ]
+  },
+  {
+    "term": "categorical coproduct",
+    "target": "a2s06--b002",
+    "aliases": [
+      "categorical coproducts"
+    ]
+  },
+  {
+    "term": "module",
+    "target": "a2s07--b003",
+    "aliases": [
+      "modules",
+      "left module",
+      "left modules",
+      "R-module",
+      "R-modules",
+      "A-module",
+      "A-modules",
+      "left R-module",
+      "left R-modules",
+      "left A-module",
+      "left A-modules"
+    ]
+  },
+  {
+    "term": "right module",
+    "target": "a2s07--b006",
+    "aliases": [
+      "right modules",
+      "right R-module",
+      "right R-modules",
+      "right A-module",
+      "right A-modules"
+    ]
+  },
+  {
+    "term": "submodule",
+    "target": "a2s07--b009",
+    "aliases": [
+      "submodules",
+      "left submodule",
+      "left submodules"
+    ]
+  },
+  {
+    "term": "module homomorphism",
+    "target": "a2s07--b012",
+    "aliases": [
+      "module homomorphisms",
+      "R-module homomorphism",
+      "R-module homomorphisms",
+      "A-module homomorphism",
+      "A-module homomorphisms",
+      "injective module homomorphism",
+      "injective module homomorphisms",
+      "injective A-module homomorphism",
+      "injective A-module homomorphisms",
+      "injective R-module homomorphism",
+      "injective R-module homomorphisms"
+    ]
+  },
+  {
+    "term": "endomorphism ring",
+    "target": "a2s08--b013",
+    "aliases": [
+      "endomorphism rings"
+    ]
+  },
+  {
+    "term": "torsion element",
+    "target": "a2s08--b001",
+    "aliases": [
+      "torsion elements"
+    ],
+    "contexts": [
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "torsion module",
+    "target": "a2s08--b002",
+    "aliases": [
+      "torsion modules"
+    ]
+  },
+  {
+    "term": "quotient module",
+    "target": "a2s08--b003",
+    "aliases": [
+      "quotient modules"
+    ]
+  },
+  {
+    "term": "kernel of a module homomorphism",
+    "target": "a2s08--b005",
+    "aliases": [
+      "kernel of a module map"
+    ]
+  },
+  {
+    "term": "sum of submodules",
+    "target": "a2s08--b007",
+    "aliases": [
+      "submodule sum",
+      "submodule sums"
+    ]
+  },
+  {
+    "term": "algebra representation",
+    "target": "a2s08--b017",
+    "aliases": [
+      "algebra representations",
+      "representation of an algebra",
+      "representations of an algebra"
+    ]
+  },
+  {
+    "term": "monoid representation",
+    "target": "a2s08--b019",
+    "aliases": [
+      "monoid representations",
+      "representation of a monoid",
+      "representations of a monoid"
+    ]
+  },
+  {
+    "term": "group representation",
+    "target": "a2s08--b022",
+    "aliases": [
+      "group representations",
+      "representation of a group",
+      "representations of a group"
+    ]
+  },
+  {
+    "term": "discrete category",
+    "target": "a2s09--b001",
+    "aliases": [
+      "discrete categories"
+    ]
+  },
+  {
+    "term": "direct product of modules",
+    "target": "a2s09--b001",
+    "aliases": [
+      "direct products of modules",
+      "module direct product",
+      "module direct products"
+    ]
+  },
+  {
+    "term": "direct sum of modules",
+    "target": "a2s09--b001",
+    "aliases": [
+      "direct sums of modules",
+      "module direct sum",
+      "module direct sums"
+    ]
+  },
+  {
+    "term": "exact sequence",
+    "target": "a2s09--b007",
+    "aliases": [
+      "exact sequences"
+    ]
+  },
+  {
+    "term": "short exact sequence",
+    "target": "a2s09--b007",
+    "aliases": [
+      "short exact sequences"
+    ]
+  },
+  {
+    "term": "left exact functor",
+    "target": "a2s09--b008",
+    "aliases": [
+      "left exact functors",
+      "left-exact functor",
+      "left-exact functors"
+    ]
+  },
+  {
+    "term": "split exact sequence",
+    "target": "a2s09--b012",
+    "aliases": [
+      "split exact sequences",
+      "split short exact sequence",
+      "split short exact sequences",
+      "split sequence",
+      "split sequences"
+    ]
+  },
+  {
+    "term": "additive category",
+    "target": "a2s10--b001",
+    "aliases": [
+      "additive categories"
+    ]
+  },
+  {
+    "term": "abelian category",
+    "target": "a2s10--b001",
+    "aliases": [
+      "abelian categories"
+    ]
+  },
+  {
+    "term": "free module",
+    "target": "a2s11--b001",
+    "aliases": [
+      "free modules",
+      "free R-module",
+      "free R-modules",
+      "free A-module",
+      "free A-modules"
+    ]
+  },
+  {
+    "term": "projective module",
+    "target": "a2s12--b004",
+    "aliases": [
+      "projective modules",
+      "projective R-module",
+      "projective R-modules",
+      "projective A-module",
+      "projective A-modules"
+    ]
+  },
+  {
+    "term": "Grothendieck group",
+    "target": "a2s12--b008",
+    "aliases": [
+      "Grothendieck groups"
+    ]
+  },
+  {
+    "term": "injective module",
+    "target": "a2s13--b002",
+    "aliases": [
+      "injective modules",
+      "injective R-module",
+      "injective R-modules",
+      "injective A-module",
+      "injective A-modules"
+    ]
+  },
+  {
+    "term": "divisible group",
+    "target": "a2s13--b004",
+    "aliases": [
+      "divisible groups",
+      "divisible abelian group",
+      "divisible abelian groups"
+    ]
+  },
+  {
+    "term": "Pontryagin dual",
+    "target": "a2s13--b015",
+    "aliases": [
+      "Pontryagin duals",
+      "Pontryagin duality"
+    ]
+  },
+  {
+    "term": "enough projectives",
+    "target": "a2s13--b019",
+    "aliases": [
+      "enough projective objects"
+    ]
+  },
+  {
+    "term": "enough injectives",
+    "target": "a2s13--b019",
+    "aliases": [
+      "enough injective objects"
+    ]
+  },
+  {
+    "term": "dual module",
+    "target": "a2s14--original",
+    "aliases": [
+      "dual modules",
+      "module dual",
+      "module duals"
+    ]
+  },
+  {
+    "term": "torsion submodule",
+    "target": "a2s15--b008",
+    "aliases": [
+      "torsion submodules"
+    ]
+  },
+  {
+    "term": "p-primary element",
+    "target": "a2s15--b015",
+    "aliases": [
+      "p-primary elements",
+      "p-primary"
+    ],
+    "contexts": [
+      2,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "p-primary submodule",
+    "target": "a2s15--b016",
+    "aliases": [
+      "p-primary submodules",
+      "primary component",
+      "primary components"
+    ],
+    "contexts": [
+      5,
+      6,
+      8
+    ]
+  },
+  {
+    "term": "Euler-Poincare map",
+    "target": "a2s16--b001",
+    "aliases": [
+      "Euler-Poincare maps",
+      "Euler-Poincaré map",
+      "Euler-Poincaré maps"
+    ]
+  },
+  {
+    "term": "directed set",
+    "target": "a2s17--b001",
+    "aliases": [
+      "directed sets",
+      "direct system of indices",
+      "direct systems of indices",
+      "directed system of indices",
+      "directed systems of indices",
+      "directed poset",
+      "directed posets"
+    ]
+  },
+  {
+    "term": "direct limit",
+    "target": "a2s17--b005",
+    "aliases": [
+      "direct limits",
+      "inductive limit",
+      "inductive limits"
+    ]
+  },
+  {
+    "term": "inverse limit of modules",
+    "target": "a2s17--b005",
+    "aliases": [
+      "inverse limits of modules",
+      "projective limit of modules",
+      "projective limits of modules"
+    ]
+  },
+  {
+    "term": "profinite completion of the integers",
+    "target": "a2s17--b007",
+    "aliases": [
+      "profinite completion of Z"
+    ]
+  },
+  {
+    "term": "bilinear map",
+    "target": "a2s18--b001",
+    "aliases": [
+      "bilinear maps",
+      "bilinear mapping",
+      "bilinear mappings"
+    ]
+  },
+  {
+    "term": "tensor product",
+    "target": "a2s18--b002",
+    "aliases": [
+      "tensor products"
+    ]
+  },
+  {
+    "term": "flat module",
+    "target": "a2s19--b003",
+    "aliases": [
+      "flat modules",
+      "flat R-module",
+      "flat R-modules",
+      "flat A-module",
+      "flat A-modules"
+    ]
+  },
+  {
+    "term": "finitely presented module",
+    "target": "a2s19--b027",
+    "aliases": [
+      "finitely presented modules",
+      "finitely presented R-module",
+      "finitely presented R-modules",
+      "finitely presented A-module",
+      "finitely presented A-modules"
+    ]
+  },
+  {
+    "term": "central algebra",
+    "target": "a2s20--b001",
+    "aliases": [
+      "central algebras"
+    ]
+  },
+  {
+    "term": "base change",
+    "target": "a2s20--b004",
+    "aliases": [
+      "base changes",
+      "extension of scalars",
+      "scalar extension"
+    ]
+  },
+  {
+    "term": "graded algebra",
+    "target": "a2s20--b009",
+    "aliases": [
+      "graded algebras"
+    ]
+  },
+  {
+    "term": "total grading",
+    "target": "a2s20--b012",
+    "aliases": [
+      "total gradings"
+    ]
+  },
+  {
+    "term": "supercommutative algebra",
+    "target": "a2s20--b014",
+    "aliases": [
+      "supercommutative algebras",
+      "graded-commutative algebra",
+      "graded-commutative algebras"
+    ]
+  },
+  {
+    "term": "homogeneous element",
+    "target": "a2s20--b014",
+    "aliases": [
+      "homogeneous elements"
+    ]
+  },
+  {
+    "term": "tensor algebra",
+    "target": "a2s21--b001",
+    "aliases": [
+      "tensor algebras"
+    ]
+  },
+  {
+    "term": "tensor power",
+    "target": "a2s21--b001",
+    "aliases": [
+      "tensor powers"
+    ]
+  },
+  {
+    "term": "concatenation product",
+    "target": "a2s21--b001",
+    "aliases": [
+      "concatenation products"
+    ]
+  },
+  {
+    "term": "symmetric algebra",
+    "target": "a2s21--b003",
+    "aliases": [
+      "symmetric algebras"
+    ]
+  },
+  {
+    "term": "exterior algebra",
+    "target": "a2s21--b003",
+    "aliases": [
+      "exterior algebras"
+    ]
+  },
+  {
+    "term": "integral element",
+    "target": "a2s22--b001",
+    "aliases": [
+      "integral elements"
+    ]
+  },
+  {
+    "term": "integral extension",
+    "target": "a2s22--b016",
+    "aliases": [
+      "integral extensions",
+      "integral ring extension",
+      "integral ring extensions"
+    ]
+  },
+  {
+    "term": "faithful module",
+    "target": "a2s22--b006",
+    "aliases": [
+      "faithful modules"
+    ]
+  },
+  {
+    "term": "distinguished class of ring extensions",
+    "target": "a2s22--b008",
+    "aliases": [
+      "distinguished classes of ring extensions"
+    ]
+  },
+  {
+    "term": "integrally closed domain",
+    "target": "a2s22--b018",
+    "aliases": [
+      "integrally closed domains",
+      "integrally closed ring",
+      "integrally closed rings",
+      "integrally closed"
+    ]
+  },
+  {
+    "term": "integral closure",
+    "target": "a2s22--b018",
+    "aliases": [
+      "integral closures"
+    ]
+  },
+  {
+    "term": "integral Galois extension",
+    "target": "a2s23--b001",
+    "aliases": [
+      "integral Galois extensions",
+      "Galois ring extension",
+      "Galois ring extensions"
+    ]
+  },
+  {
+    "term": "decomposition group",
+    "target": "a2s23--b007",
+    "aliases": [
+      "decomposition groups"
+    ]
+  },
+  {
+    "term": "decomposition field",
+    "target": "a2s23--b007",
+    "aliases": [
+      "decomposition fields"
+    ]
+  },
+  {
+    "term": "inertia group",
+    "target": "a2s23--b014",
+    "aliases": [
+      "inertia groups"
+    ]
+  },
+  {
+    "term": "transcendence basis",
+    "target": "a2s24--b001",
+    "aliases": [
+      "transcendence bases",
+      "transcendental basis",
+      "transcendental bases"
+    ]
+  },
+  {
+    "term": "resultant",
+    "target": "a2s27--b003",
+    "aliases": [
+      "resultants"
+    ]
+  },
+  {
+    "term": "affine space",
+    "target": "a2s27--b009",
+    "aliases": [
+      "affine spaces"
+    ]
+  },
+  {
+    "term": "projective space",
+    "target": "a2s27--b009",
+    "aliases": [
+      "projective spaces"
+    ]
+  },
+  {
+    "term": "radical of an ideal",
+    "target": "a2s29--b001",
+    "aliases": [
+      "ideal radical",
+      "radical of the ideal",
+      "radicals of ideals"
+    ]
+  },
+  {
+    "term": "prime spectrum",
+    "target": "a2s29--b004",
+    "aliases": [
+      "prime spectra",
+      "spectrum of a ring",
+      "spectra of rings",
+      "Zariski topology"
+    ]
+  },
+  {
+    "term": "irreducible closed subset",
+    "target": "a2s29--original",
+    "aliases": [
+      "irreducible closed subsets"
+    ]
+  },
+  {
+    "term": "fractional ideal",
+    "target": "supp01--b009",
+    "aliases": [
+      "fractional ideals"
+    ]
+  },
+  {
+    "term": "product of fractional ideals",
+    "target": "supp01--b010",
+    "aliases": [
+      "fractional ideal product",
+      "fractional ideal products"
+    ]
+  },
+  {
+    "term": "Dedekind domain",
+    "target": "supp01--b014",
+    "aliases": [
+      "Dedekind domains",
+      "Dedekind ring",
+      "Dedekind rings"
+    ]
+  },
+  {
+    "term": "principal fractional ideal",
+    "target": "supp01--b015",
+    "aliases": [
+      "principal fractional ideals"
+    ]
+  },
+  {
+    "term": "ideal class group",
+    "target": "supp01--b016",
+    "aliases": [
+      "ideal class groups",
+      "class group",
+      "class groups",
+      "Picard group",
+      "Picard groups"
+    ]
+  },
+  {
+    "term": "ramification index",
+    "target": "supp04--b009",
+    "aliases": [
+      "ramification indices"
+    ]
+  },
+  {
+    "term": "inertial degree",
+    "target": "supp04--b009",
+    "aliases": [
+      "inertial degrees",
+      "inertia degree",
+      "inertia degrees",
+      "residue degree",
+      "residue degrees",
+      "residue field degree",
+      "residue field degrees"
+    ]
+  },
+  {
+    "term": "isomorphism",
+    "target": "a2s01--b011",
+    "aliases": [
+      "isomorphisms"
+    ],
+    "contexts": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "inverse limit",
+    "target": "a2s17--b005",
+    "aliases": [
+      "inverse limits",
+      "projective limit",
+      "projective limits"
+    ],
+    "contexts": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "direct sum",
+    "target": "a2s09--b001",
+    "aliases": [
+      "direct sums"
+    ],
+    "contexts": [
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "direct product",
+    "target": "a2s09--b001",
+    "aliases": [
+      "direct products"
+    ],
+    "contexts": [
+      5,
+      6,
+      8
+    ]
+  },
+  {
+    "term": "coproduct",
+    "target": "a2s06--b002",
+    "aliases": [
+      "coproducts"
+    ],
+    "contexts": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  }
+]

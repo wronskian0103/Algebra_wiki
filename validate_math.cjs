@@ -28,6 +28,6 @@ for(const s of D.sections){
     for(const m of text.matchAll(/\$([^$]+)\$/g))check(m[1],s.id,false);
 }
 const report={total,errors};
-fs.writeFileSync(path.join(__dirname,'_work/math-report.json'),JSON.stringify(report,null,2));
+if(!process.argv.includes('--no-report'))fs.writeFileSync(path.join(__dirname,'_work/math-report.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify({total,errors:errors.length,firstErrors:errors.slice(0,25)},null,2));
 if(errors.length)process.exitCode=1;
