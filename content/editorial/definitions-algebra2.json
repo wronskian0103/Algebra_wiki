@@ -1,0 +1,117 @@
+[
+  {
+    "term": "finitely generated module",
+    "target": "ed-noetherian-modules--def-finitely-generated-module",
+    "aliases": [
+      "finitely generated modules",
+      "f.g. module",
+      "f.g. modules"
+    ]
+  },
+  {
+    "term": "Noetherian module",
+    "target": "ed-noetherian-modules--def-noetherian-module",
+    "aliases": [
+      "Noetherian modules",
+      "noetherian module",
+      "noetherian modules"
+    ]
+  },
+  {
+    "term": "ascending chain condition on submodules",
+    "target": "ed-noetherian-modules--def-noetherian-module",
+    "aliases": [
+      "ACC on submodules"
+    ]
+  },
+  {
+    "term": "Hopfian module",
+    "target": "ed-noetherian-modules--def-hopfian-module",
+    "aliases": [
+      "Hopfian modules"
+    ]
+  },
+  {
+    "term": "directly finite ring",
+    "target": "ed-noetherian-modules--def-directly-finite-ring",
+    "aliases": [
+      "directly finite rings",
+      "Dedekind-finite ring",
+      "Dedekind-finite rings"
+    ]
+  },
+  {
+    "term": "module basis",
+    "target": "ed-free-pid-modules--def-basis-of-free-module",
+    "aliases": [
+      "module bases",
+      "basis of a module",
+      "basis of a free module"
+    ]
+  },
+  {
+    "term": "simple module",
+    "target": "a2s08--ed-simple-modules--def-simple-module",
+    "aliases": [
+      "simple modules",
+      "simple left module",
+      "simple left modules"
+    ]
+  },
+  {
+    "term": "maximal left ideal",
+    "target": "a2s08--ed-simple-modules--def-maximal-left-ideal",
+    "aliases": [
+      "maximal left ideals"
+    ]
+  },
+  {
+    "term": "direct summand",
+    "target": "a2s09--ed-idempotents--def-direct-summand",
+    "aliases": [
+      "direct summands"
+    ],
+    "contexts": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  {
+    "term": "idempotent endomorphism",
+    "target": "a2s09--ed-idempotents--def-direct-summand",
+    "aliases": [
+      "idempotent endomorphisms",
+      "module projection",
+      "module projections"
+    ]
+  },
+  {
+    "term": "pushout of modules",
+    "target": "a2s09--ed-pushouts--def-module-pushout",
+    "aliases": [
+      "pushouts of modules",
+      "module pushout",
+      "module pushouts",
+      "pushout of abelian groups",
+      "pushouts of abelian groups"
+    ]
+  },
+  {
+    "term": "pushout",
+    "target": "a2s09--ed-pushouts--def-module-pushout",
+    "aliases": [
+      "pushouts"
+    ],
+    "contexts": [
+      5,
+      6,
+      7,
+      8
+    ]
+  }
+]

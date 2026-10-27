@@ -1,0 +1,292 @@
+[
+  {
+    "mode": "page",
+    "id": "ed-noetherian-modules",
+    "chapterNo": 5,
+    "number": "E5.1",
+    "course": "Algebra II",
+    "titleEn": "Noetherian Modules and Surjective Endomorphisms",
+    "summary": "The ascending chain condition extends from ideals to submodules. Closure properties explain finite modules over Noetherian rings, while stabilization of kernels proves that surjective endomorphisms are invertible.",
+    "keyPoints": [
+      "A module is Noetherian exactly when every submodule is finitely generated.",
+      "Submodules, quotients, extensions, and finite direct sums preserve the Noetherian property.",
+      "Finitely generated modules over a left Noetherian ring are Noetherian and Hopfian.",
+      "Right multiplication on the left regular module proves that a left Noetherian ring is directly finite."
+    ],
+    "keywords": [
+      "Noetherian module",
+      "ascending chain condition",
+      "finitely generated module",
+      "Hopfian module",
+      "directly finite ring"
+    ],
+    "related": [
+      "s29",
+      "a2s08",
+      "a2s09",
+      "a2s10",
+      "a2s15"
+    ],
+    "bodyPath": "content/editorial/pages/noetherian-modules.tex",
+    "insertAfter": "a2s09"
+  },
+  {
+    "mode": "page",
+    "id": "ed-free-pid-modules",
+    "chapterNo": 5,
+    "number": "E5.2",
+    "course": "Algebra II",
+    "titleEn": "Submodules of Free Modules over a PID",
+    "summary": "A coordinate filtration extends the submodule theorem from finite to arbitrary rank over a PID. Successor splittings and finite support produce a basis, giving freeness of all projective modules over a PID.",
+    "keyPoints": [
+      "A free module is a direct sum with finite-support coordinates, not an arbitrary product.",
+      "A well-ordered basis gives compatible splittings at successor stages and unions at limit stages.",
+      "Every submodule of a free module over a commutative PID is free, without finite-generation assumptions.",
+      "Projective modules over a PID are free; arbitrary torsion-free modules need not be free."
+    ],
+    "keywords": [
+      "arbitrary rank",
+      "submodule of a free module",
+      "PID",
+      "projective module",
+      "free abelian group",
+      "transfinite filtration"
+    ],
+    "related": [
+      "s18",
+      "a2s11",
+      "a2s12",
+      "a2s15",
+      "s13"
+    ],
+    "bodyPath": "content/editorial/pages/free-pid-modules.tex",
+    "insertAfter": "a2s15"
+  },
+  {
+    "mode": "inset",
+    "id": "simple-modules",
+    "chapterNo": 5,
+    "number": "E5.SIMPLE",
+    "course": "Algebra II",
+    "titleEn": "Simple Modules and Maximal Left Ideals",
+    "summary": "A simple module is nonzero and has no proper nonzero submodule. A nonzero element makes it a quotient of the regular module by a maximal left ideal.",
+    "keyPoints": [
+      "Simple left modules are quotients by maximal left ideals.",
+      "For commutative rings, annihilators distinguish the quotients by different maximal ideals.",
+      "Simple modules over an algebraically closed Laurent polynomial ring are evaluations at nonzero scalars."
+    ],
+    "keywords": [
+      "simple module",
+      "maximal left ideal",
+      "annihilator",
+      "Laurent polynomial ring"
+    ],
+    "related": [
+      "s27",
+      "s28",
+      "a2s07",
+      "a2s09"
+    ],
+    "bodyPath": "content/editorial/insets/a2s08/simple-modules.tex",
+    "hostSectionId": "a2s08"
+  },
+  {
+    "mode": "inset",
+    "id": "idempotents",
+    "chapterNo": 5,
+    "number": "E5.IDEM",
+    "course": "Algebra II",
+    "titleEn": "Idempotents and Direct Summands of the Regular Module",
+    "summary": "A projection of the left regular module is right multiplication by an idempotent. This distinguishes splitting of a particular inclusion from projectivity of its domain.",
+    "keyPoints": [
+      "A left-linear projection is determined by its value at one.",
+      "An idempotent decomposes the regular left module into two complementary left ideals.",
+      "Finite direct-sum decompositions correspond to complete orthogonal idempotent families.",
+      "Ring-product decompositions require centrality, and projective submodules need not split their given inclusions."
+    ],
+    "keywords": [
+      "direct summand",
+      "idempotent",
+      "projection",
+      "regular module",
+      "central idempotent"
+    ],
+    "related": [
+      "s24",
+      "a2s07",
+      "a2s12"
+    ],
+    "bodyPath": "content/editorial/insets/a2s09/idempotents.tex",
+    "hostSectionId": "a2s09"
+  },
+  {
+    "mode": "inset",
+    "id": "pushouts",
+    "chapterNo": 5,
+    "number": "E5.PUSHOUT",
+    "course": "Algebra II",
+    "titleEn": "Pushouts of Abelian Groups and Modules",
+    "summary": "A pushout identifies the two images of a common source. In modules it is the direct sum of the targets modulo the image of their difference.",
+    "keyPoints": [
+      "The maps into a pushout agree on the common source.",
+      "The quotient of the direct sum by the difference map satisfies the universal property.",
+      "The construction needs neither a commutative ring nor injective structure maps.",
+      "Abelian-group pushouts are the special case of modules over the integers."
+    ],
+    "keywords": [
+      "pushout",
+      "quotient module",
+      "universal property",
+      "abelian group"
+    ],
+    "related": [
+      "s17",
+      "s23",
+      "a2s06",
+      "a2s08"
+    ],
+    "bodyPath": "content/editorial/insets/a2s09/pushouts.tex",
+    "hostSectionId": "a2s09"
+  },
+  {
+    "mode": "inset",
+    "id": "projective-tensor",
+    "chapterNo": 6,
+    "number": "E6.PROJTENSOR",
+    "course": "Algebra II",
+    "titleEn": "Tensor Products of Projective Modules",
+    "summary": "Tensor-Hom adjunction converts projectivity of two factors into projectivity of their tensor product over a commutative ring.",
+    "keyPoints": [
+      "Hom from each projective factor is exact.",
+      "Composing the two exact Hom functors identifies with Hom from the tensor product.",
+      "No finite-generation hypothesis is needed."
+    ],
+    "keywords": [
+      "projective module",
+      "tensor product",
+      "tensor-Hom adjunction",
+      "exact functor"
+    ],
+    "related": [
+      "a2s12",
+      "a2s19"
+    ],
+    "bodyPath": "content/editorial/insets/a2s18/projective-tensor.tex",
+    "hostSectionId": "a2s18"
+  },
+  {
+    "mode": "inset",
+    "id": "flat-closure",
+    "chapterNo": 6,
+    "number": "E6.FLAT",
+    "course": "Algebra II",
+    "titleEn": "Closure Properties of Flat Modules and Internal Hom",
+    "summary": "Tensor associativity and direct-sum distributivity give closure properties of flat modules. The same tools show that Hom from a projective module into an injective module is injective.",
+    "keyPoints": [
+      "Tensor products and arbitrary direct sums of flat modules are flat.",
+      "A kernel of a surjection from a free module to a flat module is flat by the existing exact-sequence criterion.",
+      "The internal Hom from a projective module to an injective module is injective over a commutative ring.",
+      "Arbitrary direct-product closure is not asserted."
+    ],
+    "keywords": [
+      "flat module",
+      "direct sum",
+      "tensor product",
+      "injective module",
+      "internal Hom"
+    ],
+    "related": [
+      "a2s09",
+      "a2s12",
+      "a2s13",
+      "a2s18"
+    ],
+    "bodyPath": "content/editorial/insets/a2s19/flat-closure.tex",
+    "hostSectionId": "a2s19"
+  },
+  {
+    "mode": "inset",
+    "id": "general-nakayama",
+    "chapterNo": 6,
+    "number": "E6.NAKA",
+    "course": "Algebra II",
+    "titleEn": "Nakayama's Lemma over the Jacobson Radical",
+    "summary": "The determinant argument proves Nakayama over an ideal in the Jacobson radical, with the local generator criterion as a consequence.",
+    "keyPoints": [
+      "For a finitely generated module equal to its ideal multiple, a determinant congruent to one annihilates the module.",
+      "If the ideal lies in the Jacobson radical, that determinant is a unit and the module vanishes.",
+      "The quotient form does not require finite generation of the submodule.",
+      "Over a local ring, generators can be detected modulo the maximal ideal."
+    ],
+    "keywords": [
+      "Nakayama lemma",
+      "Jacobson radical",
+      "determinant trick",
+      "local ring",
+      "generators"
+    ],
+    "related": [
+      "s27",
+      "a2s07",
+      "ed-noetherian-modules"
+    ],
+    "bodyPath": "content/editorial/insets/a2s19/general-nakayama.tex",
+    "hostSectionId": "a2s19"
+  },
+  {
+    "mode": "inset",
+    "id": "torsion-limits",
+    "chapterNo": 5,
+    "number": "E5.TORSION",
+    "course": "Algebra II",
+    "titleEn": "Torsion under Colimits and Inverse Limits",
+    "summary": "Finite support and nonzero products of annihilators make colimits of torsion modules torsion over a domain. Inverse limits need not preserve torsion.",
+    "keyPoints": [
+      "Direct sums and quotients preserve torsion over a commutative domain.",
+      "The quotient-of-direct-sum construction proves torsion preservation for every small colimit.",
+      "The coherent element one in the inverse limit of the prime-power cyclic groups has infinite order."
+    ],
+    "keywords": [
+      "torsion module",
+      "direct limit",
+      "colimit",
+      "inverse limit",
+      "p-adic integers"
+    ],
+    "related": [
+      "a2s08",
+      "a2s09",
+      "s21",
+      "a2s15"
+    ],
+    "bodyPath": "content/editorial/insets/a2s17/torsion-limits.tex",
+    "hostSectionId": "a2s17"
+  },
+  {
+    "mode": "inset",
+    "id": "radical-navigation",
+    "chapterNo": 7,
+    "number": "E7.RADICAL",
+    "course": "Algebra II",
+    "titleEn": "Reading the Radical Theorem and Its Correction",
+    "summary": "The general intersection-of-primes theorem already contains the nilradical case. Its existing correction supplies the separating-prime argument.",
+    "keyPoints": [
+      "The radical theorem is a statement for arbitrary commutative unital rings.",
+      "The nilradical identity is its zero-ideal specialization.",
+      "Use the existing localization correction when reading the printed proof."
+    ],
+    "keywords": [
+      "radical of an ideal",
+      "nilradical",
+      "prime ideal",
+      "localization"
+    ],
+    "related": [
+      "s26",
+      "s28",
+      "a2s26"
+    ],
+    "bodyPath": "content/editorial/insets/a2s29/radical-navigation.tex",
+    "hostSectionId": "a2s29"
+  }
+]

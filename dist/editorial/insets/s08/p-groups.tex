@@ -1,0 +1,30 @@
+Use \wikilink{s07--ed-centers--class-equation}{the class equation} and
+\wikilink{s08--b007}{Sylow existence}. The second proof below uses Sylow
+existence, so it must not be used as a premise in proving that theorem.
+
+\begin{theorem}\label{p-group-center}
+Every nontrivial finite $p$-group has nontrivial center; indeed
+$p\mid|Z(G)|$.
+\end{theorem}
+\begin{proof}\label{p-group-center-proof}
+The index of a proper subgroup of a finite $p$-group is a positive
+power of $p$. In the class equation every noncentral centralizer is
+proper, so all noncentral class sizes are divisible by $p$.
+Since $p\mid|G|$, the equation gives $p\mid|Z(G)|$. The center contains
+the identity, so its size is at least $p$.
+\end{proof}
+\begin{theorem}\label{cauchy-theorem}
+If $G$ is finite and a prime $p$ divides $|G|$, then $G$ has an element
+of order $p$.
+\end{theorem}
+\begin{proof}\label{cauchy-theorem-proof}
+A Sylow $p$-subgroup $P$ is nontrivial. Choose $x\in P$ different
+from the identity. By Lagrange its order is $p^r$ for some $r\ge1$.
+Then $x^{p^{r-1}}$ has order $p$: its $p$th power is the identity,
+but it is not itself the identity by minimality of the order of $x$.
+\end{proof}
+\begin{remark}\label{p-center-scope}
+The center assertion excludes the trivial group. The convention here
+is the finite prime-power-order definition in
+\wikilink{s08--b001}{the source definition of a p-group}.
+\end{remark}

@@ -1,0 +1,18 @@
+The \wikilink{s41--b009}{bound for a simple extension} and
+\wikilink{s41--b011}{primitive element theorem} give a useful immediate
+bound for number fields.
+
+\begin{corollary}\label{number-field-bound}
+If $[K:\mathbb Q]=n<\infty$, then $K$ has at most $2^n$ subfields.
+\end{corollary}
+\begin{proof}\label{number-field-bound-proof}
+Characteristic zero makes the extension separable, hence simple by
+the primitive element theorem. The existing simple-extension bound
+applies. Every subfield contains the prime field $\mathbb Q$, so its
+subfields are exactly its intermediate fields over $\mathbb Q$.
+\end{proof}
+\begin{remark}\label{number-field-bound-method}
+The bound uses minimal polynomials over intermediate fields, not an
+estimate for the degree of a normal closure. It is an upper bound,
+not a claim that all subsets of the roots produce intermediate fields.
+\end{remark}

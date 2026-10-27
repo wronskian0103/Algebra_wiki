@@ -1,0 +1,27 @@
+Direct sums and \wikilink{a2s08--b003}{quotient modules} construct pushouts explicitly. Let $R$ be any unital ring and let $f_i:M\to M_i$ be maps of left $R$-modules. Neither commutativity of $R$ nor injectivity of the maps is required.
+
+\begin{definition}\label{def-module-pushout}
+A \emph{pushout} of $f_1,f_2$ is a module $P$ with maps $j_i:M_i\to P$ satisfying $j_1f_1=j_2f_2$ and the following property: whenever $g_i:M_i\to Y$ satisfy $g_1f_1=g_2f_2$, there is a unique map $h:P\to Y$ with $hj_i=g_i$.
+\end{definition}
+
+\begin{theorem}\label{thm-module-pushout-construction}
+Define $d:M\to M_1\oplus M_2$ by $d(m)=(f_1(m),-f_2(m))$. Then
+\[
+P=(M_1\oplus M_2)/\operatorname{im}d
+\]
+is a pushout, with $j_1(x)=[(x,0)]$ and $j_2(y)=[(0,y)]$.
+\end{theorem}
+\begin{proof}\label{proof-module-pushout-construction}
+The map $d$ is linear, so its image is a submodule. The quotient kills $(f_1(m),-f_2(m))$, hence $j_1f_1=j_2f_2$. Given compatible $g_i$, the map $\widetilde h(x,y)=g_1(x)+g_2(y)$ kills $\operatorname{im}d$ and descends to a linear $h:P\to Y$. Its restrictions are the required $g_i$. Every class $[(x,y)]$ equals $j_1(x)+j_2(y)$, so these restrictions determine $h$ uniquely.
+\end{proof}
+
+\begin{proposition}\label{prop-module-pushout-uniqueness}
+Any two pushouts of the same pair are uniquely isomorphic by an isomorphism respecting their two structure maps.
+\end{proposition}
+\begin{proof}\label{proof-module-pushout-uniqueness}
+For pushouts $(P,j_i)$ and $(P',j_i')$, the universal properties give unique maps $u:P\to P'$ and $v:P'\to P$ respecting the structure maps. Both $vu$ and $\mathrm{id}_P$ restrict to $j_i$ on each $M_i$, so uniqueness gives $vu=\mathrm{id}_P$. Similarly $uv=\mathrm{id}_{P'}$. Uniqueness of the isomorphism is the same universal property.
+\end{proof}
+
+\begin{remark}\label{remark-abelian-pushout}
+Setting $R=\mathbb Z$ gives the pushout in abelian groups. By contrast \wikilink{s23--b005}{the pushout in all groups} uses a free product and a normal closure. The ambient category matters: a quotient of a direct sum is the appropriate formula in modules and abelian groups.
+\end{remark}

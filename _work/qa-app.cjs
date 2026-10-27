@@ -52,38 +52,43 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
 (async()=>{
   await flush();
   const D=env.window.WIKI_DATA,S=D.sections,byId=Object.fromEntries(S.map(s=>[s.id,s])),bySource=Object.fromEntries(D.sources.map(s=>[s.id,s]));
+  const allBlocks=s=>[...s.blocks,...(s.editorialBlocks||[])];
+  const originals=S.filter(s=>s.sourceId!=='editorial');
+  const originalSources=D.sources.filter(s=>s.id!=='editorial');
+  const blockById=new Map(S.flatMap(s=>allBlocks(s).map(b=>[b.id,b])));
   await test('home derives counts and cards from unified data',async()=>{
-    assert.equal(env.window.ALGEBRA_WIKI.sections,81);assert.equal(env.window.ALGEBRA_WIKI.chapters,8);assert.equal(env.window.ALGEBRA_WIKI.sources,4);
-    assert.equal(nodes('.chapter-card').length,D.chapters.length);assert.equal(doc.getElementById('section-count').textContent,'81');assert.equal(doc.getElementById('source-count').textContent,'4 files');
+    assert.equal(env.window.ALGEBRA_WIKI.sections,S.length);assert.equal(env.window.ALGEBRA_WIKI.chapters,D.chapters.length);assert.equal(env.window.ALGEBRA_WIKI.sources,D.sources.length);
+    assert.equal(originals.length,81);assert.equal(originalSources.length,4);assert.equal(originals.reduce((n,s)=>n+s.blocks.length,0),997);
+    assert.equal(nodes('.chapter-card').length,D.chapters.length);assert.equal(doc.getElementById('section-count').textContent,String(S.length));assert.equal(doc.getElementById('source-count').textContent,'4 files');
     for(const c of D.chapters)assert.ok(main().textContent.includes(c.title));
     assert.ok(main().textContent.includes('Algebra, connected.'));assert.ok(main().textContent.includes('Algebra I + II')||main().textContent.includes('ALGEBRA I + II'));
   });
-  await test('all 81 section routes render source-aware articles',async()=>{
+  await test('every section route renders source-aware articles',async()=>{
     for(const s of S){
       await go(s.id);assert.ok(main().textContent.includes(s.titleEn),s.id);assert.ok(main().textContent.includes(bySource[s.sourceId].title),s.id+' source absent');
       assert.equal(doc.title,`${s.titleEn} · ${s.course||'Algebra'} · Algebra Wiki`);assert.equal(JSON.parse(env.storage.get('unified-algebra-last')),s.id);
-      assert.ok(nodes('a').some(a=>a.getAttribute('href')===bySource[s.sourceId].path),'source download '+s.id);
+      assert.ok(nodes('a').some(a=>a.getAttribute('href')===(s.bodyPath||bySource[s.sourceId].path)),'source download '+s.id);
     }
   });
   await test('all statement and proof anchors exist and representative routes scroll',async()=>{
     const representatives=new Map();
-    for(const s of S){await go(s.id);for(const b of s.blocks){assert.ok(doc.getElementById(b.id),`${b.id} absent`);if(!representatives.has(b.kind))representatives.set(b.kind,b.id);}}
+    for(const s of S){await go(s.id);for(const b of allBlocks(s)){assert.ok(doc.getElementById(b.id),`${b.id} absent`);if(!representatives.has(b.kind))representatives.set(b.kind,b.id);}}
     for(const id of representatives.values()){await go(id);assert.equal(scrolls.at(-1),id);}
   });
   await test('all eight chapter routes preserve original section numbers',async()=>{
     for(const c of D.chapters){await go('contents?chapter='+c.n);const expected=S.filter(s=>s.chapterNo===c.n);assert.equal(nodes('.list-row').length,expected.length,c.title);assert.deepEqual(nodes('.row-no').map(e=>e.textContent),Array.from(expected,s=>s.number));}
   });
   await test('chapter and course filters update counts and URL',async()=>{
-    await go('contents?chapter=4');assert.equal(nodes('.list-row').length,6);
-    await click(nodes('[data-chapter]').find(b=>b.dataset.chapter==='5'));assert.equal(nodes('.list-row').length,11);assert.equal(env.location.hash,'#contents?chapter=5');
-    await change('course-filter','Algebra I');assert.equal(nodes('.list-row').length,48);assert.equal(new URLSearchParams(env.location.hash.split('?')[1]).get('course'),'Algebra I');
-    await change('course-filter','Algebra II');assert.equal(nodes('.list-row').length,33);
-    await go('contents?chapter=8&course=Algebra%20II');assert.equal(nodes('.list-row').length,4);
+    await go('contents?chapter=4');assert.equal(nodes('.list-row').length,S.filter(s=>s.chapterNo===4).length);
+    await click(nodes('[data-chapter]').find(b=>b.dataset.chapter==='5'));assert.equal(nodes('.list-row').length,S.filter(s=>s.chapterNo===5).length);assert.equal(env.location.hash,'#contents?chapter=5');
+    await change('course-filter','Algebra I');assert.equal(nodes('.list-row').length,S.filter(s=>s.course==='Algebra I').length);assert.equal(new URLSearchParams(env.location.hash.split('?')[1]).get('course'),'Algebra I');
+    await change('course-filter','Algebra II');assert.equal(nodes('.list-row').length,S.filter(s=>s.course==='Algebra II').length);
+    await go('contents?chapter=8&course=Algebra%20II');assert.equal(nodes('.list-row').length,S.filter(s=>s.chapterNo===8&&s.course==='Algebra II').length);
     await go('contents?chapter=8&course=Algebra%20I');assert.equal(nodes('.list-row').length,0);
   });
   await test('contents live search filters and queues typesetting',async()=>{
     await go('contents');let count=typesets.length;await click(nodes('[data-chapter]').find(b=>b.dataset.chapter==='5'));assert.ok(typesets.length>count);
-    count=typesets.length;await input('contents-search','module');assert.ok(nodes('.list-row').length>0&&nodes('.list-row').length<=11);assert.ok(typesets.length>count);
+    count=typesets.length;await input('contents-search','module');assert.ok(nodes('.list-row').length>0&&nodes('.list-row').length<=S.filter(s=>s.chapterNo===5).length);assert.ok(typesets.length>count);
     await input('contents-search','zzzzzzzzzzz');assert.equal(nodes('.list-row').length,0);assert.ok(main().textContent.includes('No matching sections.'));
   });
   await test('skip link focuses main without navigating to a missing route',async()=>{
@@ -94,7 +99,7 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
     await go('theorems');assert.equal(nodes('.theorem-entry').length,D.stats.theorem);
     for(const kind of ['theorem','proposition','lemma','corollary','definition','example']){
       await click(nodes('[data-kind]').find(b=>b.dataset.kind===kind));const entries=nodes('.theorem-entry');assert.equal(entries.length,D.stats[kind],kind);
-      for(const entry of entries){const href=entry.querySelector('a').getAttribute('href').slice(1);const s=byId[href.split('--')[0]];assert.equal(entry.querySelector('.tag').textContent,bySource[s.sourceId].title);}
+      for(const entry of entries){const href=entry.querySelector('a').getAttribute('href').slice(1);const s=byId[href.split('--')[0]],b=blockById.get(href);assert.equal(entry.querySelector('.tag').textContent,bySource[b.sourceId||(b.origin==='editorial'?'editorial':s.sourceId)].title);}
     }
     await click(nodes('[data-kind]').find(b=>b.dataset.kind==='definition'));await input('theorem-search','1.1.1');assert.ok(nodes('.theorem-entry').length>0);
     await input('theorem-search','zzzzzzzzzzz');assert.equal(nodes('.theorem-entry').length,0);
@@ -102,7 +107,7 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
   await test('exercise chapter, problem filters, and homework routes are absent',async()=>{
     assert.equal(D.chapters.length,8);assert.ok(D.chapters.every(c=>!/exercise|solution/i.test(c.title)));
     assert.ok(S.every(s=>!/^hw\d/i.test(s.id)&&s.chapterNo!==9));assert.ok(D.sources.every(s=>!/^hw\d|homework/i.test(s.id)));
-    assert.ok(S.every(s=>s.blocks.every(b=>!['problem','exercise','solution'].includes(b.kind))));
+    assert.ok(S.every(s=>allBlocks(s).every(b=>!['problem','exercise','solution'].includes(b.kind))));
     await go('theorems');assert.ok(nodes('[data-kind]').every(b=>!['problem','exercise','solution'].includes(b.dataset.kind)));
     for(const route of ['hw01','hw06','hw01--problem-1']){await go(route);assert.ok(main().textContent.includes('This section could not be found.'));}
     for(const query of ['Homework 1','HW1.1','Exercises and Solutions']){await go('search?q='+encodeURIComponent(query));assert.equal(nodes('.list-row').length,0);}
@@ -110,7 +115,7 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
   });
   await test('concept filtering includes both courses and valid cross-source links',async()=>{
     await go('concepts');assert.ok(nodes('.concept-card').length>200);
-    const validTargets=new Set(S.flatMap(s=>[s.id,s.id+'--original',...s.blocks.map(b=>b.id)]));
+    const validTargets=new Set(S.flatMap(s=>[s.id,s.id+'--original',...allBlocks(s).map(b=>b.id)]));
     assert.ok(nodes('a').every(a=>validTargets.has(a.getAttribute('href').slice(1))));
     await input('concept-search','tensor');assert.ok(nodes('.concept-card').length>0);assert.ok(nodes('a').some(a=>a.getAttribute('href').startsWith('#a2')));
     await input('concept-search','Sylow');assert.ok(nodes('.concept-card').length>0);assert.ok(nodes('a').some(a=>a.getAttribute('href').startsWith('#s')));
@@ -130,9 +135,9 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
     }
   });
   await test('source-stub badge remains visible for the unfinished Resultants source',async()=>{await go('a2s28');assert.ok(nodes('.tag').some(e=>e.textContent==='Source stub'));});
-  await test('sources page lists all four downloads, coverage and checksums',async()=>{
-    await go('about');for(const source of D.sources){assert.ok(main().textContent.includes(source.title));assert.ok(main().textContent.includes(source.sha256));assert.ok(nodes('a').some(a=>a.getAttribute('href')===source.path));}
-    assert.ok(main().textContent.includes('81 topic pages across 8 chapters'));assert.ok(main().textContent.includes('Correction notes · '+S.flatMap(s=>s.issues).length));
+  await test('sources page lists original and editorial downloads with coverage and checksums',async()=>{
+    await go('about');for(const source of D.sources){assert.ok(main().textContent.includes(source.title));if(source.sha256)assert.ok(main().textContent.includes(source.sha256));if(source.path)assert.ok(nodes('a').some(a=>a.getAttribute('href')===source.path));}
+    assert.ok(main().textContent.includes(`${S.length} topic pages across ${D.chapters.length} chapters`));assert.ok(main().textContent.includes('Correction notes · '+S.flatMap(s=>s.issues).length));
   });
   for(const query of ['normal','Galois','tensor','x^2+x+1','A&B','why?','100%','<script>'])await test(`search query roundtrip ${JSON.stringify(query)}`,async()=>{
     doc.getElementById('global-search').value=query;await doc.getElementById('search-form').emit('submit');for(const fn of env.events.hashchange||[])fn();await flush();
@@ -155,7 +160,7 @@ async function test(name,fn){try{await fn();results.push({name,pass:true});}catc
   await test('math queue remains serial during rapid cross-source navigation',async()=>{
     for(const hash of ['s01','a2s01','s03','concepts','theorems','supp02','a2s29']){env.location.hash=hash;for(const fn of env.events.hashchange||[])fn();}await flush();assert.equal(maxActive,1);assert.ok(main().textContent.includes(byId.a2s29.titleEn));assert.equal(errors.length,0);
   });
-  const report={passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,coverage:{sections:S.length,chapters:D.chapters.length,sources:D.sources.length,anchors:S.reduce((n,s)=>n+s.blocks.length,0),proofs:D.stats.proof},results,math:{calls:typesets.length,maxConcurrent:maxActive,errors},limitation:'Behavioral DOM emulation; this does not verify browser layout or actual MathJax rendering.'};
+  const report={passed:results.filter(x=>x.pass).length,failed:results.filter(x=>!x.pass).length,coverage:{sections:S.length,chapters:D.chapters.length,sources:D.sources.length,sourceSections:originals.length,sourceBlocks:originals.reduce((n,s)=>n+s.blocks.length,0),anchors:S.reduce((n,s)=>n+allBlocks(s).length,0),proofs:D.stats.proof},results,math:{calls:typesets.length,maxConcurrent:maxActive,errors},limitation:'Behavioral DOM emulation; this does not verify browser layout or actual MathJax rendering.'};
   if(!process.argv.includes('--no-report'))fs.writeFileSync(path.join(__dirname,'qa-app-results.json'),JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));process.exitCode=report.failed?1:0;
 })();

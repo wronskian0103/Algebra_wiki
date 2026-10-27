@@ -1,0 +1,45 @@
+Throughout this subsection $R$ is commutative and unital. We use \wikilink{a2s19--b001}{the exactness criterion for flatness} and \wikilink{a2s18--b009}{tensor associativity}. No finite-generation hypothesis is imposed.
+
+\begin{lemma}\label{lem-tensor-direct-sum}
+For an arbitrary set-indexed family $(M_i)$ and an $R$-module $X$, there is a natural isomorphism
+\[
+\left(\bigoplus_iM_i\right)\otimes_RX
+\cong\bigoplus_i(M_i\otimes_RX).
+\]
+\end{lemma}
+\begin{proof}\label{proof-tensor-direct-sum}
+The map sending $((m_i),x)$ to $(m_i\otimes x)_i$ is well-defined because $(m_i)$ has finite support. It is bilinear and therefore induces a map from the tensor product on the left to the direct sum on the right. Conversely, each inclusion $M_i\to\bigoplus_jM_j$ induces a map $M_i\otimes_RX\to(\bigoplus_jM_j)\otimes_RX$; the universal property of the direct sum combines them. The two composites are the identity on pure tensors in every summand, respectively on $(m_i)\otimes x=\sum_i\iota_i(m_i)\otimes x$. These elements generate the modules, proving that the maps are inverse and natural in $X$.
+\end{proof}
+
+\begin{proposition}\label{prop-flat-tensor-and-sums}
+The tensor product of two flat $R$-modules is flat. An arbitrary direct sum of flat $R$-modules is flat.
+\end{proposition}
+\begin{proof}\label{proof-flat-tensor-and-sums}
+If $F,G$ are flat, tensoring a short exact sequence first by $G$ and then by $F$ keeps it exact. Naturality and associativity identify this composite with tensoring by $F\otimes_RG$. Hence $F\otimes_RG$ is flat.
+
+If every $F_i$ is flat, tensoring a short exact sequence by each $F_i$ gives exact sequences. Their direct sum is exact: kernels and images are checked coordinatewise, and a tuple with finite support has a preimage obtained by choosing preimages in its finitely many nonzero coordinates. The lemma identifies the direct-sum sequence with tensoring the original sequence by $\bigoplus_iF_i$. Thus that module is flat.
+\end{proof}
+
+\begin{corollary}\label{cor-flat-kernel-free-surjection}
+If $F\to M$ is surjective, $F$ is free, and $M$ is flat, then its kernel is flat.
+\end{corollary}
+\begin{proof}\label{proof-flat-kernel-free-surjection}
+Free modules are \wikilink{a2s12--b005}{projective}, and \wikilink{a2s19--b006}{projective modules are flat}. Apply \wikilink{a2s19--b015}{the existing short exact sequence criterion} to $0\to\ker(F\to M)\to F\to M\to0$. That criterion says that, when the quotient is flat, the kernel is flat if and only if the middle module is flat.
+\end{proof}
+
+\begin{corollary}\label{cor-hom-projective-injective}
+If $P$ is projective and $I$ is injective, then $\operatorname{Hom}_R(P,I)$ is injective as an $R$-module.
+\end{corollary}
+\begin{proof}\label{proof-hom-projective-injective}
+Since $P$ is projective, it is flat. Thus $0\to X\to Y\to Z\to0$ gives a short exact sequence after tensoring by $P$. Applying the exact contravariant functor $\operatorname{Hom}_R(-,I)$ gives
+\[
+0\to\operatorname{Hom}_R(Z\otimes_RP,I)
+\to\operatorname{Hom}_R(Y\otimes_RP,I)
+\to\operatorname{Hom}_R(X\otimes_RP,I)\to0.
+\]
+The natural \wikilink{a2s18--b011}{tensor-Hom adjunction} identifies this with the sequence obtained from $\operatorname{Hom}_R(-,\operatorname{Hom}_R(P,I))$. It is exact for every short exact sequence, so \wikilink{a2s13--b001}{the injectivity criterion} proves that $\operatorname{Hom}_R(P,I)$ is injective.
+\end{proof}
+
+\begin{remark}\label{remark-flat-closure-scope}
+These assertions concern direct sums, not arbitrary direct products. No product-closure assertion is being made for a general ring. The commutativity assumption also supplies the $R$-module structure on the internal Hom and permits the tensor-Hom adjunction in the form used above.
+\end{remark}

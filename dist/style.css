@@ -31,3 +31,19 @@
 .article-heading:target,.article-heading.anchor-target{color:var(--green);background:var(--green-soft);border-radius:4px;padding:8px 10px;scroll-margin-top:105px}
 .anchor-target:focus{outline:none}
 @media print{.definition-shortcuts{display:none}.original-note a.definition-link,.guide a.definition-link{color:inherit;text-decoration:none}.note-block:target,.note-block.anchor-target{box-shadow:none}}
+
+/* Editorial explanations share the reading layout while keeping their provenance visible. */
+.editorial-supplement{margin:38px 0 30px;padding-top:24px;border-top:1px solid var(--line);scroll-margin-top:105px}
+.editorial-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:22px}
+.editorial-heading h2{font-size:19px;margin:0}.editorial-badge{font-weight:500}
+.editorial-entry{margin:0 0 28px;scroll-margin-top:105px}
+.editorial-entry>header{display:flex;gap:12px;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.editorial-entry>header h3{font-size:17px;margin:0}.editorial-entry>header>span{font-size:10px;color:var(--muted);white-space:nowrap}
+.editorial-source{margin:14px 0 0;font-size:10px;color:var(--muted)}.editorial-source a{text-decoration:underline;text-underline-offset:3px}
+.editorial-source a:hover{color:var(--green)}.article-toc .toc-editorial-title{color:var(--green);font-weight:600;margin-top:8px}
+.editorial-entry:target,.editorial-entry.anchor-target{border-left:3px solid var(--green);padding-left:18px}
+.editorial-supplement:target,.editorial-supplement.anchor-target{border-top-color:var(--green)}
+.release-version{font-size:10px;color:var(--muted);margin:18px 0 0;letter-spacing:.2px}.source-panel .release-version{font-size:9px;margin:16px 0 0}
+.release-version a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:720px){.editorial-heading,.editorial-entry>header{flex-wrap:wrap;gap:7px}.editorial-heading h2{font-size:18px}.editorial-entry>header h3{font-size:16px}}
+@media print{.editorial-source{display:none}.editorial-entry:target,.editorial-entry.anchor-target{border:0;padding-left:0}}

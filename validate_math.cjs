@@ -22,7 +22,7 @@ let total=0;
 function check(math,section,display){active={section,math};doc.convert(math,{display});total++;}
 for(const s of D.sections){
   // Raw TeX source is intentionally excluded from formula rendering.
-  const rendered=s.html.replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/g,'');
+  const rendered=(s.html+(s.editorialHtml||'')).replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/g,'');
   for(const m of rendered.matchAll(/\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g))check(decode(m[1]??m[2]),s.id,m[2]!==undefined);
   for(const text of [s.summary,...s.keyPoints,...s.issues.flatMap(i=>[i.original,i.correction,i.reason])])
     for(const m of text.matchAll(/\$([^$]+)\$/g))check(m[1],s.id,false);

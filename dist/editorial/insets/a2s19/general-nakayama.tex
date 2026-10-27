@@ -1,0 +1,33 @@
+The \wikilink{a2s19--b029}{local Nakayama lemma} and its \wikilink{a2s19--b030}{determinant proof} extend beyond local rings. Recall \wikilink{s27--ed-jacobson--jacobson-radical}{the Jacobson radical and its unit criterion}: elements of $1+J(R)$ are units in a commutative unital ring.
+
+\begin{lemma}\label{lem-determinant-annihilator}
+Let $R$ be a commutative unital ring, let $\mathfrak a$ be an ideal, and let $M$ be finitely generated. If $M=\mathfrak aM$, there is an element $d\in1+\mathfrak a$ with $dM=0$.
+\end{lemma}
+\begin{proof}\label{proof-determinant-annihilator}
+The assertion is immediate with $d=1$ if $M=0$. Otherwise choose generators $m_1,\ldots,m_n$. The equality $M=\mathfrak aM$ allows expressions $m_i=\sum_jc_{ij}m_j$ with all $c_{ij}\in\mathfrak a$. Let $C=(c_{ij})$ and write $m$ for the column of generators. Then $(I_n-C)m=0$. Multiplying by the adjugate matrix gives $\det(I_n-C)m=0$, so $d=\det(I_n-C)$ kills every generator and hence $M$. Modulo $\mathfrak a$, the matrix $I_n-C$ is the identity; therefore $d\equiv1\pmod{\mathfrak a}$ as required. Determinants and the adjugate identity here are over the commutative ring $R$.
+\end{proof}
+
+\begin{theorem}\label{thm-general-nakayama}
+Let $R$ be a commutative unital ring, let $M$ be finitely generated, and let $\mathfrak a\subseteq J(R)$. If $M=\mathfrak aM$, then $M=0$.
+\end{theorem}
+\begin{proof}\label{proof-general-nakayama}
+The lemma gives $d\in1+\mathfrak a$ with $dM=0$. Since $\mathfrak a\subseteq J(R)$, the Jacobson radical unit criterion makes $d$ invertible. Multiplication by $d^{-1}$ now gives $M=0$.
+\end{proof}
+
+\begin{corollary}\label{cor-nakayama-quotient}
+Under the same assumptions, if $N\subseteq M$ is a submodule and $M=N+\mathfrak aM$, then $M=N$. Finite generation of $N$ is not required.
+\end{corollary}
+\begin{proof}\label{proof-nakayama-quotient}
+The quotient $M/N$ is finitely generated, and the displayed equality says $M/N=\mathfrak a(M/N)$. Apply the theorem to this quotient.
+\end{proof}
+
+\begin{corollary}\label{cor-local-generators-mod-maximal}
+Let $(R,\mathfrak m)$ be a commutative local ring and let $M$ be a finitely generated module. A finite list $m_1,\ldots,m_r$ generates $M$ if and only if its images span $M/\mathfrak mM$ over the residue field $R/\mathfrak m$.
+\end{corollary}
+\begin{proof}\label{proof-local-generators-mod-maximal}
+Generating $M$ clearly implies spanning the quotient. Conversely set $N=Rm_1+\cdots+Rm_r$. Spanning the quotient means $M=N+\mathfrak mM$. Since the unique maximal ideal is the Jacobson radical, the preceding corollary gives $M=N$.
+\end{proof}
+
+\begin{remark}\label{remark-nakayama-finiteness}
+No Noetherian hypothesis is used. Finite generation of $M$, however, is essential. For the local ring $\mathbb Z_{(p)}$ and its nonzero module $\mathbb Q$, one has $p\mathbb Q=\mathbb Q$ even though $\mathbb Q\ne0$. The theorem consequently also shows that this module cannot be finitely generated over $\mathbb Z_{(p)}$.
+\end{remark}

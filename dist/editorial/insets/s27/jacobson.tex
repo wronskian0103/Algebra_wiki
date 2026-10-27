@@ -1,0 +1,44 @@
+Start with \wikilink{s27--b003}{maximal ideals and local rings}.
+The following assertions concern commutative unital rings.
+
+\begin{lemma}\label{maximal-ideal-existence}
+Every proper ideal of a nonzero ring is contained in a maximal ideal.
+In particular, every nonunit belongs to a maximal ideal.
+\end{lemma}
+\begin{proof}\label{maximal-ideal-existence-proof}
+A chain of proper ideals containing the given ideal has proper union:
+if $1$ belonged to the union, it would belong to a chain member.
+Zorn's lemma gives a maximal member. For a nonunit $a$, apply this to
+the proper ideal $(a)$.
+\end{proof}
+\begin{definition}\label{jacobson-radical}
+The \emph{Jacobson radical} is
+$J(R)=\bigcap_{\mathfrak m\text{ maximal}}\mathfrak m$.
+For the zero ring the empty intersection is all of $R$.
+\end{definition}
+\begin{proposition}\label{jacobson-units}
+If $a\in J(R)$, then $1-a$ is a unit. If $\mathfrak a\subseteq J(R)$,
+every element of $1+\mathfrak a$ is a unit. Moreover,
+$a\in J(R)$ exactly when $1-ra$ is a unit for every $r\in R$.
+\end{proposition}
+\begin{proof}\label{jacobson-units-proof}
+A maximal ideal containing a nonunit $1-a$ would also contain $a$,
+and hence $1$. Applying this observation to $-b$ and to $ra$ proves
+the other forward assertions. Conversely, if $a\notin\mathfrak m$
+for a maximal ideal, choose $r$ lifting the inverse of its residue
+in $R/\mathfrak m$. Then $1-ra\in\mathfrak m$ is not a unit.
+The zero ring satisfies the assertions directly.
+\end{proof}
+\begin{corollary}\label{local-jacobson}
+If $(R,\mathfrak m)$ is local, then $J(R)=\mathfrak m$ and
+$R^\times=R\setminus\mathfrak m$.
+\end{corollary}
+\begin{proof}\label{local-jacobson-proof}
+The intersection has only one maximal ideal. Every nonunit is contained
+in a maximal ideal, whereas no element of a proper ideal can be a unit.
+\end{proof}
+\begin{remark}\label{jacobson-nakayama-link}
+Invertibility of $1+\mathfrak a$ is the ingredient in
+\wikilink{a2s19--ed-general-nakayama--thm-general-nakayama}{Nakayama's lemma
+over the Jacobson radical}.
+\end{remark}

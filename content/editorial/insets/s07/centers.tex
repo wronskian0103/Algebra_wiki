@@ -1,0 +1,44 @@
+The \wikilink{s07--b001}{conjugation example} is the class equation.
+The following definitions make its stabilizers explicit.
+
+\begin{definition}\label{center-centralizer}
+The \emph{center} of a group is
+$Z(G)=\{z:zg=gz\text{ for all }g\in G\}$.
+The \emph{centralizer} of $x\in G$ is
+$C_G(x)=\{g:gx=xg\}$.
+The \emph{conjugacy class} of $x$ is $\{gxg^{-1}:g\in G\}$.
+\end{definition}
+\begin{proposition}\label{center-centralizer-properties}
+The center is a normal subgroup and each centralizer is a subgroup.
+The conjugacy class of $x$ is an orbit of size $[G:C_G(x)]$.
+\end{proposition}
+\begin{proof}\label{center-centralizer-properties-proof}
+Products and inverses of elements commuting with a fixed $x$ still
+commute with $x$, giving the subgroup assertion. The center is the
+intersection of these subgroups, and conjugation fixes every central
+element. In the conjugation action the stabilizer of $x$ is exactly
+$C_G(x)$; apply \wikilink{s06--b008}{orbit-stabilizer}.
+\end{proof}
+\begin{theorem}\label{class-equation}
+For a finite group $G$, choose one representative from each noncentral
+conjugacy class, forming a set $T$. Then
+$|G|=|Z(G)|+\sum_{x\in T}[G:C_G(x)]$.
+\end{theorem}
+\begin{proof}\label{class-equation-proof}
+Conjugacy classes partition $G$. The one-element classes are precisely
+the central elements, and each remaining class has the size just
+computed. Sum the sizes of the disjoint classes.
+\end{proof}
+\begin{proposition}\label{cyclic-central-quotient}
+If $G/Z(G)$ is cyclic, then $G$ is abelian, without a finiteness assumption.
+\end{proposition}
+\begin{proof}\label{cyclic-central-quotient-proof}
+Choose $a$ whose coset generates the quotient. Every element is
+$a^mz$ for some integer $m$ and central $z$. Two such elements commute
+because their powers of $a$ commute and their central factors commute
+with every element.
+\end{proof}
+\begin{example}\label{abelian-conjugacy}
+If $G$ is abelian, each centralizer is $G$ and all conjugacy classes
+are singletons. The class equation then reduces to $|G|=|Z(G)|$.
+\end{example}

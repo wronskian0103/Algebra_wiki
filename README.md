@@ -1,8 +1,8 @@
 # Algebra Wiki
 
-**Current version: 1.0.0** · **[Read the wiki online](https://wronskian0103.github.io/Algebra_wiki/)**
+**Current version: 1.1.0** · **[Read the wiki online](https://wronskian0103.github.io/Algebra_wiki/)** · [Version history](history.md)
 
-An English wiki connecting Algebra I and Algebra II, from groups, rings, and fields to categories, modules, tensor products, and algebraic geometry. Explore **81 topic pages across 8 chapters**, with **125 diagrams**, linked definitions, and the original lecture-note numbering.
+An English wiki connecting Algebra I and Algebra II, from groups, rings, and fields to categories, modules, tensor products, and algebraic geometry. Explore **84 topic pages across 8 chapters**, with **125 diagrams**, linked definitions, and the original lecture-note numbering.
 
 Based on SNU graduate algebra lectures by **Professor Dohyeong Kim**, with notes and supplementary materials by **Juhyeok Choi**. English study guides and related-topic links connect the two courses. Exercises and solutions are excluded.
 
@@ -21,6 +21,7 @@ For offline reading:
 - **Linked definitions.** Click underlined terms in the notes and study guides to jump to the relevant definition. The destination is highlighted, and any enclosing proof opens automatically. The concept index and **Definitions used here** list offer the same direct links.
 - **Search and navigation.** Search the notes, filter by chapter or course, and browse concept and statement indexes. Source labels distinguish repeated numbering across documents.
 - **Study support.** Each topic includes an English guide, key points, related sections, and correction notes where needed. Proofs expand individually or together.
+- **Expanded explanations.** Version 1.1.0 adds formal power series, Noetherian modules, and arbitrary-rank free modules over a PID, together with further explanations on groups, localization, radicals, module constructions, and field extensions. Editorial statements have their own numbering, definition links, and downloadable TeX manuscripts.
 - **Personal reading tools.** Save bookmarks, mark sections as read, and switch to a dark theme. These preferences are stored in the current browser.
 - **Source access.** Download the original TeX notes and bibliography from **Sources & corrections**, and inspect the original TikZ behind each reconstructed diagram.
 
@@ -29,10 +30,10 @@ For offline reading:
 | Chapter | Topic pages | Course |
 | --- | ---: | --- |
 | Group Theory | 23 | Algebra I |
-| Ring Theory | 10 | Algebra I |
+| Ring Theory | 11 | Algebra I |
 | Field Theory | 15 | Algebra I |
 | Category Theory | 6 | Algebra II |
-| Modules | 11 | Algebra II |
+| Modules | 13 | Algebra II |
 | Tensor Products | 4 | Algebra II |
 | Algebraic Equations | 8 | Algebra II |
 | Further Topics | 4 | Algebra II supplements |
@@ -47,6 +48,8 @@ The main lecture notes cover **Spring 2025** and **Fall 2025**. Two supplementar
 | [`web/`](web/) | Interface source: HTML, CSS, and JavaScript |
 | [`source/`](source/) | Original TeX snapshots and bibliography |
 | [`content/`](content/) | English guides, correction notes, related links, and definition registries |
+| [`content/editorial/`](content/editorial/) | Supplementary English manuscripts, metadata, and definition registries |
+| [`version.json`](version.json), [`history.md`](history.md) | Current release and concise change history |
 | [`build_wiki.py`](build_wiki.py) | Build the wiki from the bundled sources |
 | [`diagrams.py`](diagrams.py), [`definition_links.py`](definition_links.py) | Render diagrams and link terms to definitions |
 | [`validate.py`](validate.py), [`validate_math.cjs`](validate_math.cjs), [`test_definition_links.py`](test_definition_links.py) | Check source coverage, internal links, formulas, and term linking |
@@ -69,14 +72,17 @@ python _work/audit_diagrams.py
 node validate_math.cjs
 node _work/qa-app.cjs
 node _work/qa-definition-links.cjs
+node _work/qa-editorial.cjs
 python package_local.py
 ```
 
 The JavaScript checks require Node.js. Formula validation also requires `mathjax-full` **3.2.2**; set `MATHJAX_DIR` to its `js/` directory when running outside the original course workspace. The reader's MathJax runtime is already included in `dist/assets/`.
 
-Edit the source snapshots or English metadata, then rebuild. Preserve section and block IDs so existing links continue to work. New sections also need guides and related links. Build reports are written to `_work/`; the packaging script creates `Algebra-Wiki.zip` locally.
+Keep the original source snapshots unchanged. Edit English metadata or add supplementary manuscripts under `content/editorial/`, then rebuild. Preserve section and block IDs so existing links continue to work. New sections also need guides and related links. Build reports are written to `_work/`; the packaging script creates `Algebra-Wiki.zip` locally.
 
-To add a definition link, update the `content/definition-terms-*.json` registries with a canonical `term`, optional spelling or plural `aliases`, and an existing `target` anchor. Use a section's `--original` anchor for an inline definition. Optional `contexts` restrict chapter numbers, while `excludeSections` suppresses misleading usages. The linker prefers the longest phrase, leaves unresolved meanings unlinked, and preserves existing references, code, diagrams, and formula contents.
+The editorial manifest includes `algebra1.json` and `algebra2.json`. Entries either insert a standalone page after a named section or attach a **Further explanations** entry to an existing page. Every statement and proof uses a stable semantic TeX label; cross-references use `\wikilink{target-id}{link text}`. Editorial source files are copied to `dist/editorial/`. Update `version.json` and `history.md` for each release.
+
+To add a definition link, update the `content/definition-terms-*.json` or `content/editorial/definitions-*.json` registries with a canonical `term`, optional spelling or plural `aliases`, and an existing `target` anchor. Use a section's `--original` anchor for an inline definition. Optional `contexts` restrict chapter numbers, while `excludeSections` suppresses misleading usages. The linker prefers the longest phrase, leaves unresolved meanings unlinked, and preserves existing references, code, diagrams, and formula contents.
 
 Validation covers source coverage, numbering, statement anchors, internal links, source hashes, diagrams, formulas, and interface behavior. Interface checks use a DOM emulator and do not verify browser layout.
 

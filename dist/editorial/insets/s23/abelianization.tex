@@ -1,0 +1,28 @@
+Combine \wikilink{s23--b001}{the free-product universal property} with
+\wikilink{s13--b006}{abelianization} and
+\wikilink{s17--b010}{the direct-sum universal property}.
+
+\begin{theorem}\label{free-product-abelianization}
+There is a natural isomorphism
+$(G*H)^{\mathrm{ab}}\cong G^{\mathrm{ab}}\oplus H^{\mathrm{ab}}$.
+\end{theorem}
+\begin{proof}\label{free-product-abelianization-proof}
+The maps from $G$ and $H$ to the two summands induce a map from the
+free product to their abelian direct sum, hence a map
+$u:(G*H)^{\mathrm{ab}}\to G^{\mathrm{ab}}\oplus H^{\mathrm{ab}}$.
+In the opposite direction, the two maps into $(G*H)^{\mathrm{ab}}$
+factor through $G^{\mathrm{ab}}$ and $H^{\mathrm{ab}}$ and then induce
+$v$ from their direct sum. The composite $uv$ is the identity on
+each summand, hence on the direct sum. The composite $vu$ agrees
+with the identity after composition with the maps from $G$ and $H$.
+Free-product uniqueness and the surjectivity of abelianization make
+$vu$ the identity too. The constructions use the canonical maps only,
+which also proves naturality under homomorphisms of the two factors.
+\end{proof}
+\begin{remark}\label{abelian-pushout-link}
+The same method constructs pushouts in abelian groups by taking a
+direct sum and imposing the two common-source images as relations.
+Their module-theoretic treatment belongs with direct sums and quotients
+in \wikilink{a2s09}{the module notes}; the free product itself is the
+coproduct in groups and is generally not abelian.
+\end{remark}

@@ -1,0 +1,37 @@
+The \wikilink{a2s08--b009}{module isomorphism theorems} turn cyclic modules into quotients of the regular module. Throughout this subsection $R$ is a unital ring and modules are unital left modules; commutativity is imposed only where stated.
+
+\begin{definition}\label{def-simple-module}
+A module $M$ is \emph{simple} if $M\ne0$ and its only submodules are $0$ and $M$.
+\end{definition}
+
+\begin{definition}\label{def-maximal-left-ideal}
+A \emph{maximal left ideal} is a proper left ideal $L$ with no left ideal strictly between $L$ and $R$. For a commutative ring this is the usual maximal ideal.
+\end{definition}
+
+\begin{theorem}\label{thm-simple-module-quotient}
+A left $R$-module is simple if and only if it is isomorphic to $R/L$ for a maximal left ideal $L$.
+\end{theorem}
+\begin{proof}\label{proof-simple-module-quotient}
+If $M$ is simple, choose $m\ne0$. The submodule $Rm$ is nonzero because $1m=m$, hence is $M$. Thus $r\mapsto rm$ is a surjective map $R\to M$, with a proper left ideal $L$ as kernel. The first isomorphism theorem gives $R/L\cong M$. If $L\subsetneq J\subseteq R$ is a left ideal, $J/L$ is a nonzero submodule of $M$, so equals $M$ and $J=R$. Thus $L$ is maximal.
+
+Conversely, for maximal $L$, the quotient $R/L$ is nonzero. The inverse image of a submodule of $R/L$ is a left ideal containing $L$, and therefore is either $L$ or $R$. The submodule is accordingly either $0$ or $R/L$.
+\end{proof}
+
+\begin{corollary}\label{cor-commutative-simple-classification}
+For a commutative unital ring $R$, maximal ideals correspond bijectively to isomorphism classes of simple modules by $\mathfrak m\mapsto R/\mathfrak m$.
+\end{corollary}
+\begin{proof}\label{proof-commutative-simple-classification}
+Existence follows from the theorem. The annihilator $\operatorname{Ann}_R(M)=\{r:rM=0\}$ is preserved by module isomorphisms, and $\operatorname{Ann}_R(R/\mathfrak m)=\mathfrak m$. Indeed an annihilator must kill $1+\mathfrak m$, while every element of $\mathfrak m$ annihilates the quotient. Thus isomorphic quotients have equal maximal ideals.
+\end{proof}
+
+\begin{example}\label{ex-laurent-simple-modules}
+For an algebraically closed field $k$, the simple $k[t,t^{-1}]$-modules are the one-dimensional modules $k_a$, indexed by $a\in k^\times$, with $t$ acting as $a$ and $t^{-1}$ as $a^{-1}$.
+
+Evaluation at $a\ne0$ is a surjective homomorphism onto $k$ with kernel $(t-a)$: multiply a Laurent polynomial by a power of $t$ and use polynomial division to verify the kernel. Thus every $k_a$ is simple.
+
+Conversely, let $L$ be maximal in $R=k[t,t^{-1}]$. This ring is not a field, since evaluation at $1$ gives the nonzero proper ideal $(t-1)$, so $L\ne0$. Multiplying a nonzero element of $L$ by a suitable unit $t^n$ produces a nonzero polynomial. Hence $P=L\cap k[t]$ is a nonzero prime ideal, as it is the kernel of $k[t]\to R/L$ with field target. Since $k[t]$ is a PID and $k$ is algebraically closed, $P=(t-a)$ for some $a\in k$. The element $t$ is invertible in $R$, so $a\ne0$. The maximal ideal $(t-a)$ of $R$ lies in $L$, hence equals $L$. The corollary now gives the asserted classification. This also illustrates \wikilink{s28--b005}{prime ideals under localization}.
+\end{example}
+
+\begin{remark}\label{remark-simple-noncommutative-scope}
+For noncommutative $R$, the quotient $R/L$ is a left-module quotient, not generally a quotient ring. Different maximal left ideals can yield isomorphic simple modules; the bijection above is specifically commutative. The zero module is not simple.
+\end{remark}

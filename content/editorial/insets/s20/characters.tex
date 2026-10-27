@@ -1,0 +1,41 @@
+See \wikilink{s20--b001}{the character-group definition} and
+\wikilink{s20--b006}{the finite evaluation pairing}.
+
+\begin{proposition}\label{characters-abelianization}
+For any group $G$, composition with abelianization gives a natural
+group isomorphism
+$\operatorname{Hom}(G^{\mathrm{ab}},\mathbb C^\times)
+\cong\operatorname{Hom}(G,\mathbb C^\times)$.
+\end{proposition}
+\begin{proof}\label{characters-abelianization-proof}
+The target is abelian, so every character factors uniquely through
+\wikilink{s13--b006}{abelianization}. Composition respects pointwise
+multiplication of characters, giving a group isomorphism.
+\end{proof}
+\begin{proposition}\label{finite-self-duality}
+Every finite abelian group $A$ is isomorphic to its character group
+$\widehat A=\operatorname{Hom}(A,\mathbb C^\times)$. The isomorphism
+need not be canonical.
+\end{proposition}
+\begin{proof}\label{finite-self-duality-proof}
+A character of a cyclic group of order $n$ is uniquely determined
+by the image of a generator, an arbitrary $n$th root of unity.
+These roots form a cyclic group of order $n$.
+Characters of a finite direct sum are independently specified on
+the summands, and their character group is the product of the
+character groups of the summands. Apply finite abelian classification.
+The resulting isomorphism uses choices of cyclic generators and
+primitive roots of unity.
+\end{proof}
+\begin{remark}\label{double-dual-canonical}
+For a finite abelian group, the evaluation map
+$A\to\widehat{\widehat A}$, $a\mapsto(\chi\mapsto\chi(a))$, is
+canonical, unlike the self-duality isomorphism above. Its bijectivity
+is precisely the perfect evaluation pairing already proved in
+\wikilink{s20--b006}{the finite duality theorem}, so that proof need
+not be repeated. For a finite group all character values are roots
+of unity. The isomorphism
+$\mathbb Q/\mathbb Z\to\{\text{roots of unity in }\mathbb C^\times\}$,
+$q+\mathbb Z\mapsto e^{2\pi iq}$, identifies the two dual notations
+used here and in the source.
+\end{remark}

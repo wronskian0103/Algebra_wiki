@@ -1,0 +1,87 @@
+Formal power series extend the coefficient description of polynomials in
+\wikilink{s25--b006}{the polynomial monoid ring}. Throughout, $k$ is a field
+and $t$ is a formal variable. No analytic convergence is involved.
+
+\begin{definition}\label{formal-series}
+The ring $k[[t]]$ of \emph{formal power series} consists of all sequences
+$(a_0,a_1,\ldots)$ in $k$, written $\sum_{n\ge0}a_nt^n$, with
+\[
+ (a+b)_n=a_n+b_n,\qquad (ab)_n=\sum_{i+j=n}a_ib_j.
+\]
+Its identity has constant coefficient $1$ and all other coefficients zero.
+Finitely supported sequences form the polynomial subring $k[t]$.
+\end{definition}
+\begin{proof}\label{series-ring-proof}
+Each coefficient sum is finite. Both parenthesizations of a triple product
+have coefficient $\sum_{i+j+\ell=n}a_ib_jc_\ell$ in degree $n$.
+Distributivity and the other axioms follow coefficientwise from $k$.
+Finite supports remain finite under addition and convolution, whose
+formulas are exactly those for polynomial coefficients.
+\end{proof}
+
+\begin{proposition}\label{series-completion}
+Truncation gives a natural ring isomorphism
+$k[[t]]\cong\varprojlim_{n\ge1}k[t]/(t^n)$.
+\end{proposition}
+\begin{proof}\label{series-completion-proof}
+Send a series to $(\sum_{i<n}a_it^i+(t^n))_n$. Conversely, compatible
+residue classes have unique representatives of degree less than $n$
+whose coefficients agree under truncation. They determine one series.
+These inverse constructions respect the coefficient operations. This
+identifies explicitly the \wikilink{s21--b017}{completion example}.
+\end{proof}
+
+\begin{theorem}\label{series-units}
+A series $f=\sum a_nt^n$ is a unit if and only if $a_0\ne0$.
+\end{theorem}
+\begin{proof}\label{series-units-proof}
+If $fg=1$, constant coefficients give $a_0b_0=1$.
+Conversely, set $b_0=a_0^{-1}$ and recursively define
+\[
+ b_n=-a_0^{-1}\sum_{i=1}^n a_ib_{n-i}\quad(n\ge1).
+\]
+The series $g=\sum b_nt^n$ satisfies $fg=1$ coefficientwise, hence
+$gf=1$ by commutativity.
+\end{proof}
+
+\begin{definition}\label{series-order}
+For nonzero $f=\sum a_nt^n$, its \emph{order} is
+$\nu(f)=\min\{n:a_n\ne0\}$. Set $\nu(0)=+\infty$.
+\end{definition}
+\begin{proposition}\label{series-order-properties}
+For nonzero $f,g$, $\nu(fg)=\nu(f)+\nu(g)$. Thus $k[[t]]$ is an
+integral domain. Every nonzero series has a unique expression
+$f=t^{\nu(f)}u$ with $u$ a unit.
+\end{proposition}
+\begin{proof}\label{series-order-properties-proof}
+If $r=\nu(f)$ and $s=\nu(g)$, coefficients below $r+s$ vanish and
+the coefficient of degree $r+s$ is $a_rb_s\ne0$.
+Shifting the coefficients of $f$ down by $r$ gives the unique series
+$u$, whose constant coefficient is nonzero.
+\end{proof}
+
+\begin{theorem}\label{series-ideals}
+The ring $k[[t]]$ is local with unique maximal ideal $(t)$.
+Every nonzero ideal is $(t^n)$ for a unique $n\ge0$.
+Consequently $k[[t]]$ is a principal ideal domain.
+\end{theorem}
+\begin{proof}\label{series-ideals-proof}
+Nonunits are exactly the series in $(t)$, and evaluation of the constant
+coefficient identifies the quotient with $k$. Thus $(t)$ is the unique
+maximal ideal. For a nonzero ideal $I$, choose $f\in I$ of minimal
+order $n$. Since $f=t^nu$ with $u$ a unit, $t^n\in I$.
+Every element of $I$ has order at least $n$ and is divisible by $t^n$,
+so $I=(t^n)$. Its least nonzero order is $n$, proving uniqueness.
+The zero ideal is principal too, and the domain property was proved above;
+see \wikilink{a2s15--b001}{the definition of a PID}.
+\end{proof}
+\begin{example}\label{geometric-series}
+The formal identity $(1-t)\sum_{n\ge0}t^n=1$ follows by cancellation
+of each positive-degree coefficient. It does not assert convergence
+of a numerical series at a chosen value of $t$.
+\end{example}
+\begin{remark}\label{series-coefficient-scope}
+Over a general commutative ring $A$, the unit criterion becomes: the
+constant coefficient is a unit of $A$. The same recursion proves it.
+The local and PID conclusions above use the field assumption on $k$.
+\end{remark}

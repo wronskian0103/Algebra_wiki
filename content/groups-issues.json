@@ -112,5 +112,11 @@
     "original": "In the universal property of the infinite direct sum, $\\phi=f_k\\circ i_k$",
     "correction": "The correct identity is $f_k=\\phi\\circ i_k$.",
     "reason": "Since $i_k:A_k\\to\\bigoplus_iA_i$, $\\phi:\\bigoplus_iA_i\\to Z$, and $f_k:A_k\\to Z$, only this composition order has compatible domains and codomains."
+  },
+  {
+    "section": "s10",
+    "original": "The Sylow-counting proposition refers to a finite group whose order is dividing $p$.",
+    "correction": "The hypothesis is that the group order is divisible by $p$, where $p$ is prime.",
+    "reason": "Sylow theory applies to a prime divisor of the group order. The phrase dividing p reverses the divisibility condition."
   }
 ]

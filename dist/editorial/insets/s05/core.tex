@@ -1,0 +1,39 @@
+The kernel described in \wikilink{s05--b011}{the coset-action remark}
+has a useful intrinsic name and intersection formula.
+
+\begin{definition}\label{core-subgroup}
+For a subgroup $H\le G$, its \emph{core} in $G$ is
+$\operatorname{core}_G(H)=\bigcap_{g\in G}g^{-1}Hg$.
+\end{definition}
+\begin{proposition}\label{core-action-kernel}
+The core is the kernel of the action on left cosets $G/H$.
+It is the largest normal subgroup of $G$ contained in $H$.
+\end{proposition}
+\begin{proof}\label{core-action-kernel-proof}
+An element $a$ fixes every coset $xH$ exactly when $x^{-1}ax\in H$
+for all $x$. This is membership in $\bigcap_x xHx^{-1}$, the same
+intersection after reindexing by inverses. A kernel is normal and is
+contained in the stabilizer $H$ of the coset $H$.
+If $N\trianglelefteq G$ and $N\subseteq H$, then
+$N=x^{-1}Nx\subseteq x^{-1}Hx$ for every $x$, so $N$ lies in the core.
+\end{proof}
+\begin{corollary}\label{core-factorial-bound}
+If $[G:H]=n<\infty$, then $[G:\operatorname{core}_G(H)]$ divides $n!$.
+\end{corollary}
+\begin{proof}\label{core-factorial-bound-proof}
+The coset action maps $G$ into the symmetric group on $n$ cosets.
+The index of its kernel equals the order of its image, which divides
+$n!$ by \wikilink{s04--b019}{Lagrange's theorem}.
+\end{proof}
+\begin{theorem}\label{smallest-prime-index}
+Let $G$ be finite and let $p$ be the smallest prime dividing $|G|$.
+Every subgroup of index $p$ is normal.
+\end{theorem}
+\begin{proof}\label{smallest-prime-index-proof}
+The image $L$ of the coset action has order dividing both $|G|$ and
+$p!$. All its prime divisors must therefore equal $p$, and the
+exponent of $p$ in $p!$ is one. Transitivity on $p$ cosets implies
+$p\mid|L|$ by orbit-stabilizer, so $|L|=p$.
+Its point stabilizer has order one. The stabilizer $H$ in $G$ is
+therefore the kernel of the action, hence normal.
+\end{proof}

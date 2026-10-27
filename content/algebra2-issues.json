@@ -112,5 +112,11 @@
     "original": "The proof of Fermat's sum-of-two-squares theorem calls $\\mathbb Q(i)$ a principal ideal domain before using prime-ideal factorization.",
     "correction": "The relevant principal ideal domain is the Gaussian integer ring $\\mathbb Z[i]$, which is Euclidean for the norm $a+bi\\mapsto a^2+b^2$.",
     "reason": "The ideals and their generators in the argument belong to the ring of integers $\\mathbb Z[i]$. The field $\\mathbb Q(i)$ has only the zero and unit ideals, so its ideal theory cannot provide the displayed factorization of $(p)$."
+  },
+  {
+    "section": "a2s10",
+    "original": "The module-category proposition uses the phrase Noetherian category where its hypothesis concerns the ring; the accompanying source proof is empty.",
+    "correction": "Over a left Noetherian ring, finitely generated left modules form an abelian category: their submodules and quotient modules remain finitely generated. See the editorial Noetherian Modules page for the module criterion and exact-sequence proof.",
+    "reason": "Kernels require finite generation of submodules. The hypothesis is a property of the ring; for a commutative ring this is the usual Noetherian condition."
   }
 ]

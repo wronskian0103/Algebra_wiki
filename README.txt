@@ -7,12 +7,12 @@ OPEN THE WIKI
   are required. If using the ZIP, extract it before opening index.html.
 
 COVERAGE
-  81 topic pages in 8 chapters:
+  84 topic pages in 8 chapters:
     Group Theory                         23 lecture sections
-    Ring Theory                          10 lecture sections
+    Ring Theory                          11 topic pages
     Field Theory                         15 lecture sections
     Category Theory                       6 lecture sections
-    Modules                              11 lecture sections
+    Modules                              13 topic pages
     Tensor Products                       4 lecture sections
     Algebraic Equations                    8 lecture sections
     Further Topics                        4 supplement sections
@@ -25,6 +25,10 @@ COVERAGE
   reading status, proof folding, and a dark theme work across both courses.
   Underlined terms in the notes and guides link directly to definitions.
   The concept index and Definitions used here list provide the same links.
+
+  Version 1.1.0 adds three editorial pages and Further explanations in existing
+  topics, with separate numbering, definition links, and TeX downloads.
+  See history.md in the repository for release notes.
 
 SOURCES AND EDITING
   Algebra I: 2025 Spring; Algebra II: 2025 Fall; SNU graduate courses.
@@ -67,6 +71,7 @@ REBUILDING
     node Algebra/validate_math.cjs
     node Algebra/_work/qa-app.cjs
     node Algebra/_work/qa-definition-links.cjs
+    node Algebra/_work/qa-editorial.cjs
 
   Pandoc is found on PATH, from PANDOC_PATH, or from the existing Algebra I
   wiki's bundled converter. Formula QA uses the original wiki's MathJax
@@ -74,7 +79,8 @@ REBUILDING
   directory if moving this project elsewhere. The reader's MathJax runtime
   is already bundled under dist/assets/ and is independent of those tools.
 
-  Edit the source snapshots and content metadata, then rebuild. New sections
+  Preserve source snapshots. Edit content metadata and editorial manuscripts,
+  then rebuild. New sections
   also need guides and related links. Preserve source IDs to keep links stable.
   Refresh the portable archive with:
     python Algebra/package_local.py

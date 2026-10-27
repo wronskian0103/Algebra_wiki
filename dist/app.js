@@ -8,16 +8,19 @@
     return;
   }
   const S = D.sections;
+  const allBlocks = s => [...(s.blocks || []), ...(s.editorialBlocks || [])];
+  const isEditorial = (s, b) => b?.origin === 'editorial' || b?.sourceId === 'editorial' || s.contentKind === 'editorial';
   const byId = Object.fromEntries(S.map(s => [s.id, s]));
   const sources = Array.isArray(D.sources) ? D.sources : Object.values(D.sources || {});
   const bySource = Object.fromEntries(sources.map(s => [s.id, s]));
+  const originalSources = sources.filter(source => source.id !== 'editorial');
   const chapters = (D.chapters || []).map(c => ({...c, count: S.filter(s => String(s.chapterNo) === String(c.n)).length}));
   const byChapter = Object.fromEntries(chapters.map(c => [c.n, c]));
   const courses = [...new Set(S.map(s => s.course).filter(Boolean))];
   const kinds = {definition:'Definition', theorem:'Theorem', lemma:'Lemma', proposition:'Proposition', corollary:'Corollary', example:'Example', remark:'Remark', proof:'Proof'};
   const definitionOwners = new Map(S.flatMap(s => [
-    [s.id + '--original', {section:s, block:{kind:'section', number:s.number}}],
-    ...s.blocks.map(b => [b.id, {section:s, block:b}])
+    [s.id + '--original', {section:s, block:{kind:'section', number:s.number, origin:s.contentKind, sourceId:s.sourceId}}],
+    ...allBlocks(s).map(b => [b.id, {section:s, block:b}])
   ]));
   const definitions = (Array.isArray(D.definitions) ? D.definitions : [])
     .filter(d => d.term && definitionOwners.has(d.target))
@@ -30,24 +33,27 @@
     if (!definitionsByTerm.has(key)) definitionsByTerm.set(key, []);
     if (!definitionsByTerm.get(key).some(candidate => candidate.target === d.target)) definitionsByTerm.get(key).push(d);
   }));
-  const stats = S.reduce((counts, s) => {s.blocks.forEach(b => {counts[b.kind] = (counts[b.kind] || 0) + 1;}); return counts;}, {});
+  const stats = S.reduce((counts, s) => {allBlocks(s).forEach(b => {counts[b.kind] = (counts[b.kind] || 0) + 1;}); return counts;}, {});
   const issues = S.flatMap(s => s.issues || []);
   const numberedKinds = Object.keys(kinds).filter(k => !['proof', 'remark'].includes(k));
   const statementCount = numberedKinds.reduce((n, k) => n + (stats[k] || 0), 0);
   const proofCount = stats.proof || 0;
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
   const pad = value => String(value).padStart(2, '0');
-  const sourceFor = s => bySource[s.sourceId] || {};
-  const sourceLabel = s => sourceFor(s).title || s.course || 'Lecture notes';
-  const citation = s => {
-    const label = sourceFor(s).shortTitle || sourceLabel(s).replace(/\s+lecture notes$/i, '');
+  const sourceFor = (s, b) => bySource[b?.sourceId || (b?.origin === 'editorial' ? 'editorial' : s.sourceId)] || {};
+  const sourceLabel = (s, b) => sourceFor(s, b).title || (isEditorial(s, b) ? 'Editorial supplements' : s.course || 'Lecture notes');
+  const citation = (s, b) => {
+    const label = sourceFor(s, b).shortTitle || sourceLabel(s, b).replace(/\s+lecture notes$/i, '');
+    if (isEditorial(s, b)) return [label, b ? '' : s.number].filter(Boolean).join(' · ');
     return [s.course && s.course !== label ? s.course : '', label, s.sourceNumber || s.number].filter(Boolean).join(' · ');
   };
   const chapterFor = s => byChapter[s.chapterNo] || {title:'Algebra', n:s.chapterNo};
   const sourceDownload = s => {
     const source = sourceFor(s);
-    return source.path ? `<a href="${escape(source.path)}" download class="button small">Download ${escape(source.file || 'LaTeX source')} ↗</a>` : '';
+    const path = s.bodyPath || source.path;
+    return path ? `<a href="${escape(path)}" download class="button small">Download ${escape(s.bodyPath ? 'editorial source' : source.file || 'LaTeX source')} ↗</a>` : '';
   };
+  const searchTextFor = s => [s.searchText, s.editorialSearchText, ...allBlocks(s).map(b => b.excerpt), ...(s.editorialEntries || []).flatMap(e => [e.titleEn, e.summary, String(e.html || '').replace(/<[^>]*>/g, ' ')])].filter(Boolean).join(' ');
   const readStore = (key, fallback) => {try {return JSON.parse(localStorage.getItem(`unified-algebra-${key}`)) ?? fallback;} catch {return fallback;}};
   const save = (key, value) => {try {localStorage.setItem(`unified-algebra-${key}`, JSON.stringify(value));} catch {}};
   let bookmarks = new Set(readStore('bookmarks', []).filter(id => byId[id]));
@@ -117,7 +123,7 @@
       <div class="home-lower"><section><div class="section-heading"><h2>Follow a path through the ideas</h2><a href="#concepts">All concepts →</a></div><div class="path-list">${paths.map((c, index) => {
         const first = S.find(s => String(s.chapterNo) === String(c.n));
         return `<div class="path-item"><span class="path-no">${pad(index + 1)}</span><div><a href="#${first.id}"><strong>${escape(c.title)}</strong><small>${escape(c.description)}</small></a></div><a href="#${first.id}" aria-label="Explore ${escape(c.title)}">↗</a></div>`;
-      }).join('')}</div></section><section><div class="section-heading"><h2>The sources behind this wiki</h2></div><div class="source-panel"><div class="eyebrow">FROM YOUR ALGEBRA MATERIALS</div><h3>Both courses, brought together.</h3><p>Lecture notes and supplementary topics share one search and concept index. Original numbering is preserved and labeled by source. Study guides and related links connect the ideas across courses.</p><a href="#about">Sources and editorial principles ↗</a></div></section></div>`);
+      }).join('')}</div></section><section><div class="section-heading"><h2>The sources behind this wiki</h2></div><div class="source-panel"><div class="eyebrow">FROM YOUR ALGEBRA MATERIALS</div><h3>Both courses, brought together.</h3><p>Lecture notes and supplementary topics share one search and concept index. Original numbering is preserved and labeled by source. Study guides and related links connect the ideas across courses.</p><p class="release-version">Version ${escape(D.version || '1.0.0')}</p><a href="#about">Sources and editorial principles ↗</a></div></section></div>`);
     setBreadcrumb('', 'Wiki home');
   }
   function contents(params) {
@@ -141,8 +147,8 @@
     return `<div class="issue"><p class="original"><strong>Original</strong> ${escape(issue.original)}</p><p><strong>Suggested correction</strong> ${escape(issue.correction)}</p><p>${escape(issue.reason)}</p></div>`;
   }
   function definitionLabel(d) {
-    const label = d.block.kind === 'section' ? 'Source notes' : `${kinds[d.block.kind] || 'Definition'} ${d.block.number || ''}`.trim();
-    return `${label} · ${citation(d.section)}`;
+    const label = d.block.kind === 'section' ? (isEditorial(d.section, d.block) ? 'Editorial notes' : 'Source notes') : `${kinds[d.block.kind] || 'Definition'} ${d.block.number || ''}`.trim();
+    return `${label} · ${citation(d.section, d.block)}`;
   }
   function definitionAnchor(term, target, label, className = 'definition-link') {
     const owner = definitionOwners.get(target);
@@ -161,19 +167,32 @@
     if (!links.length) return '';
     return `<details class="definition-shortcuts"><summary>Definitions used here <span>${links.length}</span></summary><p>Follow an underlined term in the notes, or choose one here.</p><div>${links.map(d => definitionAnchor(d.term, d.target, d.term)).join('')}</div></details>`;
   }
+  function editorialMarkup(s) {
+    const entries = s.editorialEntries || [];
+    if (!entries.length && !s.editorialHtml) return '';
+    const body = entries.length ? entries.map(entry => `<section class="editorial-entry" id="${escape(entry.id)}"><header><h3>${escape(entry.titleEn || entry.title || 'Further explanation')}</h3>${entry.number ? `<span>${escape(entry.number)}</span>` : ''}</header><div class="original-note editorial-note">${entry.html}</div>${entry.bodyPath ? `<p class="editorial-source"><a href="${escape(entry.bodyPath)}" download>Download editorial source ↗</a></p>` : ''}</section>`).join('') : `<div class="original-note editorial-note">${s.editorialHtml}</div>`;
+    return `<section class="editorial-supplement" id="${escape(s.id)}--editorial" aria-labelledby="${escape(s.id)}--editorial-heading"><div class="editorial-heading"><h2 id="${escape(s.id)}--editorial-heading">Further explanations</h2><span class="tag editorial-badge">Editorial supplement</span></div>${body}</section>`;
+  }
+  function editorialToc(s) {
+    if (!(s.editorialEntries?.length || s.editorialHtml)) return '';
+    const numbered = blocks => blocks.filter(b => !['proof', 'remark'].includes(b.kind)).map(b => `<a href="#${escape(b.id)}" title="${escape((b.excerpt || '').slice(0, 90))}">${escape(kinds[b.kind] || b.kind)} ${escape(b.number)}</a>`).join('');
+    return `<a href="#${escape(s.id)}--editorial" class="toc-label">Further explanations</a>` + (s.editorialEntries?.length ? s.editorialEntries.map(entry => `<a class="toc-editorial-title" href="#${escape(entry.id)}">${escape(entry.titleEn || entry.title)}</a>${numbered(entry.blocks || [])}`).join('') : numbered(s.editorialBlocks || []));
+  }
   function article(s, anchor) {
-    const source = sourceFor(s), chapter = chapterFor(s);
-    const numbered = s.blocks.filter(b => !['proof', 'remark'].includes(b.kind));
+    const chapter = chapterFor(s), editorial = isEditorial(s);
+    const numbered = allBlocks(s).filter(b => !['proof', 'remark'].includes(b.kind));
+    const sourceNumbered = s.blocks.filter(b => !['proof', 'remark'].includes(b.kind));
     const index = S.indexOf(s), prev = S[index - 1], next = S[index + 1];
-    mount(`<div class="article-layout"><article><header class="article-header"><div class="eyebrow">CHAPTER ${pad(s.chapterNo)} · ${escape(chapter.title)} <span>/</span> ${escape(s.course || '')}</div><h1>${escape(s.titleEn)}</h1><div class="article-english">${escape(citation(s))}${s.title && s.title !== s.titleEn ? ' · ' + escape(s.title) : ''}</div><div class="article-meta"><span>${escape(sourceLabel(s))}${s.line ? ` · lines ${s.line}–${s.sourceLineEnd || s.line}` : ''}</span><span>${numbered.length} statements and examples</span><span>${s.blocks.filter(b => b.kind === 'proof').length} proofs</span><span class="tag">${escape(s.sourceStatus || 'Source text preserved')}</span></div><div class="actions"><button class="button small" data-bookmark="${s.id}">${bookmarks.has(s.id) ? '★ Bookmarked' : '☆ Bookmark'}</button><button class="button small" data-read="${s.id}">${read.has(s.id) ? '✓ Read' : 'Mark as read'}</button><button class="button small" id="copy-link">Copy section link ↗</button></div></header>
+    mount(`<div class="article-layout"><article><header class="article-header"><div class="eyebrow">CHAPTER ${pad(s.chapterNo)} · ${escape(chapter.title)} <span>/</span> ${escape(s.course || '')}</div><h1>${escape(s.titleEn)}</h1><div class="article-english">${escape(citation(s))}${s.title && s.title !== s.titleEn ? ' · ' + escape(s.title) : ''}</div><div class="article-meta"><span>${escape(sourceLabel(s))}${!editorial && s.line ? ` · lines ${s.line}–${s.sourceLineEnd || s.line}` : ''}</span><span>${numbered.length} statements and examples</span><span>${allBlocks(s).filter(b => b.kind === 'proof').length} proofs</span><span class="tag${editorial ? ' editorial-badge' : ''}">${escape(editorial ? 'Editorial supplement' : s.sourceStatus || 'Source text preserved')}</span></div><div class="actions"><button class="button small" data-bookmark="${s.id}">${bookmarks.has(s.id) ? '★ Bookmarked' : '☆ Bookmark'}</button><button class="button small" data-read="${s.id}">${read.has(s.id) ? '✓ Read' : 'Mark as read'}</button><button class="button small" id="copy-link">Copy section link ↗</button></div></header>
       <section class="guide" id="${s.id}--guide"><h2>A guide to this section</h2><p>${s.summaryHtml ?? escape(s.summary)}</p>${s.keyPoints?.length ? `<ul>${s.keyPoints.map((p, i) => `<li>${s.keyPointsHtml?.[i] ?? escape(p)}</li>`).join('')}</ul>` : ''}</section>
       ${sectionDefinitions(s)}
       ${s.issues?.length ? `<details class="issues-panel"><summary>${s.issues.length} correction notes · original text preserved</summary>${s.issues.map(issueMarkup).join('')}</details>` : ''}
-      <div class="article-heading" id="${s.id}--original"><span>SOURCE NOTES · ${escape(s.course || '')}</span><button id="expand-proofs">Expand all proofs</button></div><div class="original-note">${s.html}</div>
+      <div class="article-heading" id="${s.id}--original"><span>${editorial ? 'EDITORIAL NOTES' : 'SOURCE NOTES'} · ${escape(s.course || '')}</span><button id="expand-proofs">Expand all proofs</button></div><div class="original-note${editorial ? ' editorial-note' : ''}">${s.html}</div>
+      ${editorialMarkup(s)}
       <section id="${s.id}--related"><h2 class="article-heading">Related sections</h2><div class="related-links">${(s.related || []).filter(id => byId[id]).map(id => `<a href="#${id}"><small>${escape(citation(byId[id]))}</small>${escape(byId[id].titleEn)} ↗</a>`).join('') || '<p class="muted">Browse the concept index for more connections.</p>'}</div></section>
-      <details class="source-details"><summary>View this section’s LaTeX source${s.line ? ' · from line ' + s.line : ''}</summary><pre><code>${escape(s.body)}</code></pre><p>${sourceDownload(s)}</p></details>
+      <details class="source-details"><summary>${editorial ? 'View the editorial LaTeX source' : 'View this section’s LaTeX source'}${!editorial && s.line ? ' · from line ' + s.line : ''}</summary><pre><code>${escape(s.body)}</code></pre><p>${sourceDownload(s)}</p></details>
       <nav class="prev-next" aria-label="Previous and next sections"><div>${prev ? `<a href="#${prev.id}"><small>← Previous · ${escape(citation(prev))}</small>${escape(prev.titleEn)}</a>` : '<a href="#contents">Back to contents</a>'}</div><div>${next ? `<a href="#${next.id}"><small>Next · ${escape(citation(next))} →</small>${escape(next.titleEn)}</a>` : '<a href="#contents">Back to contents →</a>'}</div></nav></article>
-      <aside class="article-toc" aria-label="On this page"><h3>On this page</h3><a href="#${s.id}--guide">Study guide</a><a href="#${s.id}--original">Source notes</a>${numbered.map(b => `<a href="#${b.id}" title="${escape((b.excerpt || '').slice(0, 90))}">${escape(kinds[b.kind] || b.kind)} ${escape(b.number)}</a>`).join('')}<a href="#${s.id}--related" class="toc-label">Related sections →</a></aside></div>`);
+      <aside class="article-toc" aria-label="On this page"><h3>On this page</h3><a href="#${s.id}--guide">Study guide</a><a href="#${s.id}--original">${editorial ? 'Editorial notes' : 'Source notes'}</a>${sourceNumbered.map(b => `<a href="#${b.id}" title="${escape((b.excerpt || '').slice(0, 90))}">${escape(kinds[b.kind] || b.kind)} ${escape(b.number)}</a>`).join('')}${editorialToc(s)}<a href="#${s.id}--related" class="toc-label">Related sections →</a></aside></div>`);
     save('last', s.id);
     setBreadcrumb(chapter.title, s.titleEn);
     if (anchor) {
@@ -234,8 +253,8 @@
   }
   function updateTheorems() {
     const query = localQuery.toLowerCase();
-    const list = S.flatMap(s => s.blocks.filter(b => b.kind === localFilter && (!query || `${b.number} ${b.excerpt} ${s.titleEn} ${s.title} ${sourceLabel(s)} ${s.course}`.toLowerCase().includes(query))).map(b => ({s, b})));
-    document.getElementById('theorem-list').innerHTML = `<div class="index-count">${list.length} entries</div>` + (list.length ? list.map(({s, b}) => `<div class="theorem-entry"><div class="statement-title"><a href="#${b.id}">${escape(kinds[b.kind] || b.kind)} ${escape(b.number)}${b.title ? ' · ' + escape(b.title) : ''} ↗</a><span class="tag">${escape(sourceLabel(s))}</span></div><p>${escape(b.excerpt)}</p><small>${escape(citation(s))} · ${escape(s.titleEn)}</small></div>`).join('') : '<div class="empty-state">No matching entries.</div>');
+    const list = S.flatMap(s => allBlocks(s).filter(b => b.kind === localFilter && (!query || `${b.number} ${b.excerpt} ${s.titleEn} ${s.title} ${sourceLabel(s, b)} ${s.course}`.toLowerCase().includes(query))).map(b => ({s, b})));
+    document.getElementById('theorem-list').innerHTML = `<div class="index-count">${list.length} entries</div>` + (list.length ? list.map(({s, b}) => `<div class="theorem-entry" data-block-source="${escape(b.sourceId || (b.origin === 'editorial' ? 'editorial' : s.sourceId))}"><div class="statement-title"><a href="#${b.id}">${escape(kinds[b.kind] || b.kind)} ${escape(b.number)}${b.title ? ' · ' + escape(b.title) : ''} ↗</a><span class="tag${isEditorial(s, b) ? ' editorial-badge' : ''}">${escape(sourceLabel(s, b))}</span></div><p>${escape(b.excerpt)}</p><small>${escape(citation(s, b))} · ${escape(s.titleEn)}</small></div>`).join('') : '<div class="empty-state">No matching entries.</div>');
     typeset();
   }
   function bookmarkView() {
@@ -257,9 +276,9 @@
     const query = (params.get('q') || '').trim();
     document.getElementById('global-search').value = query;
     const needle = query.toLowerCase();
-    const list = query ? S.filter(s => [s.title, s.titleEn, s.summary, s.searchText, s.course, sourceLabel(s), ...(s.keywords || []), ...(s.terms || []), ...(s.issues || []).map(i => i.correction)].join(' ').toLowerCase().includes(needle)) : [];
+    const list = query ? S.filter(s => [s.title, s.titleEn, s.summary, searchTextFor(s), s.course, sourceLabel(s), ...(s.keywords || []), ...(s.terms || []), ...(s.issues || []).map(i => i.correction)].join(' ').toLowerCase().includes(needle)) : [];
     mount(pageTitle('SEARCH', 'Search results', query ? `${list.length} sections matching “${query}”` : 'Enter a search term and press Enter.') + `<div class="section-list">${list.length ? list.map(s => {
-      const full = s.searchText || '';
+      const full = searchTextFor(s);
       const at = full.toLowerCase().indexOf(needle), start = Math.max(0, at - 65);
       const snippet = at >= 0 ? (start ? '…' : '') + full.slice(start, start + 230) + (full.length > start + 230 ? '…' : '') : s.summary;
       return `<a class="list-row" href="#${s.id}"><span class="row-no">${escape(s.number)}</span><div><h3>${highlight(s.titleEn, query)}</h3><small>${escape(citation(s))} · ${escape(sourceLabel(s))}</small><p>${highlight(snippet, query)}</p></div><span class="row-arrow">↗</span></a>`;
@@ -267,10 +286,10 @@
     setBreadcrumb('', 'Search');
   }
   function aboutView() {
-    mount(pageTitle('ABOUT THIS WIKI', 'Sources & correction notes', 'An English study wiki bringing Algebra I and Algebra II lecture notes and supplements into one connected collection.') + `<div class="about-body"><h2>Source documents</h2><p>The original materials remain available as downloads. Each section and statement identifies its source, so numbering shared by different documents remains unambiguous.</p><div class="source-table-scroll"><table><thead><tr><th>Source</th><th>Course / term</th><th>Coverage</th><th>Original</th></tr></thead><tbody>${sources.map(source => {
+    mount(pageTitle('ABOUT THIS WIKI', 'Sources & correction notes', 'An English study wiki bringing Algebra I and Algebra II lecture notes and supplements into one connected collection.') + `<div class="about-body"><h2>Source documents</h2><p>The original materials remain available as downloads. Each section and statement identifies its source, so numbering shared by different documents remains unambiguous.</p><div class="source-table-scroll"><table><thead><tr><th>Source</th><th>Course / term</th><th>Coverage</th><th>Download</th></tr></thead><tbody>${sources.map(source => {
       const list = S.filter(s => s.sourceId === source.id);
-      return `<tr><td>${escape(source.title)}${source.author ? `<small class="table-detail">Notes · ${escape(source.author)}</small>` : ''}${source.lecturer ? `<small class="table-detail">Lecture · ${escape(source.lecturer)}</small>` : ''}</td><td>${escape(source.course || '')}${source.term ? `<small class="table-detail">${escape(source.term)}</small>` : ''}</td><td>${list.length} sections${source.lines ? `<small class="table-detail">${Number(source.lines).toLocaleString()} source lines</small>` : ''}</td><td>${source.path ? `<a class="source-file-link" href="${escape(source.path)}" download>${escape(source.file || 'LaTeX')} ↗</a>` : 'Included notes'}</td></tr>`;
-    }).join('')}</tbody></table></div><p>${S.length} topic pages across ${chapters.length} chapters: ${chapters.map(c => `${c.count} in ${c.title}`).join(', ')}.</p><div class="actions"><button class="button small" id="print-page">Print this page</button></div><p>Algebra II also includes a <a class="source-file-link" href="source/algebra2/references.bib" download>bibliography file ?</a>.</p><h2>Editorial principles</h2><p>The source notes, formulas, examples, and proofs are preserved. Section numbers and statement numbers follow each original document; course and source labels distinguish repeated numbers. Cross-references link to their targets. The ${D.diagramCount || 0} diagrams are presented alongside their available source code.</p><p>English titles, study guides, key points, the unified chapter organization, and related links are editorial additions for navigation. Related sections connect topics across both courses. Identified source errors are discussed separately below, with the source text retained. These suggestions are not an official course errata sheet.</p><h2>How to use this wiki</h2><ul><li>Use the top search box to search the full collection. Press <kbd>/</kbd> to focus it.</li><li>Filter the contents by chapter or course, or follow the course order with the previous and next links.</li><li>Use the concept index for connections across courses and the statement index to browse definitions, theorems, and examples.</li><li>Expand a proof individually or use “Expand all proofs” in a section.</li><li>Bookmarks, reading status, color theme, and the last section are stored locally in this browser and do not sync across devices.</li><li>Open <code>dist/index.html</code> to browse offline. Keep its neighboring files and asset folders together; the MathJax formula renderer is included.</li></ul><h2>Correction notes · ${issues.length}</h2>${issues.length ? '<p>These notes also appear in the relevant sections for comparison with the original text.</p>' : '<p>No separate correction notes are recorded for this collection.</p>'}${S.filter(s => s.issues?.length).map(s => `<details class="issues-panel"><summary>${escape(citation(s))} · ${escape(s.titleEn)} · ${s.issues.length} notes</summary><p><a href="#${s.id}">Open section ↗</a></p>${s.issues.map(issueMarkup).join('')}</details>`).join('')}<h2>Rebuilding and licenses</h2><p>The build scripts and English study metadata are included in the project folder. See the project README for the rebuild command and the source layout.</p><p>Formulas are rendered with MathJax 3.2.2. <a class="source-file-link" href="assets/mathjax/LICENSE">MathJax license</a> · Copyright in the original notes remains with their authors.</p><details class="source-details"><summary>Source file SHA-256 checksums</summary>${sources.map(source => `<p><strong>${escape(source.title)}</strong></p><code>${escape(source.sha256 || 'Not recorded')}</code>`).join('')}</details></div>`);
+      return `<tr><td>${escape(source.title)}${source.author ? `<small class="table-detail">Notes · ${escape(source.author)}</small>` : ''}${source.lecturer ? `<small class="table-detail">Lecture · ${escape(source.lecturer)}</small>` : ''}</td><td>${escape(source.course || '')}${source.term ? `<small class="table-detail">${escape(source.term)}</small>` : ''}</td><td>${list.length} ${source.id === 'editorial' ? 'pages' : 'sections'}${source.id === 'editorial' ? `<small class="table-detail">${S.reduce((n, s) => n + (s.editorialEntries?.length || 0), 0)} in-article supplements</small>` : ''}${source.lines && source.id !== 'editorial' ? `<small class="table-detail">${Number(source.lines).toLocaleString()} source lines</small>` : ''}</td><td>${source.path ? `<a class="source-file-link" href="${escape(source.path)}" download>${escape(source.file || 'LaTeX')} ↗</a>` : 'Included notes'}</td></tr>`;
+    }).join('')}</tbody></table></div><p>${S.length} topic pages across ${chapters.length} chapters: ${chapters.map(c => `${c.count} in ${c.title}`).join(', ')}.</p><div class="actions"><button class="button small" id="print-page">Print this page</button></div><p>Algebra II also includes a <a class="source-file-link" href="source/algebra2/references.bib" download>bibliography file ?</a>.</p><p class="release-version">Algebra Wiki ${escape(D.version || '1.0.0')}${D.version ? ' · <a href="history.md">Version history</a>' : ''}</p><h2>Editorial principles</h2><p>Editorial supplements provide further explanations alongside the preserved lecture notes. They are labeled separately, and their definitions and statements carry editorial numbering and source labels.</p><p>The source notes, formulas, examples, and proofs are preserved. Section numbers and statement numbers follow each original document; course and source labels distinguish repeated numbers. Cross-references link to their targets. The ${D.diagramCount || 0} diagrams are presented alongside their available source code.</p><p>English titles, study guides, key points, the unified chapter organization, and related links are editorial additions for navigation. Related sections connect topics across both courses. Identified source errors are discussed separately below, with the source text retained. These suggestions are not an official course errata sheet.</p><h2>How to use this wiki</h2><ul><li>Use the top search box to search the full collection. Press <kbd>/</kbd> to focus it.</li><li>Filter the contents by chapter or course, or follow the course order with the previous and next links.</li><li>Use the concept index for connections across courses and the statement index to browse definitions, theorems, and examples.</li><li>Expand a proof individually or use “Expand all proofs” in a section.</li><li>Bookmarks, reading status, color theme, and the last section are stored locally in this browser and do not sync across devices.</li><li>Open <code>dist/index.html</code> to browse offline. Keep its neighboring files and asset folders together; the MathJax formula renderer is included.</li></ul><h2>Correction notes · ${issues.length}</h2>${issues.length ? '<p>These notes also appear in the relevant sections for comparison with the original text.</p>' : '<p>No separate correction notes are recorded for this collection.</p>'}${S.filter(s => s.issues?.length).map(s => `<details class="issues-panel"><summary>${escape(citation(s))} · ${escape(s.titleEn)} · ${s.issues.length} notes</summary><p><a href="#${s.id}">Open section ↗</a></p>${s.issues.map(issueMarkup).join('')}</details>`).join('')}<h2>Rebuilding and licenses</h2><p>The build scripts and English study metadata are included in the project folder. See the project README for the rebuild command and the source layout.</p><p>Formulas are rendered with MathJax 3.2.2. <a class="source-file-link" href="assets/mathjax/LICENSE">MathJax license</a> · Copyright in the original notes remains with their authors.</p><details class="source-details"><summary>Source file SHA-256 checksums</summary>${sources.map(source => `<p><strong>${escape(source.title)}</strong></p><code>${escape(source.sha256 || 'Not recorded')}</code>`).join('')}</details></div>`);
     setBreadcrumb('', 'About this wiki');
   }
   function navigate() {
@@ -307,7 +326,7 @@
   document.querySelector('.skip-link').addEventListener('click', event => {
     event.preventDefault(); main.focus(); main.scrollIntoView({behavior:'instant', block:'start'});
   });
-  document.getElementById('source-count').textContent = `${sources.length} files`;
+  document.getElementById('source-count').textContent = `${originalSources.length} files`;
   document.getElementById('chapter-nav').innerHTML = chapters.map(c => `<a href="#contents?chapter=${c.n}" data-nav-chapter="${c.n}"><span class="chapter-number">${pad(c.n)}</span><span>${escape(c.title)}<small>${escape(c.course || '')} · ${c.count} sections</small></span><span class="chapter-arrow">↗</span></a>`).join('');
   document.getElementById('search-form').addEventListener('submit', event => {
     event.preventDefault();
@@ -395,5 +414,5 @@
   main.addEventListener('toggle', () => window.AlgebraDiagramLayout?.schedule(main), true);
   window.addEventListener('hashchange', navigate);
   navigate();
-  window.ALGEBRA_WIKI = {sections:S.length, chapters:chapters.length, concepts:concepts.length, definitions:definitions.length, sources:sources.length, ready:() => mathQueue};
+  window.ALGEBRA_WIKI = {version:D.version || '1.0.0', sections:S.length, chapters:chapters.length, concepts:concepts.length, definitions:definitions.length, sources:sources.length, ready:() => mathQueue};
 })();

@@ -1,0 +1,79 @@
+The \wikilink{a2s15--b003}{source submodule theorem} treats free modules of finite rank, and \wikilink{s18--b007}{its abelian-group version} treats subgroups of $\mathbb Z^n$. Here the free module may have an arbitrary basis. Throughout this article, $R$ is a commutative principal ideal domain with $1\ne0$.
+
+\begin{definition}\label{def-basis-of-free-module}
+A \emph{basis} of an $R$-module $F$ is a family $(e_i)_{i\in I}$ such that every $x\in F$ has a unique expression $x=\sum_{i\in I}r_ie_i$ with only finitely many nonzero coefficients. Thus $F=\bigoplus_{i\in I}Re_i$. This direct sum, rather than the direct product $\prod_{i\in I}R$, is the free module on $I$ introduced in \wikilink{a2s11--b002}{the construction of free modules}.
+\end{definition}
+
+\begin{lemma}\label{lem-successor-coordinate-splitting}
+Let $F'=F\oplus Re$ be free, let $N\subseteq F'$ be a submodule, and put $N_0=N\cap F$. If $\pi:F'\to R$ is the coefficient of $e$, then $\pi(N)$ is an ideal of $R$. If $\pi(N)=0$, then $N=N_0$. Otherwise, writing $\pi(N)=dR$ with $d\ne0$ and choosing $x\in N$ with $\pi(x)=d$, we have
+\[
+N=N_0\oplus Rx,
+\]
+and $Rx$ is a free module with basis $x$.
+\end{lemma}
+\begin{proof}\label{proof-successor-coordinate-splitting}
+The image $\pi(N)$ is a submodule of the regular module $R$, so it is an ideal and is principal. If the image is zero, every element of $N$ lies in $F$, proving the first assertion. Otherwise, for any $y\in N$, write $\pi(y)=rd$ and observe that $y-rx\in N\cap F=N_0$. Thus $N=N_0+Rx$. If $rx\in N_0$, applying $\pi$ gives $rd=0$. Since $d\ne0$ and $R$ is a domain, $r=0$. This proves both directness and the independence of $x$.
+\end{proof}
+
+\begin{theorem}\label{thm-arbitrary-rank-submodule}
+Every submodule of a free $R$-module is free, without a finite-rank or finite-generation assumption.
+\end{theorem}
+\begin{proof}\label{proof-arbitrary-rank-submodule}
+Let $F=\bigoplus_{i\in I}Re_i$ and let $N\subseteq F$. Using the well-ordering principle, index the basis by an ordinal $\kappa$, so that
+\[
+F=\bigoplus_{\alpha<\kappa}Re_\alpha.
+\]
+For every ordinal $\alpha\le\kappa$, define
+\[
+F_\alpha=\bigoplus_{\beta<\alpha}Re_\beta,
+\qquad N_\alpha=N\cap F_\alpha.
+\]
+In particular $N_0=0$ and $N_\kappa=N$. At a successor step, $F_{\alpha+1}=F_\alpha\oplus Re_\alpha$. Apply the coordinate-splitting lemma to $N_{\alpha+1}\subseteq F_{\alpha+1}$. If the coordinate image is zero, $N_{\alpha+1}=N_\alpha$. Otherwise choose $x_\alpha\in N_{\alpha+1}$ lifting a nonzero generator of that image, so that
+\[
+N_{\alpha+1}=N_\alpha\oplus Rx_\alpha.
+\]
+Let $S$ be the set of successor indices $\alpha<\kappa$ for which this nonzero case occurs. Make these choices along the well-ordered basis.
+
+If $\lambda\le\kappa$ is a nonzero limit ordinal, every vector of $F_\lambda$ has finite support in the indices less than $\lambda$. That finite set is contained in some initial segment indexed by $\alpha<\lambda$. Consequently
+\[
+F_\lambda=\bigcup_{\alpha<\lambda}F_\alpha,
+\qquad N_\lambda=\bigcup_{\alpha<\lambda}N_\alpha.
+\]
+We now prove by transfinite induction that
+\[
+N_\gamma=\bigoplus_{\substack{\alpha\in S\\\alpha<\gamma}}Rx_\alpha
+\qquad(\gamma\le\kappa).
+\]
+The statement is true at zero. At a successor step it follows from the chosen direct-sum splitting. At a limit step the union equality above shows that every vector belongs to an earlier $N_\alpha$, hence is a finite combination of the displayed $x_\beta$. Any finite relation among them is also contained in some earlier stage, where directness has already been established. Thus both spanning and independence hold at the limit.
+
+Taking $\gamma=\kappa$ proves $N=\bigoplus_{\alpha\in S}Rx_\alpha$, with basis $(x_\alpha)_{\alpha\in S}$.
+\end{proof}
+
+\begin{corollary}\label{cor-subgroups-free-abelian}
+Every subgroup of an arbitrary free abelian group is free abelian.
+\end{corollary}
+\begin{proof}\label{proof-subgroups-free-abelian}
+Apply the theorem with $R=\mathbb Z$. Additive subgroups are exactly $\mathbb Z$-submodules, and free abelian groups are direct sums of copies of $\mathbb Z$.
+\end{proof}
+
+\begin{corollary}\label{cor-projective-pid-free}
+An $R$-module is projective if and only if it is free. No finite-generation assumption is needed.
+\end{corollary}
+\begin{proof}\label{proof-projective-pid-free}
+By \wikilink{a2s12--b001}{the projective-module criterion}, a projective module $P$ is a direct summand of a free module $F$. In particular $P$ embeds as a submodule of $F$, so the arbitrary-rank submodule theorem makes $P$ free. Conversely, \wikilink{a2s12--b005}{every free module is projective} over any unital ring.
+\end{proof}
+
+\begin{remark}\label{remark-rank-hypotheses}
+The statements in this article do not assert that every torsion-free module over a PID is free. For example, $\mathbb Q$ is torsion-free as a $\mathbb Z$-module but is not free: it is nonzero and divisible, whereas in a nonzero free abelian group a basis vector is not divisible by $2$. The \wikilink{a2s15--b011}{torsion-free implies free result in the source} requires finite generation. Similarly, the invariant-factor and elementary-divisor classifications in \wikilink{a2s15}{the PID module section} remain statements about finitely generated modules.
+\end{remark}
+
+\begin{remark}\label{remark-compatible-filtration}
+The limit step does not rely on a claim that arbitrary increasing unions of free modules are free. Such a claim is false: $\mathbb Q=\bigcup_{n\ge1}(1/n!)\mathbb Z$ is an increasing union of free cyclic groups but is not free. The proof instead constructs compatible direct-sum splittings at each successor coordinate and uses finite support at the limit. The well-ordering of an arbitrary basis and the indicated selections use the usual axiom of choice.
+\end{remark}
+
+\begin{proposition}\label{prop-abelianization-preserves-projectivity}
+Suppose a group $G$ has the following lifting property: whenever $B\to C$ is a surjective group homomorphism, every group homomorphism $G\to C$ lifts to $B$. Then the abelianization $G^{\mathrm{ab}}$ is a projective $\mathbb Z$-module and hence is free abelian.
+\end{proposition}
+\begin{proof}\label{proof-abelianization-preserves-projectivity}
+Take a surjective homomorphism $q:B\to C$ of abelian groups and a homomorphism $f:G^{\mathrm{ab}}\to C$. Compose $f$ with the abelianization map $G\to G^{\mathrm{ab}}$ and use the assumed lifting property to obtain $h:G\to B$. Since $B$ is abelian, \wikilink{s13--b006}{the universal property of abelianization} factors $h$ uniquely through a homomorphism $\bar h:G^{\mathrm{ab}}\to B$. The equality $q\bar h=f$ follows after composition with the surjective abelianization map. Thus $G^{\mathrm{ab}}$ satisfies the lifting criterion for a projective $\mathbb Z$-module. The preceding corollary makes it free, even if its rank is infinite.
+\end{proof}

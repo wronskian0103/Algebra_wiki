@@ -1,0 +1,13 @@
+Here $R$ is a commutative unital ring, so tensor products of two $R$-modules and the internal Hom are again $R$-modules. The natural isomorphism in \wikilink{a2s18--b011}{the tensor-Hom adjunction} combines with \wikilink{a2s12--b001}{the Hom criterion for projectivity}.
+
+\begin{proposition}\label{prop-tensor-projectives}
+If $P$ and $Q$ are projective $R$-modules, then $P\otimes_RQ$ is projective. Neither module is required to be finitely generated.
+\end{proposition}
+\begin{proof}\label{proof-tensor-projectives}
+Apply $\operatorname{Hom}_R(Q,-)$ to a short exact sequence $0\to X\to Y\to Z\to0$. Its image is exact because $Q$ is projective. Applying the exact functor $\operatorname{Hom}_R(P,-)$ preserves this exact sequence. The natural adjunction
+\[
+\operatorname{Hom}_R(P,\operatorname{Hom}_R(Q,U))
+\cong\operatorname{Hom}_R(P\otimes_RQ,U)
+\]
+for $U=X,Y,Z$ identifies the resulting maps as well as the modules. Thus $\operatorname{Hom}_R(P\otimes_RQ,-)$ takes every short exact sequence to a short exact sequence. The projectivity criterion gives the conclusion.
+\end{proof}

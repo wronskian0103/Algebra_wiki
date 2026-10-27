@@ -10,7 +10,7 @@ const checks = String.raw`
   const D = env.window.WIKI_DATA, S = D.sections;
   const definitions = D.definitions || [];
   const norm = s => String(s || '').trim().replace(/^\$|\$$/g, '').replace(/[\u2010\u2011\u2013\u2212]/g, '-').replace(/[\u2018\u2019]/g, "'").replace(/\s+/g, ' ').toLocaleLowerCase();
-  const owners = new Map(S.flatMap(s => [[s.id + '--original', s], ...s.blocks.map(b => [b.id, s])]));
+  const owners = new Map(S.flatMap(s => [[s.id + '--original', s], ...[...s.blocks, ...(s.editorialBlocks || [])].map(b => [b.id, s])]));
   const results = [];
   const test = async (name, fn) => {
     try {await fn(); results.push({name, pass:true});}

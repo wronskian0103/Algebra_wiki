@@ -1,0 +1,50 @@
+The p-power assertion in \wikilink{s43--b009}{the source proposition}
+provides an elementwise definition valid without a finite-degree hypothesis.
+
+\begin{definition}\label{purely-inseparable-algebraic-extension}
+In characteristic $p>0$, an algebraic extension $K/k$ is
+\emph{purely inseparable} if for every $\alpha\in K$ there is an
+integer $r\ge0$ with $\alpha^{p^r}\in k$.
+In characteristic zero the term means $K=k$.
+\end{definition}
+\begin{proposition}\label{unique-conjugate-criterion}
+For an element $\alpha$ algebraic over $k$, its minimal polynomial
+has only one distinct root in an algebraic closure if and only if
+$k(\alpha)/k$ is purely inseparable.
+\end{proposition}
+\begin{proof}\label{unique-conjugate-criterion-proof}
+In characteristic zero an irreducible polynomial is separable, so
+having one distinct root means degree one.
+In characteristic $p$, an irreducible monic polynomial $f$ with
+zero derivative has the form $g(X^p)$. The polynomial $g$ is still
+irreducible, since a factorization of it would factor $f$.
+Repeat while the derivative vanishes. Degrees decrease, so eventually
+$f(X)=h(X^{p^r})$ with $h$ irreducible and $h'\ne0$.
+An irreducible polynomial with nonzero derivative is separable.
+In an algebraic closure the map $x\mapsto x^{p^r}$ is bijective,
+so $f$ and $h$ have the same number of distinct roots.
+If that number is one, $h$ is linear, and $f(X)=X^{p^r}-c$.
+Thus $\alpha^{p^r}\in k$.
+Conversely, if $\alpha^{p^r}=c\in k$, the minimal polynomial divides
+$X^{p^r}-c=(X-\alpha)^{p^r}$ and has only one distinct root.
+\end{proof}
+\begin{corollary}\label{purely-inseparable-embeddings}
+An algebraic extension is purely inseparable if and only if it has
+only one embedding over $k$ into a fixed algebraic closure.
+\end{corollary}
+\begin{proof}\label{purely-inseparable-embeddings-proof}
+In a purely inseparable extension, every element has just one possible
+image by the proposition, so embeddings agree. An embedding exists
+by \wikilink{s37--b012}{embedding extension}.
+Conversely, any other root of an element's minimal polynomial gives
+an embedding of its simple field. The same extension argument extends
+it to the whole algebraic extension. Uniqueness therefore forces
+every element to have only one conjugate, and the proposition applies.
+\end{proof}
+\begin{remark}\label{inseparable-degree-scope}
+For finite extensions this agrees with separable degree one and
+\wikilink{s43--b008}{the finite inseparable-degree definition}.
+For an infinite extension, use the elementwise or embedding condition,
+not a quotient of infinite cardinal degrees. In the derivative
+argument one stops when the derivative is nonzero, as in the source correction.
+\end{remark}

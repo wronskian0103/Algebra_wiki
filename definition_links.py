@@ -152,9 +152,11 @@ def slice_forest(nodes, start, stop):
 
 def load_definitions(root, sections):
     by_id = {s['id']: s for s in sections}
-    blocks = {b['id']: (s, b) for s in sections for b in s['blocks']}
+    blocks = {b['id']: (s, b) for s in sections for b in [*s['blocks'], *s.get('editorialBlocks', [])]}
     result = []
-    for path in sorted((root / 'content').glob('definition-terms-*.json')):
+    registries = [*sorted((root / 'content').glob('definition-terms-*.json')),
+                  *sorted((root / 'content/editorial').glob('definitions-*.json'))]
+    for path in registries:
         for entry in json.loads(path.read_text(encoding='utf-8')):
             term, target = entry['term'], entry['target']
             if target in blocks:
@@ -165,7 +167,7 @@ def load_definitions(root, sections):
             else:
                 raise ValueError(f'Unknown definition destination: {term} / {target}')
             result.append(dict(entry, sectionId=section['id'], chapterNo=section['chapterNo'],
-                               sourceId=section['sourceId'], kind=block['kind'], number=block['number']))
+                               sourceId=block.get('sourceId', section['sourceId']), kind=block['kind'], number=block['number']))
     return result
 
 
@@ -260,11 +262,20 @@ def guide_markup(text):
 
 def add_definition_links(root, sections):
     definitions = load_definitions(root, sections)
-    linker, count, guide_count, linked_sections = Linker(definitions), 0, 0, 0
+    linker, count, guide_count, editorial_count, linked_sections = Linker(definitions), 0, 0, 0, 0
     for section in sections:
         section['html'], section['definitionLinks'], n = linker.link(section['html'], section)
-        count += n
+        if section.get('contentKind') == 'editorial':
+            editorial_count += n
+        else:
+            count += n
         used = {(d['term'], d['target']): d for d in section['definitionLinks']}
+        for entry in section.get('editorialEntries', []):
+            entry['html'], references, m = linker.link(entry['html'], section)
+            used.update({(d['term'], d['target']): d for d in references})
+            editorial_count += m
+        if section.get('editorialEntries'):
+            section['editorialHtml'] = '\n'.join(e['html'] for e in section['editorialEntries'])
         guide_html = []
         section_guide_count = 0
         for text in [section['summary'], *section['keyPoints']]:
@@ -275,6 +286,6 @@ def add_definition_links(root, sections):
         section['summaryHtml'], section['keyPointsHtml'] = guide_html[0], guide_html[1:]
         section['definitionLinks'] = sorted(used.values(), key=lambda d: d['term'].casefold())
         guide_count += section_guide_count
-        linked_sections += bool(n + section_guide_count)
-    return definitions, dict(terms=len(definitions), links=count + guide_count, sourceLinks=count,
-                             guideLinks=guide_count, sections=linked_sections)
+        linked_sections += bool(n + section_guide_count or section.get('editorialEntries'))
+    return definitions, dict(terms=len(definitions), links=count + guide_count + editorial_count, sourceLinks=count,
+                             guideLinks=guide_count, editorialLinks=editorial_count, sections=linked_sections)

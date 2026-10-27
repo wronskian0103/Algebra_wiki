@@ -1,0 +1,73 @@
+The \wikilink{s44--b013}{biquadratic example} extends to arbitrarily
+many independent square roots. Assume throughout that $\operatorname{char}k\ne2$.
+
+\begin{definition}\label{square-class}
+The \emph{square-class group} is $k^\times/(k^\times)^2$, an abelian
+group in which every element has order dividing two, hence a vector
+space over $\mathbb F_2$. Classes of $a_1,\ldots,a_m\in k^\times$
+are \emph{independent} if no nonempty product of distinct $a_i$ is a square in $k$.
+\end{definition}
+\begin{definition}\label{multiquadratic-definition}
+A \emph{multiquadratic extension} of $k$ is an extension of the form
+$k(\sqrt{a_1},\ldots,\sqrt{a_m})$ for finitely many $a_i\in k^\times$.
+The classes need not be independent; an independent subfamily gives
+the degree and basis described below.
+\end{definition}
+\begin{lemma}\label{quadratic-square-kernel}
+If $a$ is not a square in a field $F$ of characteristic different
+from two and $b\in F^\times$, then $b$ is a square in $F(\sqrt a)$
+if and only if $b$ or $b/a$ is a square in $F$.
+\end{lemma}
+\begin{proof}\label{quadratic-square-kernel-proof}
+Write a square root as $u+v\sqrt a$. Squaring and comparing the
+coefficient of $\sqrt a$ gives $2uv=0$, so either $v=0$ and $b=u^2$,
+or $u=0$ and $b=av^2$. The converse follows by taking the indicated roots.
+\end{proof}
+\begin{theorem}\label{multiquadratic-extension}
+For independent square classes $a_1,\ldots,a_m$, the field
+$K=k(\sqrt{a_1},\ldots,\sqrt{a_m})$ has degree $2^m$ and basis
+$\prod_i(\sqrt{a_i})^{\epsilon_i}$, $\epsilon_i\in\{0,1\}$.
+It is Galois over $k$ with group $(C_2)^m$, acting by independent
+changes of signs of the square roots.
+\end{theorem}
+\begin{proof}\label{multiquadratic-extension-proof}
+Put $K_r=k(\sqrt{a_1},\ldots,\sqrt{a_r})$. Inductively prove both the
+degree assertion and the statement that the classes of elements of
+$k^\times$ becoming squares in $K_r$ are exactly the span of the
+first $r$ classes. Both statements hold for $r=0$.
+The square-kernel assertion at step $r-1$ and independence show that
+$a_r$ is not a square in $K_{r-1}$. Thus $[K_r:K_{r-1}]=2$.
+For $b\in k^\times$, the lemma applied over $K_{r-1}$ says that $b$
+is square in $K_r$ exactly when $b$ or $b/a_r$ is square in
+$K_{r-1}$. Induction proves the asserted kernel and completes both
+claims. Successive quadratic bases give the displayed monomial basis.
+
+Each choice of signs defines a linear map on this basis. The rules
+$(\sqrt{a_i})^2=a_i$ show that the map preserves multiplication;
+applying the same signs twice gives the identity. These are $2^m$
+distinct automorphisms. Conversely, any automorphism must send each
+square root to itself or its negative. Finally $K$ is the splitting
+field of the separable polynomial $\prod_i(X^2-a_i)$, so it is Galois,
+and the sign choices identify its group with $(C_2)^m$.
+\end{proof}
+\begin{corollary}\label{multiquadratic-subfields}
+For $m\ge1$, $K$ has exactly $2^m-1$ quadratic intermediate fields.
+For $m\ge2$, it therefore has at least $2^m+1$ intermediate fields.
+\end{corollary}
+\begin{proof}\label{multiquadratic-subfields-proof}
+By \wikilink{s45--b001}{Galois correspondence}, quadratic fields
+correspond to index-two subgroups of $(\mathbb F_2)^m$.
+They are the kernels of its nonzero linear maps to $\mathbb F_2$.
+There are $2^m-1$ such maps, and two have the same kernel only if
+they differ by a nonzero scalar, which over $\mathbb F_2$ means they
+are equal. When $m\ge2$, the base field and $K$ itself are distinct
+from these quadratic fields, giving the stated lower bound.
+\end{proof}
+\begin{example}\label{rational-prime-squares}
+Distinct rational primes have independent square classes in $\mathbb Q$:
+in a nonempty product, some prime has odd exponent, whereas every
+prime exponent in a rational square is even. Thus
+$\mathbb Q(\sqrt2,\sqrt3,\sqrt5)$ has degree eight and Galois group
+$(C_2)^3$. The independence assumption prevents redundant generators
+such as adjoining both $\sqrt2$ and $\sqrt8$.
+\end{example}

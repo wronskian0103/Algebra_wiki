@@ -1,0 +1,39 @@
+Use \wikilink{s18--b010}{the classification theorem},
+\wikilink{s18--b012}{its uniqueness statement}, and
+\wikilink{s19--b007}{primary decomposition}.
+
+\begin{proposition}\label{primary-count-invariants}
+For a finitely generated abelian group $A$, its free rank together
+with the numbers $|A[p^k]|$, for all primes $p$ and $k\ge1$, determines
+its isomorphism class. Here $A[p^k]=\{a:p^ka=0\}$ is finite.
+\end{proposition}
+\begin{proof}\label{primary-count-invariants-proof}
+Decompose the torsion part into prime-power cyclic groups using
+classification and the Chinese remainder decomposition. For the
+$p$-part, write the exponents as $e_1,\ldots,e_r>0$. Then
+\[
+ c_p(k):=\log_p|A[p^k]|=\sum_i\min(k,e_i),\qquad c_p(0)=0.
+\]
+The difference $c_p(k)-c_p(k-1)$ counts the exponents at least $k$.
+Successive differences therefore recover the multiplicity of every
+exponent. The free part contributes no elements to $A[p^k]$, and its
+rank is specified separately. Classification now determines $A$.
+\end{proof}
+\begin{corollary}\label{abelian-cancellation}
+If $G,H,K$ are finitely generated abelian groups and
+$G\times H\cong G\times K$, then $H\cong K$.
+\end{corollary}
+\begin{proof}\label{abelian-cancellation-proof}
+Ranks add under finite products, so the ranks of $H$ and $K$ agree.
+Taking the subgroups annihilated by $p^k$ in the isomorphism and
+comparing their finite orders gives
+$|G[p^k]|\,|H[p^k]|=|G[p^k]|\,|K[p^k]|$.
+Cancel the positive finite factor and apply the proposition.
+\end{proof}
+\begin{remark}\label{cancellation-scope}
+Finite generation is essential: for $F=\bigoplus_{n\ge1}\mathbb Z$,
+reindexing a basis gives $F\oplus\mathbb Z\cong F$, although
+$\mathbb Z$ is not the zero group. Also, concatenating two
+invariant-factor lists need not leave them in divisibility order;
+the prime-power invariants avoid this issue.
+\end{remark}

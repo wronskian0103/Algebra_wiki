@@ -1,0 +1,30 @@
+Recall \wikilink{s13--b008}{the derived series} and
+\wikilink{s13--b010}{solvability}.
+
+\begin{proposition}\label{derived-homomorphisms}
+For a surjective homomorphism $\phi:G\to Q$, one has
+$\phi(D^r(G))=D^r(Q)$ for every term of the derived series, where
+$D^0(G)=G$ and $D^{r+1}(G)=[D^r(G),D^r(G)]$.
+\end{proposition}
+\begin{proof}\label{derived-homomorphisms-proof}
+Homomorphisms send commutators to the commutators of their images.
+Surjectivity supplies lifts of all pairs of elements of $Q$, so the
+images of the generated commutator subgroups are equal. Repeat this
+argument on each derived subgroup.
+\end{proof}
+\begin{theorem}\label{solvable-extensions}
+If $N\trianglelefteq G$ and both $N$ and $G/N$ are solvable, then
+$G$ is solvable. No finiteness assumption is needed.
+\end{theorem}
+\begin{proof}\label{solvable-extensions-proof}
+If the quotient's derived series vanishes at step $r$, the proposition
+applied to $G\to G/N$ gives $D^r(G)\subseteq N$.
+Commutator formation preserves inclusion, so
+$D^{r+s}(G)\subseteq D^s(N)$ for every $s$. Choose $s$ for which
+$D^s(N)=1$ to conclude.
+\end{proof}
+\begin{remark}\label{derived-notation}
+The notation $D^r(G)$ distinguishes the derived series from the lower
+central series. The proof also bounds the derived length of $G$ by
+the sum of the derived lengths of $N$ and $G/N$.
+\end{remark}

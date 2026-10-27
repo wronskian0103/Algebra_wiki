@@ -1,0 +1,21 @@
+[
+  {"term":"formal power series","target":"ed-formal-power-series--formal-series","aliases":["formal power series ring","formal power series rings","ring of formal power series"]},
+  {"term":"order of a power series","target":"ed-formal-power-series--series-order","aliases":["order of a formal power series","power series order"]},
+  {"term":"Jacobson radical","target":"s27--ed-jacobson--jacobson-radical","aliases":["Jacobson radicals"]},
+  {"term":"extension of an ideal","target":"s28--ed-ideal-localization--ideal-extension-contraction","aliases":["ideal extension","extended ideal","extended ideals"]},
+  {"term":"contraction of an ideal","target":"s28--ed-ideal-localization--ideal-extension-contraction","aliases":["ideal contraction","contracted ideal","contracted ideals"]},
+  {"term":"saturation of an ideal","target":"s28--ed-ideal-localization--ideal-extension-contraction","aliases":["S-saturation","S-saturated ideal","S-saturated ideals","saturated ideal","saturated ideals"],"contexts":[2,7,8]},
+  {"term":"core of a subgroup","target":"s05--ed-core--core-subgroup","aliases":["subgroup core","core of the subgroup","normal core"]},
+  {"term":"center of a group","target":"s07--ed-centers--center-centralizer","aliases":["group center","group centre","centre of a group"]},
+  {"term":"center","target":"s07--ed-centers--center-centralizer","aliases":["centre"],"contexts":[1,3]},
+  {"term":"centralizer","target":"s07--ed-centers--center-centralizer","aliases":["centralizers","centraliser","centralisers"],"contexts":[1,3]},
+  {"term":"conjugacy class","target":"s07--ed-centers--center-centralizer","aliases":["conjugacy classes"]},
+  {"term":"class equation","target":"s07--ed-centers--class-equation","aliases":["class equations"]},
+  {"term":"Cauchy's theorem","target":"s08--ed-p-groups--cauchy-theorem","aliases":["Cauchy theorem","Cauchy’s theorem"],"contexts":[1,3]},
+  {"term":"Cohen's criterion","target":"s29--ed-cohen--cohen-criterion","aliases":["Cohen criterion","Cohen's theorem","Cohen’s criterion"]},
+  {"term":"square class","target":"s44--ed-multiquadratic--square-class","aliases":["square classes","square-class group","square class group","square-class groups"]},
+  {"term":"multiquadratic extension","target":"s44--ed-multiquadratic--multiquadratic-definition","aliases":["multiquadratic extensions","multiquadratic field","multiquadratic fields"]},
+  {"term":"separable algebraic extension","target":"s40--ed-algebraic-separability--separable-algebraic-extension","aliases":["separable algebraic extensions"]},
+  {"term":"purely inseparable algebraic extension","target":"s43--ed-algebraic-inseparability--purely-inseparable-algebraic-extension","aliases":["purely inseparable algebraic extensions"]},
+  {"term":"fixed field","target":"s45--ed-normal-fixed-fields--automorphism-fixed-field","aliases":["fixed fields","automorphism fixed field","automorphism fixed fields"]}
+]

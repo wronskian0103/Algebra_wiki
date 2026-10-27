@@ -1,0 +1,39 @@
+The \wikilink{a2s09--b016}{splitting criterion} describes direct summands of a regular module. Let $R$ be unital, not necessarily commutative. All maps below are left $R$-linear. The definition of an idempotent is already in \wikilink{s24--b004}{the ring-product section}.
+
+\begin{definition}\label{def-direct-summand}
+A submodule $P\subseteq M$ is a \emph{direct summand} if $M=P\oplus Q$ for some submodule $Q$. An endomorphism $p:M\to M$ with $p^2=p$ is a \emph{projection}. A decomposition gives the projection onto $P$ along $Q$. Conversely a projection gives $M=\operatorname{im}p\oplus\ker p$: write $x=p(x)+(x-p(x))$ and observe that the intersection is zero.
+\end{definition}
+
+\begin{theorem}\label{thm-idempotent-regular-summand}
+Every projection of the left regular module $R$ has the form $p(r)=re$ for an idempotent $e$, with
+\[
+\operatorname{im}p=Re,\qquad \ker p=R(1-e).
+\]
+Conversely every idempotent gives $R=Re\oplus R(1-e)$ as left modules.
+\end{theorem}
+\begin{proof}\label{proof-idempotent-regular-summand}
+Set $e=p(1)$. Left linearity gives $p(r)=re$, and $p^2=p$ yields $e^2=p(e)=p^2(1)=e$. The image is $Re$. If $re=0$, then $r=r(1-e)$; conversely $R(1-e)$ is killed by right multiplication by $e$.
+
+If $e^2=e$, the map $r\mapsto re$ is a left-linear projection, so the preceding description applies. Directly $r=re+r(1-e)$, and an element of the intersection is unchanged by right multiplication by $e$ using its $Re$ expression and killed using its $R(1-e)$ expression. Thus it is zero.
+\end{proof}
+
+\begin{proposition}\label{prop-orthogonal-idempotent-family}
+A finite decomposition $R=P_1\oplus\cdots\oplus P_n$ of the left regular module determines idempotents with
+\[
+1=\sum_i e_i,\qquad e_ie_j=0\ (i\ne j),\qquad P_i=Re_i.
+\]
+Conversely these identities produce that direct-sum decomposition.
+\end{proposition}
+\begin{proof}\label{proof-orthogonal-idempotent-family}
+Let $p_i$ be the coordinate projections and $e_i=p_i(1)$. Then $p_i(r)=re_i$, $P_i=Re_i$, and $\sum_i p_i=\mathrm{id}$ implies $\sum_i e_i=1$. The identities $p_ip_j=0$ for $i\ne j$ give $e_je_i=0$ for all ordered pairs, proving orthogonality in both orders.
+
+Conversely $r=\sum_i re_i$ proves that the left ideals sum to $R$. If $\sum_i x_i=0$ with $x_i\in Re_i$, multiply on the right by $e_j$ to obtain $x_j=0$. Hence the sum is direct.
+\end{proof}
+
+\begin{remark}\label{remark-central-and-sidedness}
+No centrality is needed for the left-module result. The \wikilink{s24}{ring-product decomposition} requires central idempotents: for central $e$, $r\mapsto(re,r(1-e))$ identifies $R$ with $Re\times R(1-e)$, with factor identities $e$ and $1-e$. For the right regular module, the corresponding ideals are $eR$ and $(1-e)R$.
+\end{remark}
+
+\begin{example}\label{ex-projective-submodule-not-summand}
+Projectivity of a submodule does not split its given inclusion. The subgroup $2\mathbb Z\subseteq\mathbb Z$ is free and projective, but a retraction $r:\mathbb Z\to2\mathbb Z$ would imply $2=r(2)=2r(1)$ and hence $r(1)=1\notin2\mathbb Z$. It is not a direct summand. If instead $R/P$ is projective, \wikilink{a2s12--b001}{the projective lifting criterion} splits $0\to P\to R\to R/P\to0$, and the idempotent description does apply.
+\end{example}

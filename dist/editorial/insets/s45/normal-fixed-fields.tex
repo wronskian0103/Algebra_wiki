@@ -1,0 +1,44 @@
+The \wikilink{s45--b013}{Artin theorem} assumes a finite group of
+automorphisms. The following different statement allows an infinite
+group but assumes an algebraic normal extension, in the sense of
+\wikilink{s39--b002}{the normality characterization}.
+
+\begin{definition}\label{automorphism-fixed-field}
+For a group $G$ of automorphisms of a field $K$, its \emph{fixed field}
+is $K^G=\{a\in K:\sigma(a)=a\text{ for all }\sigma\in G\}$.
+It is a field because the property is preserved by sums, products,
+and inverses of nonzero elements.
+\end{definition}
+\begin{theorem}\label{normal-fixed-fields}
+Let $K/k$ be algebraic and normal, let $G=\operatorname{Aut}(K/k)$,
+and put $F=K^G$. Then $K/F$ is normal and separable, and $F/k$ is
+purely inseparable. Neither $K/k$ nor $G$ is assumed finite.
+\end{theorem}
+\begin{proof}\label{normal-fixed-fields-proof}
+For $\alpha\in K$, its $G$-orbit is finite because its images are
+among the finitely many roots of its minimal polynomial over $k$.
+The polynomial $P_\alpha(X)=\prod_{\beta\in G\alpha}(X-\beta)$ has
+coefficients fixed by every element of $G$ and hence coefficients in
+$F$. Its roots are distinct. The minimal polynomial over $F$ divides
+$P_\alpha$, so $\alpha$ is separable over $F$. Apply
+\wikilink{s40--ed-algebraic-separability--separable-algebraic-extension}{the
+elementwise definition}. Normality over $F$ follows from
+\wikilink{s39--b010}{normality above an intermediate field}.
+
+Now take $a\in F$ and a root $b$ of its minimal polynomial over $k$
+in an algebraic closure. The map $k(a)\to k(b)$ sending $a$ to $b$
+extends to an embedding of $K$ into that closure by
+\wikilink{s37--b012}{embedding extension}, using its proof with this
+prescribed initial embedding. Normality makes this embedding an
+automorphism of $K$ over $k$. Since $a\in F$, it fixes $a$, so $b=a$.
+Thus $a$ has only one conjugate, and
+\wikilink{s43--ed-algebraic-inseparability--unique-conjugate-criterion}{the
+unique-conjugate criterion} proves that $F/k$ is purely inseparable.
+\end{proof}
+\begin{remark}\label{fixed-fields-scope}
+In characteristic zero, the conclusion gives $F=k$. In positive
+characteristic, a purely inseparable normal extension can have no
+nonidentity base-field automorphisms, so its fixed field may be all
+of $K$. No formula $[K:F]=|G|$ for arbitrary infinite $G$ has been
+used or asserted, and no topology on $G$ is needed for this theorem.
+\end{remark}

@@ -1,0 +1,33 @@
+The \wikilink{s29--b002}{Noetherian finite-generation criterion} can be
+tested on prime ideals alone. All rings here are commutative and unital.
+
+\begin{theorem}\label{cohen-criterion}
+A ring $R$ is Noetherian if and only if every prime ideal is finitely generated.
+\end{theorem}
+\begin{proof}\label{cohen-criterion-proof}
+Only the reverse implication needs proof. Suppose some ideal is not
+finitely generated. The union of a nonempty chain of such ideals cannot
+be finitely generated: its finitely many proposed generators would lie
+in one chain member, making that member equal to the union and finitely
+generated. Zorn's lemma gives an ideal $I$ maximal among the ideals that
+are not finitely generated. It is proper since $R=(1)$.
+
+Suppose $ab\in I$ with $a,b\notin I$. Both $I+(a)$ and
+$(I:a)=\{r:ra\in I\}$ strictly contain $I$, the latter because it
+contains $b$. By maximality both are finitely generated. Write
+\[
+ I+(a)=(a,u_1,\ldots,u_r),\quad u_i\in I,
+ \qquad (I:a)=(v_1,\ldots,v_s).
+\]
+The $u_i$ may be obtained by subtracting multiples of $a$ from any
+finite generating set. If $x\in I$, express $x=ca+\sum d_iu_i$.
+Then $ca\in I$, so $c\in(I:a)$, proving
+$I=(u_1,\ldots,u_r,av_1,\ldots,av_s)$.
+All these generators lie in $I$, a contradiction. Therefore $I$ is
+prime, contradicting the assumed finite generation of prime ideals.
+\end{proof}
+\begin{remark}\label{cohen-scope}
+The maximal object is maximal among non-finitely-generated ideals, not
+necessarily a maximal proper ideal. Neither a domain hypothesis nor
+prior Noetherianity is used in the reverse implication.
+\end{remark}

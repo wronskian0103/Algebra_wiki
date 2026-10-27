@@ -14,6 +14,7 @@ import re
 import shutil
 import subprocess
 from definition_links import add_definition_links
+from editorial import load_editorial
 
 ROOT = Path(__file__).resolve().parent
 DIST = ROOT / 'dist'
@@ -282,6 +283,10 @@ def main():
         section['issues'] = [issue for issue in issues if issue.get('section') == section['id']]
         print(section['id'], len(converted), len(section['blocks']), flush=True)
 
+    source_stats = dict(stats)
+    editorial_stats, manuscripts = load_editorial(
+        ROOT, DIST, sections, chapters, convert, preambles['algebra1'], plain, mask_comments)
+    stats.update(editorial_stats)
     definitions, definition_report = add_definition_links(ROOT, sections)
     sources = []
     for spec in SOURCES:
@@ -290,12 +295,28 @@ def main():
                             author='Juhyeok Choi', lecturer=spec.get('lecturer', ''), path=spec['path'],
                             file=Path(spec['path']).name, lines=src.count('\n') + 1,
                             sha256=hashlib.sha256((ROOT / spec['path']).read_bytes()).hexdigest()))
+    release = json.loads((ROOT / 'version.json').read_text(encoding='utf-8'))
+    editorial_readme = ('# Editorial supplements\n\n'
+                        'Version ' + release['version'] + ' (' + release['date'] + ').\n\n'
+                        'English definitions, statements, and proofs prepared for Algebra Wiki. '
+                        'These additions are separate from the original lecture notes and their numbering. '
+                        'Each article links to its own downloadable TeX manuscript.\n')
+    (DIST / 'editorial/README.md').write_bytes(editorial_readme.encode('utf-8'))
+    sources.append(dict(id='editorial', title='Editorial supplements', course='Algebra I & II',
+                        term=release['date'], author='Prepared for Algebra Wiki', lecturer='',
+                        path='editorial/README.md', file='README.md', origin='editorial',
+                        sha256=hashlib.sha256(editorial_readme.encode('utf-8')).hexdigest(),
+                        manuscripts=manuscripts))
     for chapter in chapters:
         chapter['count'] = sum(s['chapterNo'] == chapter['n'] for s in sections)
-    data = dict(sections=sections, chapters=chapters, sources=sources, stats=dict(stats),
+    data = dict(version=release['version'], releaseDate=release['date'],
+                sections=sections, chapters=chapters, sources=sources, stats=dict(stats), sourceStats=source_stats,
+                editorialStats=editorial_stats,
                 diagramCount=diagram_count, issues=issues, definitions=definitions)
     (DIST / 'data.js').write_text('window.WIKI_DATA=' + json.dumps(data, ensure_ascii=False).replace('</', '<\\/') + ';\n', encoding='utf-8')
     shutil.copytree(ROOT / 'source', DIST / 'source', dirs_exist_ok=True)
+    for name in ('history.md', 'version.json', 'README.txt'):
+        shutil.copyfile(ROOT / name, DIST / name)
     for name in ('index.html', 'app.js', 'style.css', 'diagram-layout.js'):
         file = ROOT / 'web' / name
         if file.exists():
@@ -303,6 +324,8 @@ def main():
     report = dict(sections=len(sections), chapters=len(chapters), blocks=dict(stats), diagrams=diagram_count,
                   brokenRefs=broken_refs, metadataCount=len(meta), issues=len(issues), warnings=conversion_warnings,
                   definitionLinks=definition_report)
+    report.update(version=release['version'], originalSections=81, originalBlocks=sum(source_stats.values()),
+                  editorialBlocks=sum(editorial_stats.values()), editorialManuscripts=len(manuscripts))
     (WORK / 'build-report.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     (WORK / 'sections.json').write_text(json.dumps(sections, ensure_ascii=False, indent=2), encoding='utf-8')
     if broken_refs:
