@@ -1,24 +1,32 @@
 # Algebra Wiki
 
-**Read online: [Algebra Wiki website](https://wronskian0103.github.io/Algebra_wiki/)**
+**Current version: 1.0.0** · **[Read the wiki online](https://wronskian0103.github.io/Algebra_wiki/)**
 
-Open the GitHub Pages website to browse both courses, search the notes, and follow linked terms to their definitions. No download or installation is required.
+An English wiki connecting Algebra I and Algebra II, from groups, rings, and fields to categories, modules, tensor products, and algebraic geometry. Explore **81 topic pages across 8 chapters**, with **125 diagrams**, linked definitions, and the original lecture-note numbering.
 
-An English wiki connecting Algebra I and Algebra II: **81 topic pages across 8 chapters**, with 125 diagrams and the original lecture-note numbering.
+Based on SNU graduate algebra lectures by **Professor Dohyeong Kim**, with notes and supplementary materials by **Juhyeok Choi**. English study guides and related-topic links connect the two courses. Exercises and solutions are excluded.
 
-The wiki combines SNU graduate algebra lectures by **Dohyeong Kim**, notes by **Juhyeok Choi**, and two supplementary notes. English study guides, key points, concept links, and correction notes help connect the material across both courses. Exercises and solutions are excluded.
+## Start reading
 
-## Read the wiki
+Open the **[Algebra Wiki website](https://wronskian0103.github.io/Algebra_wiki/)** to read in your browser. No download or installation is required.
 
-Read online at the **[Algebra Wiki website](https://wronskian0103.github.io/Algebra_wiki/)**, or download the repository and open [`index.html`](index.html) in your browser. You can also open [`dist/index.html`](dist/index.html) directly. Keep the entire `dist/` folder together.
+For offline reading:
 
-Reading the downloaded wiki works offline. MathJax and all other runtime assets are bundled locally; no installation or server is required.
+1. Download this repository using **Code → Download ZIP** and extract it.
+2. Open [`index.html`](index.html), or open [`dist/index.html`](dist/index.html) directly.
+3. Keep the entire `dist/` folder together. MathJax, diagrams, and other runtime assets are bundled locally, so reading requires neither an internet connection nor a server.
 
-Features include full-text search, chapter and course filters, concept and statement indexes, links between related topics, expandable proofs, bookmarks, reading status, and a dark theme. Underlined terms in the source notes link directly to their definitions; the concept index and each article's **Definitions used here** list offer the same precise links. The destination is highlighted and focused, including inside a collapsed proof. Bookmarks, reading status, and theme preferences are stored in the current browser.
+## Features
+
+- **Linked definitions.** Click underlined terms in the notes and study guides to jump to the relevant definition. The destination is highlighted, and any enclosing proof opens automatically. The concept index and **Definitions used here** list offer the same direct links.
+- **Search and navigation.** Search the notes, filter by chapter or course, and browse concept and statement indexes. Source labels distinguish repeated numbering across documents.
+- **Study support.** Each topic includes an English guide, key points, related sections, and correction notes where needed. Proofs expand individually or together.
+- **Personal reading tools.** Save bookmarks, mark sections as read, and switch to a dark theme. These preferences are stored in the current browser.
+- **Source access.** Download the original TeX notes and bibliography from **Sources & corrections**, and inspect the original TikZ behind each reconstructed diagram.
 
 ## Contents
 
-| Chapter | Topics | Source |
+| Chapter | Topic pages | Course |
 | --- | ---: | --- |
 | Group Theory | 23 | Algebra I |
 | Ring Theory | 10 | Algebra I |
@@ -29,40 +37,29 @@ Features include full-text search, chapter and course filters, concept and state
 | Algebraic Equations | 8 | Algebra II |
 | Further Topics | 4 | Algebra II supplements |
 
-The main lecture notes are from Spring 2025 and Fall 2025. The supplementary documents cover projective and injective modules, and integral Galois extensions. Downloadable TeX sources and the Algebra II bibliography are available from the wiki's **Sources & corrections** page.
+The main lecture notes cover **Spring 2025** and **Fall 2025**. Two supplementary documents expand on projective and injective modules, and integral Galois extensions.
 
-## GitHub Pages
-
-The [Pages workflow](.github/workflows/pages.yml) publishes the checked-in `dist/` folder whenever a commit is pushed to `main`. It can also be run manually from the **Actions** tab. Publication does not require Python, Pandoc, or a build on GitHub.
-
-In the repository's **Settings → Pages**, select **GitHub Actions** as the build and deployment source. The deployment's `github-pages` environment reports the published URL.
-
-The site uses relative asset paths and hash-based navigation, so it works at a GitHub Pages project URL as well as offline. `dist/.nojekyll` is included and recreated by the builder.
-
-When changing the content or interface, rebuild locally and commit the updated `dist/` files along with the source changes. Pushing source changes alone does not rebuild the published wiki.
-
-## Project files
+## Project layout
 
 | Path | Purpose |
 | --- | --- |
-| `dist/` | Complete static website, published by GitHub Pages |
-| `web/` | HTML, CSS, and JavaScript interface source |
-| `source/` | Original TeX source snapshots |
-| `content/` | English study guides, related links, and correction notes |
-| `build_wiki.py` | TeX-to-wiki builder |
-| `diagrams.py` | Diagram renderer |
-| `definition_links.py`, `content/definition-terms-*.json` | Context-aware term linking and curated definition destinations |
-| `validate.py`, `validate_math.cjs` | Source, link, structure, and formula checks |
-| `_work/audit_diagrams.py`, `_work/qa-app.cjs` | Diagram and interaction checks |
-| `package_local.py` | Create the portable offline ZIP |
+| [`dist/`](dist/) | Complete static website and bundled offline assets |
+| [`web/`](web/) | Interface source: HTML, CSS, and JavaScript |
+| [`source/`](source/) | Original TeX snapshots and bibliography |
+| [`content/`](content/) | English guides, correction notes, related links, and definition registries |
+| [`build_wiki.py`](build_wiki.py) | Build the wiki from the bundled sources |
+| [`diagrams.py`](diagrams.py), [`definition_links.py`](definition_links.py) | Render diagrams and link terms to definitions |
+| [`validate.py`](validate.py), [`validate_math.cjs`](validate_math.cjs), [`test_definition_links.py`](test_definition_links.py) | Check source coverage, internal links, formulas, and term linking |
+| [`_work/`](_work/) | Diagram and interface QA scripts; generated reports |
+| [`package_local.py`](package_local.py) | Create the portable offline archive |
 
-Generated archives, intermediate snapshots, and QA reports are ignored by Git. Validation scripts and the finished `dist/` site are versioned.
+Generated archives, intermediate snapshots, and QA reports are ignored by Git. The finished `dist/` site and validation scripts are versioned.
 
-## Rebuild and check
+## Build and maintain
 
-Rebuilding requires Python 3.10+ and [Pandoc](https://pandoc.org/). Set `PANDOC_PATH` to the Pandoc executable if it is not on your `PATH`. Reading and publishing the prepared site need neither.
+Reading the prepared site requires no development tools. Rebuilding requires **Python 3.10+** and **[Pandoc](https://pandoc.org/)**. Set `PANDOC_PATH` if Pandoc is not on your `PATH`.
 
-Run these commands from the repository root:
+Run from the repository root:
 
 ```sh
 python build_wiki.py
@@ -75,18 +72,26 @@ node _work/qa-definition-links.cjs
 python package_local.py
 ```
 
-The JavaScript checks require Node.js. Formula validation also needs the development package `mathjax-full` 3.2.2; set `MATHJAX_DIR` to its `js/` directory when running outside the original course workspace. The reader's MathJax runtime is already bundled in `dist/assets/`.
+The JavaScript checks require Node.js. Formula validation also requires `mathjax-full` **3.2.2**; set `MATHJAX_DIR` to its `js/` directory when running outside the original course workspace. The reader's MathJax runtime is already included in `dist/assets/`.
 
-Edit the source snapshots or English metadata, then rebuild. Preserve section IDs to keep existing links stable. New sections need corresponding study guides and related links. The builder writes reports to `_work/` and `package_local.py` creates `Algebra-Wiki.zip` locally.
+Edit the source snapshots or English metadata, then rebuild. Preserve section and block IDs so existing links continue to work. New sections also need guides and related links. Build reports are written to `_work/`; the packaging script creates `Algebra-Wiki.zip` locally.
 
-Add terminology to the definition registries with a canonical `term`, plural or spelling `aliases`, and an existing block `target` (or a section's `--original` anchor for an inline definition). Optional `contexts` restrict chapter numbers; `excludeSections` suppresses a known misleading source usage. Longest phrases are matched first, and indistinguishable meanings are left unlinked. Existing references, code, diagrams, and formula contents are preserved. A single inline math letter can form part of a term such as a p-group or R-module.
+To add a definition link, update the `content/definition-terms-*.json` registries with a canonical `term`, optional spelling or plural `aliases`, and an existing `target` anchor. Use a section's `--original` anchor for an inline definition. Optional `contexts` restrict chapter numbers, while `excludeSections` suppresses misleading usages. The linker prefers the longest phrase, leaves unresolved meanings unlinked, and preserves existing references, code, diagrams, and formula contents.
 
-`validate.py` checks source coverage, numbering, statement anchors, internal links, source hashes, and local assets. The other checks cover diagrams, formulas, and interface behavior. The interface check uses a DOM emulator; it does not verify browser layout.
+Validation covers source coverage, numbering, statement anchors, internal links, source hashes, diagrams, formulas, and interface behavior. Interface checks use a DOM emulator and do not verify browser layout.
+
+## GitHub Pages deployment
+
+The [Pages workflow](.github/workflows/pages.yml) publishes the checked-in `dist/` folder when `main` is updated. It can also be started from the **Actions** tab. GitHub serves the prepared files directly; no Python or Pandoc build runs during deployment.
+
+After changing content or the interface, rebuild locally and commit the updated `dist/` files along with the source changes. Pushing source changes alone does not rebuild the website.
+
+To publish a fork, select **GitHub Actions** under **Settings → Pages → Build and deployment → Source**. Relative asset paths and hash-based navigation support both GitHub Pages project URLs and offline reading. The builder includes `dist/.nojekyll`.
 
 ## Editorial notes and licenses
 
-The original mathematical statements are preserved. Study guides and correction notes are editorial additions and are not official course errata. Empty source proofs and the short Resultants source stub are identified explicitly. Diagrams are reconstructed as HTML/SVG with expandable original TikZ source; spacing can differ from TeX output.
+Original mathematical statements and source numbering are preserved. Study guides and correction notes are editorial additions, not official course errata. Empty source proofs and the unfinished Resultants section are labeled explicitly. Diagrams are reconstructed as HTML/SVG with expandable original TikZ; their spacing may differ from TeX output.
 
-Copyright in the original lecture notes and supplementary materials remains with their authors. This repository does not grant an additional license to those materials.
+Copyright in the lecture notes and supplementary materials remains with their authors. This repository does not grant an additional license to those materials.
 
-MathJax 3.2.2 is bundled under the [Apache License 2.0](dist/assets/mathjax/LICENSE).
+MathJax **3.2.2** is bundled under the [Apache License 2.0](dist/assets/mathjax/LICENSE).
